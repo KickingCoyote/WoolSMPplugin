@@ -1,0 +1,9 @@
+name: MNcustomenchants
+version: '${project.version}'
+main: pl.mn.mncustomenchants.main
+api-version: '1.20'
+commands:
+  CustomEnchant:
+    usage: /glow
+    description: Adds custom Enchants
+    permission: MMCustomEnchantments.enchant
