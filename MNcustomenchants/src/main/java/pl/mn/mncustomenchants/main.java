@@ -35,6 +35,8 @@ import java.util.List;
 import java.util.logging.Logger;
 public final class main extends JavaPlugin implements CommandExecutor {
 
+    //THIS IS THE REAL VERSION
+    //ONLY THIS VERSION APEARS ON GIT
 
     @Override
     public void onEnable() {
