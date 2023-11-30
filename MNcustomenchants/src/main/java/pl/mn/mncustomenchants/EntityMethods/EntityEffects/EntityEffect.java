@@ -13,4 +13,8 @@ public abstract class EntityEffect extends BukkitRunnable {
         this.entity = entity;
     }
 
+    public static void ApplyEffect (){
+
+    }
+
 }

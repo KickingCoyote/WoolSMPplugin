@@ -139,8 +139,9 @@ public class EntityClassifications {
         } else if (damageType == DamageType.MAGIC){
 
             if(entity instanceof Player){
-                double lvl = combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_ENVIRONMENTAL);
-                finalDamage = damage * (1 - Math.min(0.8, lvl * 0.04));
+                double protLvl = combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_ENVIRONMENTAL);
+                double magicLvl = combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_PROJECTILE);
+                finalDamage = damage * (1 - Math.min(0.8, protLvl * 0.04 + magicLvl * 0.08));
             }
             else {
                 finalDamage = damage;

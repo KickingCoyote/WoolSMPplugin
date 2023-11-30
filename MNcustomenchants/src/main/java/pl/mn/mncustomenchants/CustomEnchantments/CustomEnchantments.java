@@ -29,12 +29,15 @@ public class CustomEnchantments {
         else if (arg.equals("quake")){
             return quake;
         }
+        else if (arg.equals("magic protection")){
+            return magic_protection;
+        }
         else {
             return error;
         }
     } 
 
-    public static final List<String> enchantmentArgs = List.of("radiant", "thunder_aspect", "decay", "recoil", "two_handed", "quake");
+    public static final List<String> enchantmentArgs = List.of("radiant", "thunder_aspect", "decay", "recoil", "two_handed", "quake", "magic_protection");
 
     //All enchantments go here
     public static final Enchantment error = new EnchatmentWrapper("error", "Error", 1);
@@ -49,6 +52,8 @@ public class CustomEnchantments {
     public static final Enchantment two_handed = new EnchatmentWrapper("two_handed", "Two Handed", 1, true);
 
     public static final Enchantment quake = new EnchatmentWrapper("quake", "Quake", 3);
+
+    public static final Enchantment magic_protection = new EnchatmentWrapper("magic_protection", "Magic Protection", 3);
 
 
 }

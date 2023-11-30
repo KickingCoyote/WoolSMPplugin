@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
@@ -47,6 +48,11 @@ public class Thunder_Aspect implements Listener {
 
             enchLvl = ((Player) event.getDamager()).getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(ench);
 
+
+
+            ((Player) event.getDamager()).getInventory().getItemInMainHand().getItemMeta().addItemFlags();
+
+
             if (nrn < enchLvl)
             {
                 //if pvp
@@ -80,6 +86,9 @@ public class Thunder_Aspect implements Listener {
         }
 
     }
+
+    @EventHandler
+    public void d(){}
 
 
 

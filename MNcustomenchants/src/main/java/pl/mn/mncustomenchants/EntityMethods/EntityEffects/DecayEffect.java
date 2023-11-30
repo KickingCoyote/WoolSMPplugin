@@ -29,6 +29,7 @@ public class DecayEffect extends EntityEffect {
         if(count > 80 || entity.isDead() || this.isCancelled()){
             this.cancel();
             EntityClassifications.activeEffects.remove(this);
+            return;
         }
 
         if (entity.getHealth() < 1){
