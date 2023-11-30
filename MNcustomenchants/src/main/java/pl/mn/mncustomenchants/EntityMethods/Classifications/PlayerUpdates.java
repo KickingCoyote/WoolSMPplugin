@@ -3,6 +3,7 @@ package pl.mn.mncustomenchants.EntityMethods.Classifications;
 import io.papermc.paper.event.player.PlayerInventorySlotChangeEvent;
 import io.papermc.paper.event.player.PlayerPickItemEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,6 +11,7 @@ import org.bukkit.event.player.PlayerChangedMainHandEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
@@ -45,6 +47,10 @@ public class PlayerUpdates implements Listener {
     public void OnPlayerInventory (PlayerInventorySlotChangeEvent event){
         inventoryUpdate(event.getPlayer());
 
+        if (event.getNewItemStack().getType() == Material.ELYTRA){
+            event.getPlayer().getInventory().setItem(event.getSlot(), ItemStack.empty());
+        }
+
     }
     @EventHandler
     public void OnPlayerMainHandSwap (PlayerItemHeldEvent event){
@@ -63,6 +69,7 @@ public class PlayerUpdates implements Listener {
     public static void inventoryUpdate (Player player){
         Two_Handed.CheckTwoHanded(player);
         Radiant.ApplyGlowIfGlow(player);
+
 
     }
 
