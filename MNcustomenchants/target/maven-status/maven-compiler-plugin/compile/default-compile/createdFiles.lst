@@ -2,6 +2,7 @@ pl\mn\mncustomenchants\Commands\TabCompletion.class
 pl\mn\mncustomenchants\CustomEnchantments\EnchantmentRegister.class
 pl\mn\mncustomenchants\CustomEnchantments\EnchatmentWrapper.class
 pl\mn\mncustomenchants\EntityMethods\Classifications\PlayerUpdates.class
+pl\mn\mncustomenchants\Particles\Particles.class
 pl\mn\mncustomenchants\CustomEnchantments\CustomEnchantments.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Two_Handed.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Quake.class
@@ -15,6 +16,7 @@ pl\mn\mncustomenchants\EnchantmentFuctionalities\Radiant.class
 pl\mn\mncustomenchants\EntityMethods\EntityEffects\PassiveEffects\PassiveEffects.class
 pl\mn\mncustomenchants\main.class
 pl\mn\mncustomenchants\EntityMethods\Classifications\EntityClassifications$DamageType.class
+pl\mn\mncustomenchants\Particles\Particles$1.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Thunder_Aspect.class
 pl\mn\mncustomenchants\EntityMethods\EntityEffects\DecayEffect.class
 pl\mn\mncustomenchants\EntityMethods\ApplyEffect.class

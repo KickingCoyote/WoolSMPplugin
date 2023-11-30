@@ -29,7 +29,7 @@ public class CustomEnchantments {
         else if (arg.equals("quake")){
             return quake;
         }
-        else if (arg.equals("magic protection")){
+        else if (arg.equals("magic_protection")){
             return magic_protection;
         }
         else {

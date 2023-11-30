@@ -1,6 +1,7 @@
 package pl.mn.mncustomenchants.EntityMethods;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -16,6 +17,7 @@ import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassification
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.DecayEffect;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.EntityEffect;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.StunEffect;
+import pl.mn.mncustomenchants.Particles.Particles;
 import pl.mn.mncustomenchants.main;
 
 import java.util.List;
@@ -25,9 +27,10 @@ import java.util.UUID;
 public class ApplyEffect {
 
 
-    public static void Stun(Mob entity, int duration, Plugin plugin){
+    public static void Stun(LivingEntity entity, int duration, Plugin plugin){
 
         StunEffect stunEffect = new StunEffect(entity);
+        Particles.headRing(entity, plugin, Color.ORANGE, duration, 0.5, 0.5);
 
         EntityClassifications.activeEffects.add(stunEffect);
 
@@ -38,6 +41,7 @@ public class ApplyEffect {
     public static void Decay(LivingEntity entity, int frequency, Plugin plugin){
 
         DecayEffect decayEffect = new DecayEffect(entity, frequency);
+
 
         BukkitTask task;
 

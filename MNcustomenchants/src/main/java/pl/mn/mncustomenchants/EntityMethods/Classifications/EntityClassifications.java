@@ -17,6 +17,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.DecayEffect;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.EntityEffect;
 import java.lang.reflect.*;
@@ -140,7 +141,7 @@ public class EntityClassifications {
 
             if(entity instanceof Player){
                 double protLvl = combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_ENVIRONMENTAL);
-                double magicLvl = combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_PROJECTILE);
+                double magicLvl = combinedEnchantLvl((Player) entity, CustomEnchantments.magic_protection);
                 finalDamage = damage * (1 - Math.min(0.8, protLvl * 0.04 + magicLvl * 0.08));
             }
             else {
