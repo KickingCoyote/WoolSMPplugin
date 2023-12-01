@@ -9,6 +9,7 @@ pl\mn\mncustomenchants\EnchantmentFuctionalities\Quake.class
 pl\mn\mncustomenchants\EntityMethods\EntityEffects\EntityEffect.class
 pl\mn\mncustomenchants\EntityMethods\Classifications\EntityClassifications.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Recoil.class
+pl\mn\mncustomenchants\CustomDamage\CustomDamage.class
 pl\mn\mncustomenchants\EntityMethods\Classifications\PlayerUpdates$1.class
 pl\mn\mncustomenchants\EntityMethods\EntityEffects\StunEffect.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Decay.class

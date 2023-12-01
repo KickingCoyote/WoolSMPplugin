@@ -1,6 +1,7 @@
 package pl.mn.mncustomenchants.EntityMethods.Classifications;
 
 //import jdk.tools.jlink.internal.Archive;
+import com.google.common.collect.Multimap;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.attribute.Attributable;
@@ -21,10 +22,7 @@ import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.DecayEffect;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.EntityEffect;
 import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class EntityClassifications {
     public static final EnumSet<EntityType> FlyingEntities = EnumSet.of(
@@ -92,6 +90,18 @@ public class EntityClassifications {
 
         return s;
     }
+    public static int combinedAttributeLvl(LivingEntity entity, Attribute attribute){
+
+        int s = 0;
+        if (!containsAttribute(entity, attribute)){
+            return 0;
+        }
+        if (entity.getAttribute(attribute) != null){
+            s = (int)entity.getAttribute(attribute).getValue();
+        }
+
+        return s;
+    }
 
 
     public static boolean containsAttribute(LivingEntity entity, Attribute attribute){
@@ -130,53 +140,7 @@ public class EntityClassifications {
         return ((Player) entity).getInventory().getItem(equipmentSlot).getItemMeta().hasEnchant(ench);
     }
 
-    public static void damageEntity(LivingEntity entity, double damage, DamageType damageType){
 
-        //IGNORES IFRAMES
-
-        double finalDamage = 0;
-        if(damageType == DamageType.TRUE){
-            finalDamage = damage;
-        } else if (damageType == DamageType.MAGIC){
-
-            if(entity instanceof Player){
-                double protLvl = combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_ENVIRONMENTAL);
-                double magicLvl = combinedEnchantLvl((Player) entity, CustomEnchantments.magic_protection);
-                finalDamage = damage * (1 - Math.min(0.8, protLvl * 0.04 + magicLvl * 0.08));
-            }
-            else {
-                finalDamage = damage;
-            }
-        } else if (damageType == DamageType.PROJECTILE) {
-            if(entity instanceof Player){
-                double protLvl = combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_ENVIRONMENTAL);
-                double projLvl = combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_PROJECTILE);
-                finalDamage = damage * (1 - Math.min(0.8, (protLvl * 0.04) + (projLvl * 0.08)));
-            }
-            else {
-                finalDamage = damage;
-            }
-        } else if (damageType == DamageType.FIRE){
-            if(entity instanceof Player){
-                double protLvl = combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_ENVIRONMENTAL);
-                double fireLvl = combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_FIRE);
-                finalDamage = damage * (1 - Math.min(0.8, (protLvl * 0.04) + (fireLvl * 0.08)));
-            }
-            else {
-                finalDamage = damage;
-            }
-        }
-
-
-
-
-        entity.setHealth(entity.getHealth() - finalDamage);
-
-        if(entity.getHealth() < 0.5){
-            entity.damage(1);
-        }
-
-    }
 
     public static double getDistance (Entity entity1, Entity entity2){
 

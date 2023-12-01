@@ -1,8 +1,13 @@
 package pl.mn.mncustomenchants.EntityMethods.EntityEffects;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.SoundCategory;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
+import pl.mn.mncustomenchants.CustomDamage.CustomDamage;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.Decay;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
 
@@ -36,8 +41,14 @@ public class DecayEffect extends EntityEffect {
             entity.damage(2);
         }
 
-        EntityClassifications.damageEntity(entity, 1, EntityClassifications.DamageType.MAGIC);
+        CustomDamage.damageEntity(entity, 1, EntityClassifications.DamageType.MAGIC);
+        entity.playHurtAnimation(0.1f);
+        for (Player player : entity.getLocation().getNearbyPlayers(10)){
+            if (entity.getHurtSound() != null && frequency > 9){
+                player.playSound(entity, entity.getHurtSound(), SoundCategory.HOSTILE, 1.5f, 1);
+            }
 
+        }
 
         count += frequency;
 

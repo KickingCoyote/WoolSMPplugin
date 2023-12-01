@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.mn.mncustomenchants.Commands.TabCompletion;
+import pl.mn.mncustomenchants.CustomDamage.CustomDamage;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.CustomEnchantments.EnchantmentRegister;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.*;
@@ -46,6 +47,7 @@ public final class main extends JavaPlugin implements CommandExecutor {
 
         //Updates
         new PlayerUpdates(this);
+        new CustomDamage(this);
 
         //Register Enchantment Functionality
         new Thunder_Aspect(this);
