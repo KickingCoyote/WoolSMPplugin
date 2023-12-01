@@ -59,6 +59,7 @@ public class CustomDamage implements Listener {
         double damageAfterArmor = damage;
 
 
+
         double protLvl = 0;
         double secProtLvl = 0;
 

@@ -1,6 +1,5 @@
 package pl.mn.mncustomenchants.Commands;
 
-//import com.sun.org.apache.bcel.internal.util.Args;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -9,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,8 +26,8 @@ public class TabCompletion implements TabCompleter {
         }
 
         if(args.length == 2){
-            List<String> lvls = new ArrayList<String>();
-            Integer maxLvl = CustomEnchantments.valueOf(args[1]).getMaxLevel();
+            List<String> lvls = new ArrayList<>();
+            int maxLvl = CustomEnchantments.valueOf(args[1]).getMaxLevel();
             for (int i = 0; i <= maxLvl; i++){
 
                 lvls.add(String.valueOf(i));

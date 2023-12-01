@@ -1,15 +1,11 @@
 package pl.mn.mncustomenchants.CustomEnchantments;
 
-import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static org.bukkit.Bukkit.getLogger;
 
 public class EnchantmentRegister {
 

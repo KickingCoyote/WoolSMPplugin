@@ -42,6 +42,7 @@ public final class main extends JavaPlugin implements CommandExecutor {
     @Override
     public void onEnable() {
 
+
         //effects list
         EntityClassifications.activeEffects = new ArrayList<>();
 

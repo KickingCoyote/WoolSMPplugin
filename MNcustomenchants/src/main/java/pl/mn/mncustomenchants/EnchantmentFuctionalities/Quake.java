@@ -4,13 +4,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.Plugin;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
@@ -48,13 +45,13 @@ public class Quake implements Listener {
                             int enchLvl = ((Player)event.getDamager()).getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.thunder_aspect);
 
                             if (EntityClassifications.getChance(10, enchLvl)){
-                                ApplyEffect.Stun((Mob) event.getEntity(), 100, plugin);
+                                ApplyEffect.Stun((LivingEntity) event.getEntity(), 100, plugin);
                             }
                         }
 
-                        if (EntityClassifications.isPlayerWithEnch(Enchantment.FIRE_ASPECT, (Player)event.getDamager(), EquipmentSlot.HAND)){
+                        if (EntityClassifications.isPlayerWithEnch(Enchantment.FIRE_ASPECT, event.getDamager(), EquipmentSlot.HAND)){
                             int enchLvl = ((Player)event.getDamager()).getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.FIRE_ASPECT);
-                            ((LivingEntity)event.getEntity()).setFireTicks(enchLvl * 80);
+                            (event.getEntity()).setFireTicks(enchLvl * 80);
                         }
 
                     }

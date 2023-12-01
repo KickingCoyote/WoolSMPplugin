@@ -17,7 +17,7 @@ public class EnchatmentWrapper extends Enchantment {
     public final String name;
     private final int maxLvl;
 
-    private boolean cursed;
+    private final boolean cursed;
 
     public EnchatmentWrapper (String namespace, String name, int lvl){
         super(NamespacedKey.minecraft(namespace));

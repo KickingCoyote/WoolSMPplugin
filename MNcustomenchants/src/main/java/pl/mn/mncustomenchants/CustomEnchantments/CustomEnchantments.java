@@ -1,11 +1,6 @@
 package pl.mn.mncustomenchants.CustomEnchantments;
 
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentWrapper;
-import org.checkerframework.checker.units.qual.Luminance;
-
-import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 
 public class CustomEnchantments {
