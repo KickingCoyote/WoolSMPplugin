@@ -11,33 +11,29 @@ import java.util.List;
 public class CustomEnchantments {
 
     public static Enchantment valueOf(String arg){
-        if (arg.equals("radiant")){
-            return radiant;
-        }
-        else if (arg.equals("thunder_aspect")){
-            return thunder_aspect;
-        }
-        else if (arg.equals("decay")){
-            return decay;
-        }
-        else if (arg.equals("recoil")){
-            return recoil;
-        }
-        else if (arg.equals("two_handed")){
-            return two_handed;
-        }
-        else if (arg.equals("quake")){
-            return quake;
-        }
-        else if (arg.equals("magic_protection")){
-            return magic_protection;
-        }
-        else {
-            return error;
+        switch (arg) {
+            case "radiant":
+                return radiant;
+            case "thunder_aspect":
+                return thunder_aspect;
+            case "decay":
+                return decay;
+            case "recoil":
+                return recoil;
+            case "two_handed":
+                return two_handed;
+            case "quake":
+                return quake;
+            case "magic_protection":
+                return magic_protection;
+            case "melee_protection":
+                return melee_protection;
+            default:
+                return error;
         }
     } 
 
-    public static final List<String> enchantmentArgs = List.of("radiant", "thunder_aspect", "decay", "recoil", "two_handed", "quake", "magic_protection");
+    public static final List<String> enchantmentArgs = List.of("radiant", "thunder_aspect", "decay", "recoil", "two_handed", "quake", "magic_protection", "melee_protection");
 
     //All enchantments go here
     public static final Enchantment error = new EnchatmentWrapper("error", "Error", 1);
@@ -53,7 +49,9 @@ public class CustomEnchantments {
 
     public static final Enchantment quake = new EnchatmentWrapper("quake", "Quake", 3);
 
-    public static final Enchantment magic_protection = new EnchatmentWrapper("magic_protection", "Magic Protection", 3);
+    public static final Enchantment magic_protection = new EnchatmentWrapper("magic_protection", "Magic Protection", 4);
+
+    public static final Enchantment melee_protection = new EnchatmentWrapper("melee_protection", "Melee Protection", 4);
 
 
 }
