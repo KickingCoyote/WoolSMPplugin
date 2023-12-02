@@ -56,6 +56,8 @@ public final class main extends JavaPlugin implements CommandExecutor {
         new Recoil(this);
         new Radiant(this);
         new Quake(this);
+        new True_Infinity(this);
+        new Regeneration(this);
 
         //CommandStuff
         getCommand("customenchant").setTabCompleter(new TabCompletion());

@@ -16,6 +16,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.Radiant;
+import pl.mn.mncustomenchants.EnchantmentFuctionalities.Regeneration;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.Two_Handed;
 
 public class PlayerUpdates implements Listener {
@@ -69,7 +70,7 @@ public class PlayerUpdates implements Listener {
     public static void inventoryUpdate (Player player){
         Two_Handed.CheckTwoHanded(player);
         Radiant.ApplyGlowIfGlow(player);
-
+        Regeneration.CheckRegeneration(player);
 
     }
 

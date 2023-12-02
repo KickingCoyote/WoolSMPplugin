@@ -45,6 +45,15 @@ public class EntityClassifications {
         BLAST,
         TRUE
     }
+    public static final List<EquipmentSlot> equipmentSlots = List.of(
+
+            EquipmentSlot.HAND,
+            EquipmentSlot.OFF_HAND,
+            EquipmentSlot.HEAD,
+            EquipmentSlot.CHEST,
+            EquipmentSlot.LEGS,
+            EquipmentSlot.FEET
+    );
 
 
 
@@ -69,19 +78,9 @@ public class EntityClassifications {
 
     public static int combinedEnchantLvl(Player player, Enchantment enchantment){
 
-        final List<EquipmentSlot> eqSs = List.of(
-
-                EquipmentSlot.HAND,
-                EquipmentSlot.OFF_HAND,
-                EquipmentSlot.HEAD,
-                EquipmentSlot.CHEST,
-                EquipmentSlot.LEGS,
-                EquipmentSlot.FEET
-        );
-
         int s = 0;
 
-        for (EquipmentSlot e : eqSs){
+        for (EquipmentSlot e : equipmentSlots){
             if(isPlayerWithEnch(enchantment, player, e)){
                 s += player.getInventory().getItem(e).getEnchantmentLevel(enchantment);
             }

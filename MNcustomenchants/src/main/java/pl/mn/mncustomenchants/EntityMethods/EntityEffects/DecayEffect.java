@@ -33,24 +33,29 @@ public class DecayEffect extends EntityEffect {
 
         if(count > 80 || entity.isDead() || this.isCancelled()){
             this.cancel();
+
+            //CustomDamage.damageEntity(entity, (double) (count/frequency)%5, EntityClassifications.DamageType.MAGIC);
+
             EntityClassifications.activeEffects.remove(this);
             return;
         }
 
-        if (entity.getHealth() < 1){
-            entity.damage(2);
+        if (entity.getHealth() < CustomDamage.calculateFinalDamage(entity, (double) 16 / frequency, EntityClassifications.DamageType.MAGIC)){
+            entity.damage(1000);
         }
 
-        CustomDamage.damageEntity(entity, 1, EntityClassifications.DamageType.MAGIC);
+        CustomDamage.damageEntity(entity, (double) 16 / frequency, EntityClassifications.DamageType.MAGIC);
+
+        //Play Sound and Animation
         entity.playHurtAnimation(0.1f);
         for (Player player : entity.getLocation().getNearbyPlayers(10)){
-            if (entity.getHurtSound() != null && frequency > 9){
-                player.playSound(entity, entity.getHurtSound(), SoundCategory.HOSTILE, 1.5f, 1);
+            if (entity.getHurtSound() != null){
+                player.playSound(entity, entity.getHurtSound(), SoundCategory.HOSTILE, 1.3f, 1);
             }
 
         }
 
-        count += frequency;
+        count += 16;
 
 
     }

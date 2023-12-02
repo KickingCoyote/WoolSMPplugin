@@ -16,6 +16,7 @@ import pl.mn.mncustomenchants.EnchantmentFuctionalities.Decay;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.DecayEffect;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.EntityEffect;
+import pl.mn.mncustomenchants.EntityMethods.EntityEffects.RegenerationEffect;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.StunEffect;
 import pl.mn.mncustomenchants.Particles.Particles;
 import pl.mn.mncustomenchants.main;
@@ -40,10 +41,9 @@ public class ApplyEffect {
 
     public static void Decay(LivingEntity entity, int frequency, Plugin plugin){
 
+
+
         DecayEffect decayEffect = new DecayEffect(entity, frequency);
-
-
-        BukkitTask task;
 
         List<EntityEffect> entityEffects = EntityClassifications.getActiveEffect(entity);
 
@@ -55,7 +55,31 @@ public class ApplyEffect {
         }
 
         EntityClassifications.activeEffects.add(decayEffect);
-        decayEffect.runTaskTimer(plugin, frequency, frequency);
+        decayEffect.runTaskTimer(plugin, 16, 16);
+
+    }
+    public static void Regeneration (LivingEntity entity, int level, Plugin plugin, boolean isActive){
+
+
+
+        List<EntityEffect> entityEffects = EntityClassifications.getActiveEffect(entity);
+
+
+        for (EntityEffect e : entityEffects){
+            if (e instanceof RegenerationEffect) {
+                e.cancel();
+                EntityClassifications.activeEffects.remove(e);
+            }
+        }
+
+        if (isActive){
+            RegenerationEffect regenerationEffect = new RegenerationEffect(entity, level);
+
+            EntityClassifications.activeEffects.add(regenerationEffect);
+
+            regenerationEffect.runTaskTimer(plugin, 0, 5);
+        }
+
 
 
 

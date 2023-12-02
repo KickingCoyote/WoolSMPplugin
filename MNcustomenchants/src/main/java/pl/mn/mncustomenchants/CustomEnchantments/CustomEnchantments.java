@@ -1,6 +1,8 @@
 package pl.mn.mncustomenchants.CustomEnchantments;
 
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.enchantments.EnchantmentWrapper;
+
 import java.util.List;
 
 public class CustomEnchantments {
@@ -23,12 +25,25 @@ public class CustomEnchantments {
                 return magic_protection;
             case "melee_protection":
                 return melee_protection;
+            case "true_infinity":
+                return true_infinity;
+            case "regeneration":
+                return regeneration;
             default:
                 return error;
         }
     } 
 
-    public static final List<String> enchantmentArgs = List.of("radiant", "thunder_aspect", "decay", "recoil", "two_handed", "quake", "magic_protection", "melee_protection");
+    public static final List<String> enchantmentArgs = List.of(
+            "radiant",
+            "thunder_aspect",
+            "decay", "recoil",
+            "two_handed",
+            "quake", "magic_protection",
+            "melee_protection",
+            "true_infinity",
+            "regeneration"
+    );
 
     //All enchantments go here
     public static final Enchantment error = new EnchatmentWrapper("error", "Error", 1);
@@ -47,6 +62,10 @@ public class CustomEnchantments {
     public static final Enchantment magic_protection = new EnchatmentWrapper("magic_protection", "Magic Protection", 4);
 
     public static final Enchantment melee_protection = new EnchatmentWrapper("melee_protection", "Melee Protection", 4);
+
+    public static final Enchantment true_infinity = new EnchatmentWrapper("true_infinity", "Infinity", 1);
+
+    public static final Enchantment regeneration = new EnchatmentWrapper("regeneration", "Regeneration", 2);
 
 
 }

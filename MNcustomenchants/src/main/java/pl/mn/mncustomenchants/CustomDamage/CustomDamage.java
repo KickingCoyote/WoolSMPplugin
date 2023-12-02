@@ -15,6 +15,8 @@ import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassification
 public class CustomDamage implements Listener {
 
     Plugin plugin;
+    //private static double finalDamage;
+
     public CustomDamage (Plugin plugin){
         Bukkit.getPluginManager().registerEvents(this, plugin);
         this.plugin = plugin;
@@ -56,6 +58,18 @@ public class CustomDamage implements Listener {
     public static void damageEntity(LivingEntity entity, double damage, EntityClassifications.DamageType damageType){
 
         //IGNORES IFRAMES
+        double finalDamage = calculateFinalDamage(entity, damage, damageType);
+
+        //Apply damage
+        if (entity.getHealth() > finalDamage){
+            entity.setHealth(entity.getHealth() - finalDamage);
+        } else {
+            entity.damage(10000);
+        }
+
+
+    }
+    public static double calculateFinalDamage (LivingEntity entity, double damage, EntityClassifications.DamageType damageType){
         double damageAfterArmor = damage;
 
 
@@ -94,14 +108,6 @@ public class CustomDamage implements Listener {
         }
 
         finalDamage = damageAfterArmor * Math.pow(0.96, 2 * secProtLvl + protLvl);
-
-        //Apply damage
-        if (entity.getHealth() > finalDamage){
-            entity.setHealth(entity.getHealth() - finalDamage);
-        } else {
-            entity.damage(10000);
-        }
-
-
+        return finalDamage;
     }
 }
