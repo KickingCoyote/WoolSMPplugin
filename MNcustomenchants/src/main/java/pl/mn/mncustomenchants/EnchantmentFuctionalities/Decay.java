@@ -38,7 +38,7 @@ public class Decay implements Listener {
 
             if(event.getEntity() instanceof Player){
 
-                LivingEntity entity = (LivingEntity) event.getDamager();
+                LivingEntity entity = (LivingEntity) event.getEntity();
 
                 ApplyEffect.Decay(entity, (40 / enchLvl), plugin);
 

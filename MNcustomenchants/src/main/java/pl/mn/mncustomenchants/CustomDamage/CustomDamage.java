@@ -28,7 +28,7 @@ public class CustomDamage implements Listener {
 
 
 
-        if (event.getEntity() instanceof Player){
+        if (event.getEntity() instanceof Player && !((Player)event.getEntity()).isBlocking()){
             if (event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)){
                 damageEntity((LivingEntity) event.getEntity(), event.getDamage(), EntityClassifications.DamageType.PROJECTILE);
             }
@@ -64,7 +64,7 @@ public class CustomDamage implements Listener {
         if (entity.getHealth() > finalDamage){
             entity.setHealth(entity.getHealth() - finalDamage);
         } else {
-            entity.damage(10000);
+            entity.setHealth(0);
         }
 
 
@@ -96,6 +96,8 @@ public class CustomDamage implements Listener {
             } else if (damageType == EntityClassifications.DamageType.MELEE){
                 secProtLvl = EntityClassifications.combinedEnchantLvl((Player) entity, CustomEnchantments.melee_protection);
 
+            } else if (damageType == EntityClassifications.DamageType.FALLING){
+                secProtLvl = 2 * EntityClassifications.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_FALL);
             }
             protLvl = EntityClassifications.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_ENVIRONMENTAL);
         }
