@@ -6,7 +6,10 @@ pl\mn\mncustomenchants\EntityMethods\Classifications\EntityClassifications.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Recoil.class
 pl\mn\mncustomenchants\EntityMethods\Classifications\PlayerUpdates$1.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Radiant.class
+pl\mn\mncustomenchants\Commands\EditItemV2.class
+pl\mn\mncustomenchants\EnchantmentFuctionalities\EnchantmentSpells\Arcane_Strike.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Thunder_Aspect.class
+pl\mn\mncustomenchants\EntityMethods\EntityEffects\SlowEffect.class
 pl\mn\mncustomenchants\Commands\TabCompletion.class
 pl\mn\mncustomenchants\CustomEnchantments\EnchatmentWrapper.class
 pl\mn\mncustomenchants\EntityMethods\Classifications\PlayerUpdates.class
@@ -21,6 +24,8 @@ pl\mn\mncustomenchants\main.class
 pl\mn\mncustomenchants\EntityMethods\Classifications\EntityClassifications$DamageType.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Regeneration.class
 pl\mn\mncustomenchants\Particles\Particles$1.class
+pl\mn\mncustomenchants\ItemMethods\ItemClassRegister.class
 pl\mn\mncustomenchants\EntityMethods\EntityEffects\RegenerationEffect.class
+pl\mn\mncustomenchants\ItemMethods\DeleteContraband.class
 pl\mn\mncustomenchants\EntityMethods\EntityEffects\DecayEffect.class
 pl\mn\mncustomenchants\EntityMethods\ApplyEffect.class

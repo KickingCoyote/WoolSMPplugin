@@ -44,4 +44,20 @@ public class Particles {
 
     }
 
+    public static void GroundExplosion (LivingEntity target, Plugin plugin, Color color, int ticks, double r, double speed){
+
+        Particle particle = Particle.REDSTONE;
+        Particle.DustOptions dustOptions = new Particle.DustOptions(color, 1);
+
+        for (Player player : target.getLocation().getWorld().getPlayers()){
+            if (player.getLocation().distanceSquared(target.getLocation()) < 250){
+
+
+
+            }
+        }
+
+
+    }
+
 }

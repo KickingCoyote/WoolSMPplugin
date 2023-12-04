@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.AbstractArrow;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -39,6 +40,8 @@ public class True_Infinity implements Listener {
                 if (player.getInventory().getItemInMainHand().getType() == Material.CROSSBOW){
                     projectile = event.getEntity();
                     player.getInventory().addItem(new ItemStack(Material.ARROW));
+                    ((Arrow)projectile).setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
+                    //((Arrow)projectile).setLifetimeTicks(50);
                 }
 
 
@@ -63,14 +66,16 @@ public class True_Infinity implements Listener {
             }
         }
     }
-    @EventHandler
+
+    /*@EventHandler
     public void OnPickUp(PlayerPickupArrowEvent event){
         if (event.getArrow() == projectile){
             event.getArrow().setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
             event.getArrow().remove();
         }
 
-    }
 
+    }
+    */
 
 }

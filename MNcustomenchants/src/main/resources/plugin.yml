@@ -4,6 +4,10 @@ main: pl.mn.mncustomenchants.main
 api-version: '1.20'
 commands:
   CustomEnchant:
-    usage: /glow
+    usage: /CustomEnchant [enchant] [level]
     description: Adds custom Enchants
+    permission: MMCustomEnchantments.enchant
+  EditItemV2:
+    usage: /EditItemV2 [Edit]
+    description: Adds custom Stats
     permission: MMCustomEnchantments.enchant

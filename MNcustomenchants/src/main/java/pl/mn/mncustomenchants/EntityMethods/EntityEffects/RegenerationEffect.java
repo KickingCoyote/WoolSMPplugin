@@ -22,7 +22,7 @@ public class RegenerationEffect extends EntityEffect{
 
         double regenAmount = Math.sqrt(level) / 12;
 
-        if (entity.getHealth() + regenAmount <= entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()){
+        if (entity.getHealth() + regenAmount <= entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() && entity.getHealth() >= 1){
             entity.setHealth(entity.getHealth() + regenAmount);
         }
 

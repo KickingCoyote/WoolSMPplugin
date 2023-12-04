@@ -17,23 +17,36 @@ public class TabCompletion implements TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
+        if(s.equalsIgnoreCase("edititemv2")){
+            if(args.length == 1){
+                List<String> list = new ArrayList<>();
+                list.add("setcustomtag");
 
+                return list;
 
-        if(args.length == 1){
-            List<String> e = new ArrayList<>(CustomEnchantments.enchantmentArgs);
-            Collections.sort(e);
-            return e;
-        }
-
-        if(args.length == 2){
-            List<String> lvls = new ArrayList<>();
-            int maxLvl = CustomEnchantments.valueOf(args[1]).getMaxLevel();
-            for (int i = 0; i <= maxLvl; i++){
-
-                lvls.add(String.valueOf(i));
             }
-            return lvls;
         }
+
+
+        if (s.equalsIgnoreCase("customenchant")){
+            if(args.length == 1){
+                List<String> e = new ArrayList<>(CustomEnchantments.enchantmentArgs);
+                Collections.sort(e);
+                return e;
+            }
+
+            if(args.length == 2){
+                List<String> lvls = new ArrayList<>();
+                int maxLvl = CustomEnchantments.valueOf(args[1]).getMaxLevel();
+                for (int i = 0; i <= maxLvl; i++){
+
+                    lvls.add(String.valueOf(i));
+                }
+                return lvls;
+            }
+        }
+
+
 
         return null;
     }

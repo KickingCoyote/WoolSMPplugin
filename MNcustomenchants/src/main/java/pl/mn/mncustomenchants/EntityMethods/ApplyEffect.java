@@ -35,9 +35,13 @@ public class ApplyEffect {
 
         EntityClassifications.activeEffects.add(stunEffect);
 
-        BukkitTask task = stunEffect.runTaskLater(plugin, duration);
+        stunEffect.runTaskLater(plugin, duration);
 
     }
+    public static void Slow(LivingEntity entity, int duration, Plugin plugin){
+
+    }
+
 
     public static void Decay(LivingEntity entity, int frequency, Plugin plugin){
 
