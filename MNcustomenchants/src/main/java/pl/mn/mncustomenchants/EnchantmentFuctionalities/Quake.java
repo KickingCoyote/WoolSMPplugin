@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.Plugin;
+import pl.mn.mncustomenchants.CustomDamage.CustomDamage;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.ApplyEffect;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
@@ -35,7 +36,9 @@ public class Quake implements Listener {
 
                     if (e instanceof LivingEntity && !(e == event.getDamager())){
 
-                        ((LivingEntity) e).damage(event.getDamage());
+                        CustomDamage.damageEntity((LivingEntity) e, event.getDamage(), EntityClassifications.DamageType.MELEE);
+
+
                         if (EntityClassifications.isPlayerWithEnch(CustomEnchantments.decay, event.getDamager(), EquipmentSlot.HAND)){
                             int enchLvl = ((Player)event.getDamager()).getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.decay);
                             ApplyEffect.Decay((LivingEntity) event.getEntity(), (40 / enchLvl), plugin);

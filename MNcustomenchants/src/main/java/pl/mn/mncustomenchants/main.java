@@ -14,6 +14,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -110,6 +111,8 @@ public final class main extends JavaPlugin implements CommandExecutor {
             item.addUnsafeEnchantment(ench, lvl);
 
 
+
+            Bukkit.getPlayer("MN_128").sendMessage(player.getInventory().getItemInMainHand().getEnchantments().toString());
 
             AddLore(item, ench, lvl);
 

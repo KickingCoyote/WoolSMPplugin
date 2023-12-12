@@ -6,6 +6,8 @@ public class SlowEffect extends EntityEffect{
 
     LivingEntity entity;
 
+
+
     public SlowEffect(LivingEntity entity) {
         super(entity);
         this.entity = entity;

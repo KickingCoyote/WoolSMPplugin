@@ -1,5 +1,6 @@
 package pl.mn.mncustomenchants.CustomDamage;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
@@ -8,7 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffectType;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
 
@@ -25,7 +28,6 @@ public class CustomDamage implements Listener {
 
     @EventHandler
     public void DamageEvent(EntityDamageEvent event){
-
 
 
         if (event.getEntity() instanceof Player && !((Player)event.getEntity()).isBlocking()){
@@ -52,6 +54,11 @@ public class CustomDamage implements Listener {
             }
             event.setDamage(0);
         }
+    }
+
+    @EventHandler
+    public void onDeath (PlayerDeathEvent event){
+
     }
 
 
@@ -105,11 +112,18 @@ public class CustomDamage implements Listener {
 
 
         //Damage Calculations
-        if (damageType == EntityClassifications.DamageType.PROJECTILE || damageType == EntityClassifications.DamageType.MAGIC || damageType == EntityClassifications.DamageType.MELEE || damageType == EntityClassifications.DamageType.BLAST){
+        if (damageType == EntityClassifications.DamageType.PROJECTILE || damageType == EntityClassifications.DamageType.MAGIC || damageType == EntityClassifications.DamageType.MELEE || damageType == EntityClassifications.DamageType.BLAST || damageType == EntityClassifications.DamageType.FIRE){
             damageAfterArmor = damage * Math.pow(0.96, EntityClassifications.combinedAttributeLvl(entity, Attribute.GENERIC_ARMOR) + EntityClassifications.combinedAttributeLvl(entity, Attribute.GENERIC_ARMOR_TOUGHNESS));
         }
 
-        finalDamage = damageAfterArmor * Math.pow(0.96, 2 * secProtLvl + protLvl);
+
+        int resEffect = 0;
+        if (entity.hasPotionEffect(PotionEffectType.DAMAGE_RESISTANCE)){
+            resEffect = entity.getPotionEffect(PotionEffectType.DAMAGE_RESISTANCE).getAmplifier();
+        }
+
+
+        finalDamage = damageAfterArmor * Math.pow(0.96, 2 * secProtLvl + protLvl) * (1 - Math.min(1, resEffect * 0.2));
         return finalDamage;
     }
 }

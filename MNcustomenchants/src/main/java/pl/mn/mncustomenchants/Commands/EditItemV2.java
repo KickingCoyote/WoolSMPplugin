@@ -1,11 +1,13 @@
 package pl.mn.mncustomenchants.Commands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -31,18 +33,63 @@ public class EditItemV2 implements CommandExecutor {
             if(args[0].equalsIgnoreCase("SetCustomTag")){
 
                 if (!player.getInventory().getItemInMainHand().isEmpty()){
+
                     boolean bool;
+                    NamespacedKey key = NamespacedKey.fromString(args[1]);
+                    if (key != null){
+
+
+                        ItemStack itemStack = player.getInventory().getItemInMainHand();
+                        ItemMeta meta = itemStack.getItemMeta();
+
+
+                        /*
+                        if (meta.getPersistentDataContainer().has(key)){
+                            if (meta.getPersistentDataContainer().get(key, PersistentDataType.BOOLEAN).booleanValue()){
+                                bool = false;
+                            } else {
+                                bool = true;
+                            }
+                        }
+                        else {
+                            bool = true;
+                        } */
+
+                        bool = args[2].equalsIgnoreCase("true");
+
+
+                        meta.getPersistentDataContainer().set(key, PersistentDataType.BOOLEAN, bool);
+
+                        itemStack.setItemMeta(meta);
 
 
 
-                    ItemStack itemStack = player.getInventory().getItemInMainHand();
-                    ItemMeta meta = itemStack.getItemMeta();
+                    }
+                }
+            }
 
-                    //if (meta.getPersistentDataContainer().has())
-                    meta.getPersistentDataContainer().set(ItemClassRegister.custom_item, PersistentDataType.BOOLEAN, true);
+            if (args[0].equalsIgnoreCase("setFlag")){
+                if(!player.getInventory().getItemInMainHand().isEmpty()){
 
-                    itemStack.setItemMeta(meta);
+                    if (args[1].equalsIgnoreCase("HIDE_ITEM_SPECIFICS")){
 
+                        if(player.getInventory().getItemInMainHand().hasItemFlag(ItemFlag.HIDE_ITEM_SPECIFICS)){
+                            player.getInventory().getItemInMainHand().removeItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
+                        } else {
+                            player.getInventory().getItemInMainHand().addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
+                        }
+
+                    } else {
+                        for (ItemFlag itemFlag : ItemFlag.values()){
+                            if(itemFlag == ItemFlag.valueOf(args[1])){
+                                if(player.getInventory().getItemInMainHand().hasItemFlag(itemFlag)){
+                                    player.getInventory().getItemInMainHand().removeItemFlags(itemFlag);
+                                } else {
+                                    player.getInventory().getItemInMainHand().addItemFlags(itemFlag);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

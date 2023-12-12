@@ -13,7 +13,10 @@ import java.util.Set;
 
 public class ItemClassRegister {
 
+
     public static final NamespacedKey custom_item = new NamespacedKey(main.getInstance(), "CustomItem");
+
+    public static final NamespacedKey material = new NamespacedKey(main.getInstance(), "Material");
 
 
 }
