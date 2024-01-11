@@ -32,6 +32,7 @@ public class PlayerUpdates implements Listener {
     public void OnPlayerJoin (PlayerJoinEvent event){
         inventoryUpdate(event.getPlayer());
 
+
     }
     @EventHandler
     public void OnPlayerDrop (PlayerDropItemEvent event){
@@ -51,7 +52,10 @@ public class PlayerUpdates implements Listener {
             event.getPlayer().getInventory().setItem(event.getSlot(), ItemStack.empty());
         }
 
+
     }
+
+
     @EventHandler
     public void OnPlayerMainHandSwap (PlayerItemHeldEvent event){
 
@@ -71,14 +75,14 @@ public class PlayerUpdates implements Listener {
     public void OnInventoryOpen (InventoryOpenEvent event){
 
         DeleteContraband.Enchanting(event);
-
+        DeleteContraband.Anvil(event);
     }
 
 
     //No Anviling For U (Except Nametags)
     @EventHandler
     public void OnInventoryClick (InventoryClickEvent event){
-        DeleteContraband.Anvil(event);
+
     }
 
 

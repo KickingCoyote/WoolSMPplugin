@@ -31,7 +31,7 @@ public class ApplyEffect {
     public static void Stun(LivingEntity entity, int duration, Plugin plugin){
 
         StunEffect stunEffect = new StunEffect(entity);
-        Particles.headRing(entity, plugin, Color.ORANGE, duration, 0.5, 0.5);
+        Particles.ring(entity, plugin, Color.ORANGE, duration, 0.5, 0.2, entity.getEyeLocation().add(0, 0.5, 0));
 
         EntityClassifications.activeEffects.add(stunEffect);
 

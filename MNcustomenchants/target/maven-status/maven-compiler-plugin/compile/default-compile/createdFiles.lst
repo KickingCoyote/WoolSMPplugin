@@ -9,6 +9,7 @@ pl\mn\mncustomenchants\EnchantmentFuctionalities\Radiant.class
 pl\mn\mncustomenchants\Commands\EditItemV2.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\EnchantmentSpells\Arcane_Strike.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Thunder_Aspect.class
+pl\mn\mncustomenchants\Particles\Particles$2.class
 pl\mn\mncustomenchants\EntityMethods\EntityEffects\SlowEffect.class
 pl\mn\mncustomenchants\Commands\TabCompletion.class
 pl\mn\mncustomenchants\CustomEnchantments\EnchatmentWrapper.class
