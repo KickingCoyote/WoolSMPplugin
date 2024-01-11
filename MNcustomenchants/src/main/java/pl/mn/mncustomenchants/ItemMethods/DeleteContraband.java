@@ -1,7 +1,5 @@
 package pl.mn.mncustomenchants.ItemMethods;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -38,13 +36,13 @@ public class DeleteContraband {
         for (EquipmentSlot e : EntityClassifications.equipmentSlots){
             if (!player.getInventory().getItem(e).isEmpty()){
                 if (player.getInventory().getItem(e).hasItemMeta()){
-                    if(!player.getInventory().getItem(e).getItemMeta().getPersistentDataContainer().has(ItemClassRegister.custom_item)){
+                    if(!player.getInventory().getItem(e).getItemMeta().getPersistentDataContainer().has(Keys.custom_item)){
 
                         for (Enchantment enchantment : Enchantment.values()){
                             player.getInventory().getItem(e).removeEnchantment(enchantment);
                         }
 
-                    } else if (!player.getInventory().getItem(e).getItemMeta().getPersistentDataContainer().get(ItemClassRegister.custom_item, PersistentDataType.BOOLEAN).booleanValue()){
+                    } else if (!player.getInventory().getItem(e).getItemMeta().getPersistentDataContainer().get(Keys.custom_item, PersistentDataType.BOOLEAN).booleanValue()){
 
                         for (Enchantment enchantment : Enchantment.values()){
                             player.getInventory().getItem(e).removeEnchantment(enchantment);

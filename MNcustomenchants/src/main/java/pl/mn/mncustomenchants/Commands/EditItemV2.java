@@ -1,21 +1,18 @@
 package pl.mn.mncustomenchants.Commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import pl.mn.mncustomenchants.ItemMethods.ItemClassRegister;
+import pl.mn.mncustomenchants.ItemMethods.Keys;
 
-import java.lang.management.PlatformLoggingMXBean;
+import java.security.Key;
 
 public class EditItemV2 implements CommandExecutor {
 
@@ -43,17 +40,7 @@ public class EditItemV2 implements CommandExecutor {
                         ItemMeta meta = itemStack.getItemMeta();
 
 
-                        /*
-                        if (meta.getPersistentDataContainer().has(key)){
-                            if (meta.getPersistentDataContainer().get(key, PersistentDataType.BOOLEAN).booleanValue()){
-                                bool = false;
-                            } else {
-                                bool = true;
-                            }
-                        }
-                        else {
-                            bool = true;
-                        } */
+
 
                         bool = args[2].equalsIgnoreCase("true");
 

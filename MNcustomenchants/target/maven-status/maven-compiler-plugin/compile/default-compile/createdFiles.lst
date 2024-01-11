@@ -16,6 +16,7 @@ pl\mn\mncustomenchants\EntityMethods\Classifications\PlayerUpdates.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Two_Handed.class
 pl\mn\mncustomenchants\EntityMethods\EntityEffects\EntityEffect.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\True_Infinity.class
+pl\mn\mncustomenchants\ItemMethods\Keys.class
 pl\mn\mncustomenchants\CustomDamage\CustomDamage.class
 pl\mn\mncustomenchants\EntityMethods\EntityEffects\StunEffect.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Decay.class
@@ -24,7 +25,6 @@ pl\mn\mncustomenchants\main.class
 pl\mn\mncustomenchants\EntityMethods\Classifications\EntityClassifications$DamageType.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Regeneration.class
 pl\mn\mncustomenchants\Particles\Particles$1.class
-pl\mn\mncustomenchants\ItemMethods\ItemClassRegister.class
 pl\mn\mncustomenchants\EntityMethods\EntityEffects\RegenerationEffect.class
 pl\mn\mncustomenchants\ItemMethods\DeleteContraband.class
 pl\mn\mncustomenchants\EntityMethods\EntityEffects\DecayEffect.class

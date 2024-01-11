@@ -1,6 +1,5 @@
 package pl.mn.mncustomenchants.Commands;
 
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -8,7 +7,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
-import pl.mn.mncustomenchants.ItemMethods.ItemClassRegister;
+import pl.mn.mncustomenchants.ItemMethods.Keys;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,7 +27,7 @@ public class TabCompletion implements TabCompleter {
             }
             if (args[0].equalsIgnoreCase("setCustomTag")){
                 if (args.length == 2){
-                    return List.of(ItemClassRegister.custom_item.asString(), ItemClassRegister.material.asString());
+                    return List.of(Keys.custom_item.asString(), Keys.material.asString());
                 }
                 else if (args.length == 3){
                     return List.of("true", "false");

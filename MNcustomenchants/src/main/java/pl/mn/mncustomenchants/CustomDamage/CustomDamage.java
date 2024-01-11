@@ -2,18 +2,25 @@ package pl.mn.mncustomenchants.CustomDamage;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerAnimationEvent;
+import org.bukkit.event.player.PlayerAnimationType;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
+import pl.mn.mncustomenchants.main;
 
 public class CustomDamage implements Listener {
 
@@ -30,7 +37,7 @@ public class CustomDamage implements Listener {
     public void DamageEvent(EntityDamageEvent event){
 
 
-        if (event.getEntity() instanceof Player && !((Player)event.getEntity()).isBlocking()){
+        if (event.getEntity() instanceof Player && !((Player)event.getEntity()).isHandRaised()){
             if (event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)){
                 damageEntity((LivingEntity) event.getEntity(), event.getDamage(), EntityClassifications.DamageType.PROJECTILE);
             }
@@ -53,8 +60,36 @@ public class CustomDamage implements Listener {
                 damageEntity((LivingEntity) event.getEntity(), event.getDamage(), EntityClassifications.DamageType.TRUE);
             }
             event.setDamage(0);
+
+        } else if (event.getEntity() instanceof Player){
+            int i = 15;
+
+            ((Player) event.getEntity()).setCooldown(Material.SHIELD, i);
+            ItemStack itemStack = ((Player) event.getEntity()).getInventory().getItemInOffHand();
+            ((Player) event.getEntity()).getInventory().setItemInOffHand(ItemStack.empty());
+
+            Bukkit.getScheduler().runTaskLater(main.getInstance(), () -> ((Player) event.getEntity()).getInventory().setItemInOffHand(itemStack), 1);
+            event.setDamage(0);
+
+
+        }
+
+    }
+
+    /*
+    @EventHandler
+    public void OnBlock (PlayerInteractEvent event){
+
+        if(event.getAction().isRightClick()){
+            if(!event.isBlockInHand()){
+                if (event.getPlayer().getInventory().getItemInOffHand().getType().equals(Material.SHIELD)){
+                    Bukkit.getPlayer("MN_28").sendMessage("ello");
+                }
+            }
+
         }
     }
+    */
 
     @EventHandler
     public void onDeath (PlayerDeathEvent event){

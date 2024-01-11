@@ -1,5 +1,4 @@
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EntityMethods\ApplyEffect.java
-D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\ItemMethods\ItemClassRegister.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EntityMethods\Classifications\PlayerUpdates.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EntityMethods\EntityEffects\RegenerationEffect.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\ItemMethods\DeleteContraband.java
@@ -22,6 +21,7 @@ D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncu
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Particles\Particles.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EntityMethods\EntityEffects\PassiveEffects\PassiveEffects.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\CustomDamage\CustomDamage.java
+D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\ItemMethods\Keys.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Commands\TabCompletion.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EntityMethods\EntityEffects\SlowEffect.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EnchantmentFuctionalities\Decay.java
