@@ -5,12 +5,15 @@ import org.apache.logging.log4j.message.Message;
 import org.bukkit.*;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Vex;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import pl.mn.mncustomenchants.main;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LongSummaryStatistics;
 
 public class Particles {
 
@@ -56,37 +59,47 @@ public class Particles {
     }
 
 
-    public static void sprial(LivingEntity entity, Plugin plugin, Color color, int ticks, double radius, double speed, Location location){
 
 
 
-        Particle particle = Particle.REDSTONE;
-        Particle.DustOptions dustOptions = new Particle.DustOptions(color, 1f);
+    // p is an int value between 1 and t that represents how many ticks it will take for the effect to be fully rendered.
+    //color and size is only used if particle is REDSTONE.
+    private static void RenderParticles(LivingEntity entity, List<Location> locations, Color color, int ticks, int p, Particle particle, float size){
 
-        Vector relative = location.toVector().subtract(entity.getLocation().toVector());
+
+        Particle.DustOptions dustOptions = new Particle.DustOptions(color, size);
+
 
         new BukkitRunnable() {
 
+
+            List<Location> activeLocations = new ArrayList<Location>();
             int t = 0;
-            double r = radius;
-            List<Location> list = new ArrayList<Location>();
 
-            public void run(){
-                t++;
-                r += 0.1;
-                double x =  r *Math.sin(t * speed);
-                double z = r * Math.cos(t * speed);
-                Location location = entity.getLocation();
 
-                location.add(relative);
-                location.add(x, 0, z);
+            @Override
+            public void run() {
 
-                list.add(location);
+                t += 3;
 
-                for (Player player : location.getWorld().getPlayers()){
-                    if (player.getLocation().distanceSquared(location) < 250){
-                        for (Location l : list){
-                            player.spawnParticle(particle, l, 1, dustOptions);
+
+                for (int i = 0; i < locations.size() / p; i++){
+
+                    activeLocations.add(locations.get(i));
+                }
+
+
+
+                for (Location l : activeLocations){
+                    for (Player player : l.getWorld().getPlayers()){
+
+                        if (player.getLocation().distanceSquared(l.clone().add(entity.getLocation())) < 250){
+                            if (particle.equals(Particle.REDSTONE)){
+                                player.spawnParticle(particle, l.clone().add(entity.getLocation()), 1, dustOptions);
+                            }
+                            else {
+                                player.spawnParticle(particle, l.clone().add(entity.getLocation()), 1);
+                            }
                         }
                     }
                 }
@@ -94,11 +107,45 @@ public class Particles {
                 if (t > ticks){
                     this.cancel();
                 }
+
             }
 
-        }.runTaskTimer(plugin, 0, 1);
+        }.runTaskTimer(main.getInstance(), 5, 3);
 
     }
+
+
+    public static void spiral (LivingEntity entity, Location location){
+
+        List<Location> locations = new ArrayList<Location>();
+
+
+
+        double r = 0;
+        double z = 0;
+        double x = 0;
+
+        for (double pheta = 0; pheta < Math.PI * 6; pheta += 0.1){
+
+            Vector vector = location.toVector().subtract(entity.getLocation().toVector());
+
+            r = 0.1 * pheta;
+
+            x = r * Math.cos(pheta);
+            z = r * Math.sin(pheta);
+
+            vector.add(new Vector(x,  0, z));
+
+            locations.add(vector.toLocation(entity.getWorld()));
+
+
+        }
+
+
+        RenderParticles(entity,locations, Color.AQUA, 60, 1, Particle.REDSTONE, 0.4f);
+
+    }
+
 
     public static void GroundExplosion (LivingEntity target, Plugin plugin, Color color, int ticks, double r, double speed){
 

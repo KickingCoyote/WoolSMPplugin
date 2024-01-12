@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="mncustomenchantsartifact:jar">
+    <output-path>$PROJECT_DIR$/../../../Paper server 1.20.1 v2/plugins</output-path>
+    <root id="archive" name="mncustomenchantsartifact.jar">
+      <element id="module-output" name="mncustomenchantsartifact" />
+    </root>
+  </artifact>
+</component>

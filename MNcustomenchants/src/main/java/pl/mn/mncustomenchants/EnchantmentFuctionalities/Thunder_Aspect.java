@@ -46,7 +46,6 @@ public class Thunder_Aspect implements Listener {
         int enchLvl;
 
 
-
         if (EntityClassifications.isPlayerWithEnch(ench, event.getDamager(), EquipmentSlot.HAND) && ((Player)event.getDamager()).getAttackCooldown() == 1){
 
             enchLvl = ((Player) event.getDamager()).getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(ench);

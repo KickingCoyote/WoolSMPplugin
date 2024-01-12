@@ -33,6 +33,8 @@ public class ApplyEffect {
         StunEffect stunEffect = new StunEffect(entity);
         Particles.ring(entity, plugin, Color.ORANGE, duration, 0.5, 0.2, entity.getEyeLocation().add(0, 0.5, 0));
 
+
+        //Particles.spiral(entity, entity.getLocation());
         EntityClassifications.activeEffects.add(stunEffect);
 
         stunEffect.runTaskLater(plugin, duration);
