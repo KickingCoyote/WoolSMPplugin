@@ -65,97 +65,100 @@ public class Particles {
     // p is an int value between 1 and t that represents how many ticks it will take for the effect to be fully rendered.
     //for p to function well p should be a factor of t.
     //color and size is only used if particle is REDSTONE.
-    private static void RenderParticles(Entity entity, List<Location> locations, int ticks, int p, Particle particle, Particle.DustOptions dustOptions, int period, int delay){
+    public static void RenderParticles(ParticleData pD, World world){
 
 
 
-
-        //Should the particles move with the entity
-        boolean moveWithEntity = false;
-
-        //If the particles are stationary, should they be set before or after the delay.
-        boolean setLocationAfterDelay = true;
-
-        //If effect is spawned at entity
-        boolean EntityBased = false;
 
         new BukkitRunnable() {
 
-            Location Loc = entity.getLocation();
-            List<Location> activeLocations = new ArrayList<Location>();
+            Vector Loc;
+
+            List<Vector> activeLocations = new ArrayList<Vector>();
             int t = 1;
 
 
             @Override
             public void run() {
 
-                if((setLocationAfterDelay && t == 1) || moveWithEntity){
-                    Loc = entity.getLocation();
+                if (t == 1){
+                    if(pD.isEntityBased){
+                        Loc = pD.entity.getLocation().toVector();
+                    } else {
+                        Loc = pD.worldPos;
+                    }
+                } else if (pD.isEntityBased && pD.moveWithEntity){
+                    Loc = pD.entity.getLocation().toVector();
                 }
 
 
-                if (t <= p){
-                    for (int i = 0; i < t*(locations.size() / p); i++){
-                        if (!activeLocations.contains(locations.get(i))){activeLocations.add(locations.get(i));}
+
+                if (t <= pD.p){
+                    for (int i = 0; i < t*(pD.locations.size() / pD.p); i++){
+                        if (!activeLocations.contains(pD.locations.get(i)))
+                        {
+                            activeLocations.add(pD.locations.get(i));
+                        }
                     }
                 }
 
-                t += period;
+                t += pD.period;
 
 
-                for (Location l : activeLocations){
-                    for (Player player : l.getWorld().getPlayers()){
 
-                        if (player.getLocation().distanceSquared(l.clone().add(Loc)) < 1000){
-                            if (particle.equals(Particle.REDSTONE)){
-                                player.spawnParticle(particle, l.clone().add(Loc), 1, dustOptions);
+                for (Vector l : activeLocations){
+                    for (Player player : world.getPlayers()){
+
+                        if (player.getLocation().distanceSquared(l.clone().add(Loc).toLocation(world))< 1000){
+                            if (pD.particle.equals(Particle.REDSTONE)){
+                                player.spawnParticle(pD.particle, l.clone().add(Loc).toLocation(world), 1, new Particle.DustOptions(pD.color, pD.particleSize));
                             }
                             else {
-                                player.spawnParticle(particle, l.clone().add(Loc), 1);
+                                player.spawnParticle(pD.particle, l.clone().add(Loc).toLocation(world), 1);
                             }
                         }
                     }
                 }
 
-                if (t > ticks){this.cancel();}
+                if (t > pD.ticks){this.cancel();}
 
             }
 
-        }.runTaskTimer(main.getInstance(), delay, period);
+        }.runTaskTimer(main.getInstance(), pD.delay, pD.period);
 
     }
 
 
-    public static void spiral (Entity entity, Location location){
 
-        List<Location> locations = new ArrayList<Location>();
+    public static List<Vector> spiral (ParticleData pD, double yMod, double particleDensity, double size, boolean dual, double rotations){
+
+        List<Vector> locations = new ArrayList<Vector>();
 
 
         double r = 0;
         double x, y, z;
 
-        //How much y changes over time : 0
-        double yMod = 0;
+        //yMod : How much y changes over time : 0
+        //double yMod = 0;
 
-        //Lower value = more dens : 0.1
-        double particleDensity = 0.1;
+        //particleDensity : Lower value = more dens : 0.1
+        //double particleDensity = 0.1;
 
-        // : 2 = small, 4/5 = big
-        double size = 5;
+        //size : 2 = small, 4/5 = big
+        //double size = 5;
 
-        //If it is a double or a simple Archimedes spiral : false
-        boolean Dual = true;
+        //dual : If it is a double or a simple Archimedes spiral : false
+        //boolean dual = true;
 
-        //how many circles : 6
-        double rotations = 6;
+        //rotations : how many circles worth of rotations: 6
+        //double rotations = 6;
 
-        
 
+        //sets vector to pos relative to entity.location
+        Vector vector = pD.location.subtract(pD.entity.getLocation().toVector());
 
         for (double theta = Math.PI * rotations; theta > 0; theta -= particleDensity / size){
 
-            //sets vector to pos relative to entity.location
-            Vector vector = location.toVector().subtract(entity.getLocation().toVector());
 
 
             //Main mathematical function
@@ -168,29 +171,26 @@ public class Particles {
             y = theta * yMod;
 
 
-            vector.add(new Vector(x,  y, z));
 
-            locations.add(vector.toLocation(entity.getWorld()));
+
+            locations.add(vector.clone().add(new Vector(x,y,z)));
 
 
             //Dual Spiral
-            if (Dual){
-                vector = location.toVector().subtract(entity.getLocation().toVector());
+            if (dual){
 
                 x = -1 * r * Math.cos(theta);
                 z = -1 * r * Math.sin(theta);
 
-                vector.add(new Vector(x,  y, z));
-
-                locations.add(vector.toLocation(entity.getWorld()));
+                locations.add(vector.clone().add(new Vector(x,y,z)));
             }
 
 
 
         }
 
-        RenderParticles(entity,locations, 120, 80, Particle.DRIP_LAVA, new Particle.DustOptions(Color.AQUA, 0.6f), 2, 40);
-
+        Bukkit.getPlayer("MN_128").sendMessage(locations.size() + "");
+        return locations;
     }
 
 
