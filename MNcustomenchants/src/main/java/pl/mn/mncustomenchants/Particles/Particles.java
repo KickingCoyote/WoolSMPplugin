@@ -98,33 +98,43 @@ public class Particles {
                         if (!activeLocations.contains(pD.locations.get(i)))
                         {
                             activeLocations.add(pD.locations.get(i));
+                            spawnParticle(pD.particle, new Particle.DustOptions(pD.color, pD.particleSize), 1000, world, pD.locations.get(i));
                         }
                     }
                 }
 
-                t += pD.period;
+                t += 1;
 
 
+                if (t%pD.period == 0){
 
-                for (Vector l : activeLocations){
-                    for (Player player : world.getPlayers()){
-
-                        if (player.getLocation().distanceSquared(l.clone().add(Loc).toLocation(world))< 1000){
-                            if (pD.particle.equals(Particle.REDSTONE)){
-                                player.spawnParticle(pD.particle, l.clone().add(Loc).toLocation(world), 1, new Particle.DustOptions(pD.color, pD.particleSize));
-                            }
-                            else {
-                                player.spawnParticle(pD.particle, l.clone().add(Loc).toLocation(world), 1);
-                            }
-                        }
+                    for (Vector l : activeLocations){
+                        spawnParticle(pD.particle, new Particle.DustOptions(pD.color, pD.particleSize), 1000, world, l.clone().add(Loc));
                     }
+
                 }
 
                 if (t > pD.ticks){this.cancel();}
 
             }
 
-        }.runTaskTimer(main.getInstance(), pD.delay, pD.period);
+        }.runTaskTimer(main.getInstance(), pD.delay, 1);
+
+    }
+
+    private static void spawnParticle(Particle particle, Particle.DustOptions dustOptions, int distance2, World world, Vector vector){
+        for (Player player : world.getPlayers()){
+
+            if(player.getLocation().distanceSquared(vector.toLocation(world)) < distance2){
+                if (particle == Particle.REDSTONE){
+                    player.spawnParticle(particle, vector.toLocation(world), 1, dustOptions);
+                } else {
+                    player.spawnParticle(particle, vector.toLocation(world), 1);
+                }
+
+            }
+
+        }
 
     }
 
@@ -138,20 +148,13 @@ public class Particles {
         double r = 0;
         double x, y, z;
 
+        //NAME : USE : normal values
+
         //yMod : How much y changes over time : 0
-        //double yMod = 0;
-
         //particleDensity : Lower value = more dens : 0.1
-        //double particleDensity = 0.1;
-
         //size : 2 = small, 4/5 = big
-        //double size = 5;
-
         //dual : If it is a double or a simple Archimedes spiral : false
-        //boolean dual = true;
-
         //rotations : how many circles worth of rotations: 6
-        //double rotations = 6;
 
 
         //sets vector to pos relative to entity.location
@@ -169,7 +172,6 @@ public class Particles {
             x = r * Math.cos(theta);
             z = r * Math.sin(theta);
             y = theta * yMod;
-
 
 
 
