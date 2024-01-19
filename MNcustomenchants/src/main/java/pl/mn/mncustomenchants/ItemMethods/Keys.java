@@ -11,7 +11,6 @@ public class Keys {
 
     public static final NamespacedKey material = new NamespacedKey(main.getInstance(), "Material");
 
-
     public static final NamespacedKey ability = new NamespacedKey(main.getInstance(), "Ability");
 
 }

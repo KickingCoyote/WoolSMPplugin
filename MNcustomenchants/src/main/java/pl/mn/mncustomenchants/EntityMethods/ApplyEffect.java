@@ -39,7 +39,7 @@ public class ApplyEffect {
 
 
         //Particles
-        Particles.ring(entity, plugin, Color.ORANGE, duration, 0.5, 0.2, entity.getEyeLocation().add(0, 0.5, 0));
+        //Particles.ring(entity, plugin, Color.ORANGE, duration, 0.5, 0.2, entity.getEyeLocation().add(0, 0.5, 0));
 
 
         ParticleData tP = new ParticleData(120, Particle.DRIP_LAVA, new ArrayList<Vector>(), 9, entity, false);

@@ -23,6 +23,7 @@ import org.checkerframework.checker.units.qual.C;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.ApplyEffect;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
+import pl.mn.mncustomenchants.EntityMethods.EntityEffects.CustomEffects;
 import pl.mn.mncustomenchants.Particles.Particles;
 
 import javax.management.AttributeNotFoundException;
@@ -58,8 +59,8 @@ public class Thunder_Aspect implements Listener {
             //if pvp
             if(event.getEntity() instanceof Player && nrn < enchLvl) {
 
-                
-                ApplyEffect.Stun(entity, 35, plugin);
+                CustomEffects.stun(entity, 35);
+                //ApplyEffect.Stun(entity, 35, plugin);
 
             }
 
@@ -73,8 +74,8 @@ public class Thunder_Aspect implements Listener {
                 //entity.getWorld().spawnParticle(Particle.END_ROD, location, 30);
 
 
-                ApplyEffect.Stun(entity, 35, plugin);
-
+                //ApplyEffect.Stun(entity, 35, plugin);
+                CustomEffects.stun(entity, 35);
 
 
             }
