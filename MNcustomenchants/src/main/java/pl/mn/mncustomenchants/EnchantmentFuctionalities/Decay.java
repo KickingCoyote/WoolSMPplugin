@@ -10,8 +10,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.Plugin;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
-import pl.mn.mncustomenchants.EntityMethods.ApplyEffect;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
+import pl.mn.mncustomenchants.EntityMethods.EntityEffects.CustomEffects;
 
 public class Decay implements Listener {
 
@@ -40,7 +40,7 @@ public class Decay implements Listener {
 
                 LivingEntity entity = (LivingEntity) event.getEntity();
 
-                ApplyEffect.Decay(entity, (40 / enchLvl), plugin);
+                CustomEffects.decay(entity, 80, enchLvl);
 
             }
             else {
@@ -48,7 +48,7 @@ public class Decay implements Listener {
 
                 LivingEntity entity = (LivingEntity) event.getEntity();
 
-                ApplyEffect.Decay(entity, (40 / enchLvl), plugin);
+                CustomEffects.decay(entity, 80, enchLvl);
 
 
             }

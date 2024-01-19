@@ -1,14 +1,11 @@
 package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.Plugin;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
-import pl.mn.mncustomenchants.EntityMethods.ApplyEffect;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
-import pl.mn.mncustomenchants.EntityMethods.Classifications.PlayerUpdates;
+import pl.mn.mncustomenchants.EntityMethods.EntityEffects.CustomEffects;
 
 public class Regeneration {
 
@@ -30,13 +27,7 @@ public class Regeneration {
             }
         }
 
-        if (hasRegen){
-            ApplyEffect.Regeneration(player, enchLvl, plugin, true);
-
-        } else {
-            ApplyEffect.Regeneration(player, enchLvl, plugin, false);
-        }
-
+        CustomEffects.regen(player, enchLvl, !hasRegen);
 
     }
 

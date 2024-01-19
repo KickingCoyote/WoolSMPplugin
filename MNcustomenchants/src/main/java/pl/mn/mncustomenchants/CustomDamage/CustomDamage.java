@@ -105,8 +105,10 @@ public class CustomDamage implements Listener {
         //Apply damage
         if (entity.getHealth() > finalDamage){
             entity.setHealth(entity.getHealth() - finalDamage);
-        } else {
+        } else if (entity instanceof Player){
             entity.setHealth(0);
+        } else {
+            entity.damage(1000);
         }
 
 

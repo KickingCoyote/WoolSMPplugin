@@ -12,8 +12,8 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.Plugin;
 import pl.mn.mncustomenchants.CustomDamage.CustomDamage;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
-import pl.mn.mncustomenchants.EntityMethods.ApplyEffect;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
+import pl.mn.mncustomenchants.EntityMethods.EntityEffects.CustomEffects;
 
 public class Quake implements Listener {
 
@@ -41,14 +41,14 @@ public class Quake implements Listener {
 
                         if (EntityClassifications.isPlayerWithEnch(CustomEnchantments.decay, event.getDamager(), EquipmentSlot.HAND)){
                             int enchLvl = ((Player)event.getDamager()).getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.decay);
-                            ApplyEffect.Decay((LivingEntity) event.getEntity(), (40 / enchLvl), plugin);
+                            CustomEffects.decay((LivingEntity) event.getEntity(), 80, enchLvl);
                         }
 
                         if (EntityClassifications.isPlayerWithEnch(CustomEnchantments.thunder_aspect, event.getDamager(), EquipmentSlot.HAND)){
                             int enchLvl = ((Player)event.getDamager()).getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.thunder_aspect);
 
                             if (EntityClassifications.getChance(10, enchLvl)){
-                                ApplyEffect.Stun((LivingEntity) event.getEntity(), 100, plugin);
+                                CustomEffects.decay((LivingEntity) event.getEntity(), 80, enchLvl);
                             }
                         }
 

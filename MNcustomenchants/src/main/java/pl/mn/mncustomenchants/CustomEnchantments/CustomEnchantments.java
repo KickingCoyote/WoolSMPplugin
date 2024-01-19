@@ -74,6 +74,7 @@ public class CustomEnchantments {
 
     public static final Enchantment true_infinity = new EnchatmentWrapper("true_infinity", "Infinity", 1);
 
+    //having more than lvl 143 total regen breaks the game
     public static final Enchantment regeneration = new EnchatmentWrapper("regeneration", "Regeneration", 2);
 
     public static final Enchantment ice_aspect = new EnchatmentWrapper("ice_aspect", "Ice Aspect", 2);

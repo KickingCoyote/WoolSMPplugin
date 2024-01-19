@@ -48,7 +48,7 @@ public final class main extends JavaPlugin implements CommandExecutor {
 
 
         //effects list
-        EntityClassifications.activeEffects = new ArrayList<>();
+        //EntityClassifications.activeEffects = new ArrayList<>();
 
         //Updates
         new PlayerUpdates(this);
@@ -85,7 +85,7 @@ public final class main extends JavaPlugin implements CommandExecutor {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        EntityClassifications.activeEffects.clear();
+        //EntityClassifications.activeEffects.clear();
 
     }
 
@@ -112,7 +112,6 @@ public final class main extends JavaPlugin implements CommandExecutor {
 
 
 
-            Bukkit.getPlayer("MN_128").sendMessage(player.getInventory().getItemInMainHand().getEnchantments().toString());
 
             AddLore(item, ench, lvl);
 
