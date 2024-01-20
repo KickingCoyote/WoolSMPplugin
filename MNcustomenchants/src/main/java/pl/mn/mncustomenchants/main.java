@@ -63,10 +63,12 @@ public final class main extends JavaPlugin implements CommandExecutor {
         new True_Infinity(this);
         new Regeneration(this);
         new Arcane_Strike(this);
+        new Ice_Aspect(this);
 
         //CommandStuff
         getCommand("customenchant").setTabCompleter(new TabCompletion());
         getCommand("EditItemV2").setTabCompleter(new TabCompletion());
+
         //getCommand("EditItemV2").register(EditItemV2)
         getCommand("EditItemV2").setExecutor(new EditItemV2());
 
