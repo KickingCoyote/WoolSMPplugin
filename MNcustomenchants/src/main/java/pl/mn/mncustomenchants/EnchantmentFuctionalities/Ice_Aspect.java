@@ -13,6 +13,7 @@ import org.bukkit.plugin.Plugin;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.CustomEffects;
+import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 
 import java.util.Random;
 
@@ -52,7 +53,6 @@ public class Ice_Aspect implements Listener {
             else if (event.getEntity() instanceof Mob){
 
                 CustomEffects.freeze(entity, 80, enchLvl);
-
             }
 
 
