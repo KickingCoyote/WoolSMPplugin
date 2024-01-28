@@ -45,7 +45,6 @@ public class Thunder_Aspect implements Listener {
             enchLvl = ((Player) event.getDamager()).getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(ench);
 
 
-
             ((Player) event.getDamager()).getInventory().getItemInMainHand().getItemMeta().addItemFlags();
 
             LivingEntity entity = (LivingEntity) event.getEntity();

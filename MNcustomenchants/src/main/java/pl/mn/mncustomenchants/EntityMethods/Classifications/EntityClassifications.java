@@ -143,7 +143,10 @@ public class EntityClassifications {
             return false;
         if (!((Player) entity).getInventory().getItem(equipmentSlot).hasItemMeta())
             return false;
-        return ((Player) entity).getInventory().getItem(equipmentSlot).getItemMeta().hasEnchant(ench);
+        if (!((Player) entity).getInventory().getItem(equipmentSlot).getItemMeta().hasEnchant(ench)) {
+            return  false;
+        }
+        return ((Player) entity).getInventory().getItem(equipmentSlot).getItemMeta().getEnchantLevel(ench) != 0;
     }
 
 

@@ -36,6 +36,7 @@ public class Decay implements Listener {
 
             enchLvl = ((Player) event.getDamager()).getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(ench);
 
+
             if(event.getEntity() instanceof Player){
 
                 LivingEntity entity = (LivingEntity) event.getEntity();
