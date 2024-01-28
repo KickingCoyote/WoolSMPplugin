@@ -37,15 +37,7 @@ public class EntityClassifications {
         BLAST,
         TRUE
     }
-    public static final List<EquipmentSlot> equipmentSlots = List.of(
 
-            EquipmentSlot.HAND,
-            EquipmentSlot.OFF_HAND,
-            EquipmentSlot.HEAD,
-            EquipmentSlot.CHEST,
-            EquipmentSlot.LEGS,
-            EquipmentSlot.FEET
-    );
 
 
 
@@ -72,7 +64,7 @@ public class EntityClassifications {
 
         int s = 0;
 
-        for (EquipmentSlot e : equipmentSlots){
+        for (EquipmentSlot e : EquipmentSlot.values()){
             if(isPlayerWithEnch(enchantment, player, e)){
                 s += player.getInventory().getItem(e).getEnchantmentLevel(enchantment);
             }

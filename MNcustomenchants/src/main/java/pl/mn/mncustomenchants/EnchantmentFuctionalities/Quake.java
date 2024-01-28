@@ -1,6 +1,8 @@
 package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -54,6 +56,8 @@ public class Quake implements Listener {
                 if (EntityClassifications.isPlayerWithEnch(CustomEnchantments.ice_aspect, damager, EquipmentSlot.HAND)){
                     int enchLvl = damager.getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.ice_aspect);
                     CustomEffects.freeze((LivingEntity) e, 80, enchLvl);
+                    ((Player) event.getDamager()).playSound(e, Sound.BLOCK_GLASS_BREAK, SoundCategory.HOSTILE, 0.5f, 2);
+
                 }
 
                 if (EntityClassifications.isPlayerWithEnch(CustomEnchantments.thunder_aspect, damager, EquipmentSlot.HAND)){
@@ -62,6 +66,12 @@ public class Quake implements Listener {
                     if (EntityClassifications.getChance(10, enchLvl)){
                         CustomEffects.stun((LivingEntity) e, 35);
                     }
+                }
+
+                if (EntityClassifications.isPlayerWithEnch(Enchantment.FIRE_ASPECT, damager, EquipmentSlot.HAND)){
+                    int enchLvl = damager.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.FIRE_ASPECT);
+
+                    e.setFireTicks(80 * enchLvl);
                 }
 
 

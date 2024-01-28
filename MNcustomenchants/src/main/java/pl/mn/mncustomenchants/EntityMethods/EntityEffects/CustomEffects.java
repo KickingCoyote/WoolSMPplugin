@@ -24,8 +24,11 @@ public class CustomEffects {
     public static Map<LivingEntity, Integer> stunned = new HashMap<>();
     public static Map<LivingEntity, Integer> frozen = new HashMap<>();
 
+
     //vector is x = ticks, y = level, z is empty
     public static Map<LivingEntity, Vector> decaying = new HashMap<>();
+    //vector is x = ticks, y = inferno lvl, z is empty
+    public static Map<LivingEntity, Vector> burning = new HashMap<>();
 
     //The int is the lvl
     public static Map<LivingEntity, Integer> regenerating = new HashMap<>();
@@ -52,6 +55,9 @@ public class CustomEffects {
                 if(!decaying.isEmpty() && t%20 == 0){
                     decaying();
                 }
+                if (!burning.isEmpty() && t%20 == 0){
+                    burning();
+                }
                 if(!regenerating.isEmpty() && t%5 == 0){
                     regenerating();
                 }
@@ -60,7 +66,7 @@ public class CustomEffects {
                     t = 1;
                 }
 
-                if(stunned.isEmpty() && frozen.isEmpty() && decaying.isEmpty() && regenerating.isEmpty()){
+                if(stunned.isEmpty() && frozen.isEmpty() && decaying.isEmpty() && regenerating.isEmpty() && burning.isEmpty()){
                     isRunningEffectTimer = false;
                     this.cancel();
 
@@ -156,6 +162,55 @@ public class CustomEffects {
 
     }
 
+    public static void burn(LivingEntity entity, int ticks, int inferno){
+        if (burning.get(entity) != null){
+            burning.remove(entity);
+        }
+
+        burning.put(entity, new Vector(ticks, inferno, 0));
+        entity.setVisualFire(true);
+
+        if(!isRunningEffectTimer){
+            startEffectTimer();
+        }
+    }
+
+    private static void burning(){
+
+        Iterator<Map.Entry<LivingEntity, Vector>> burnIter = burning.entrySet().iterator();
+
+        while (burnIter.hasNext()) {
+
+            Map.Entry<LivingEntity, Vector> current = burnIter.next();
+
+            if (current.getKey().isDead()) {
+                burning.remove(current.getKey());
+                break;
+            }
+
+            if (current.getValue().getX() == 0) {
+
+                burning.remove(current.getKey());
+                current.getKey().setVisualFire(false);
+            } else {
+
+                //The burning damage
+                CustomDamage.damageEntity(current.getKey(), 1 + Math.pow(current.getValue().getY(), 0.95), EntityClassifications.DamageType.FIRE);
+
+                //Burn visuals goes here
+                current.getKey().playHurtAnimation(0.1f);
+                for (Player player : current.getKey().getLocation().getNearbyPlayers(10)){
+                    if (current.getKey().getHurtSound() != null){
+                        player.playSound(current.getKey(), current.getKey().getHurtSound(), SoundCategory.HOSTILE, 1f, 1);
+                    }
+
+                }
+
+                current.setValue(new Vector(current.getValue().getX() - 20, current.getValue().getY(), 0));
+                burning.replace(current.getKey(), current.getValue());
+            }
+        }
+    }
 
     private static void stunned(){
 

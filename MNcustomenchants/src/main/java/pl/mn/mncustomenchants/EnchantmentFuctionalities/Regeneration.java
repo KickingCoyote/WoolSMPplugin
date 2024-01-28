@@ -21,7 +21,7 @@ public class Regeneration {
         boolean hasRegen = false;
         int enchLvl = EntityClassifications.combinedEnchantLvl(player, CustomEnchantments.regeneration);
 
-        for (EquipmentSlot e : EntityClassifications.equipmentSlots){
+        for (EquipmentSlot e : EquipmentSlot.values()){
             if (EntityClassifications.isPlayerWithEnch(CustomEnchantments.regeneration, player, e)){
                 hasRegen = true;
             }

@@ -37,6 +37,12 @@ public class CustomEnchantments {
                 return curse_of_corruption;
             case "excavator":
                 return excavator;
+            case "true_fire_aspect":
+                return true_fire_aspect;
+            case "inferno":
+                return inferno;
+            case "sustenance":
+                return sustenance;
             default:
                 return error;
         }
@@ -54,11 +60,16 @@ public class CustomEnchantments {
             "arcane_strike",
             "ice_aspect",
             "curse_of_corruption",
-            "excavator"
+            "excavator",
+            "true_fire_aspect",
+            "inferno",
+            "sustenance"
     );
 
     //All enchantments go here
     public static final Enchantment error = new EnchatmentWrapper("error", "Error", 1);
+
+
     public static final Enchantment radiant = new EnchatmentWrapper("radiant", "Radiant", 2);
 
     public static final Enchantment thunder_aspect = new EnchatmentWrapper("thunder_aspect", "Thunder Aspect", 20);
@@ -85,6 +96,12 @@ public class CustomEnchantments {
     public static final Enchantment curse_of_corruption = new EnchatmentWrapper("curse_of_corruption", "Curse of Corruption", 1, true);
 
     public static final Enchantment excavator = new EnchatmentWrapper("excavator", "Excavator", 1);
+
+    public static final Enchantment true_fire_aspect = new EnchatmentWrapper("true_fire_aspect", "Fire Aspect", 2);
+
+    public static final Enchantment inferno = new EnchatmentWrapper("inferno", "Inferno", 2);
+
+    public static final Enchantment sustenance = new EnchatmentWrapper("sustenance", "Sustenance", 2);
 
     //SPELLS
     public static final Enchantment arcane_strike = new EnchatmentWrapper("arcane_strike", "Arcane Strike", 2);

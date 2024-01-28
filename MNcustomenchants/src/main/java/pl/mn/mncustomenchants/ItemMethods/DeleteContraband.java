@@ -63,7 +63,7 @@ public class DeleteContraband {
     public static void NonCustomItemsWithEnchants (Player player){
 
 
-        for (EquipmentSlot e : EntityClassifications.equipmentSlots){
+        for (EquipmentSlot e : EquipmentSlot.values()){
             if (!player.getInventory().getItem(e).isEmpty()){
                 if (player.getInventory().getItem(e).hasItemMeta()){
                     if(!player.getInventory().getItem(e).getItemMeta().getPersistentDataContainer().has(Keys.custom_item)){

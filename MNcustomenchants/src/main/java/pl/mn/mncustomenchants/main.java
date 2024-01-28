@@ -67,7 +67,8 @@ public final class main extends JavaPlugin implements CommandExecutor {
         new Arcane_Strike(this);
         new Ice_Aspect(this);
         new Excavator();
-
+        new True_Fire_Aspect();
+        new Sustenance();
 
         //CommandStuff
         getCommand("customenchant").setTabCompleter(new TabCompletion());
