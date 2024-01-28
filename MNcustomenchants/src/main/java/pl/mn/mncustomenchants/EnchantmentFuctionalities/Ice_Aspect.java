@@ -1,6 +1,8 @@
 package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
@@ -38,7 +40,6 @@ public class Ice_Aspect implements Listener {
             int enchLvl = ((Player) event.getDamager()).getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(ench);
 
 
-
             ((Player) event.getDamager()).getInventory().getItemInMainHand().getItemMeta().addItemFlags();
 
             LivingEntity entity = (LivingEntity) event.getEntity();
@@ -53,8 +54,11 @@ public class Ice_Aspect implements Listener {
             else if (event.getEntity() instanceof Mob){
 
                 CustomEffects.freeze(entity, 80, enchLvl);
+
             }
 
+
+            ((Player) event.getDamager()).playSound(entity, Sound.BLOCK_GLASS_BREAK, SoundCategory.HOSTILE, 0.5f, 2);
 
 
 

@@ -35,25 +35,25 @@ public class Excavator implements Listener {
 
         if (!EntityClassifications.isPlayerWithEnch(ench, event.getPlayer(), EquipmentSlot.HAND)){ return; }
 
-        event.getPlayer().getTargetBlockExact(8);
-
-        ArrayList<Vector> vectors = new ArrayList<Vector>();
+        if (event.getPlayer().isSneaking()) { return; }
+        //gets the direction of the block face
         Vector v = event.getPlayer().getTargetBlockFace(10).getDirection();
 
+        //list of relative coordinates, based on that the direction is in the Z-axis
        List<Vector> relatives = List.of(
-               new Vector(1,1,0),
+               new Vector(1, 1, 0),
                new Vector(0, 1, 0),
                new Vector(1, 0, 0),
                new Vector(-1,-1,0),
-               new Vector(-1, 0, 0),
-               new Vector(0, -1, 0),
-               new Vector(-1, 1, 0),
-               new Vector(1, -1, 0)
+               new Vector(-1,0, 0),
+               new Vector(0, -1,0),
+               new Vector(-1,1, 0),
+               new Vector(1, -1,0)
        );
 
        for (Vector relative : relatives){
 
-
+            //if the direction is x/y flip the relatives
            if (v.getX() != 0){
                 relative.setZ(relative.getX());
                 relative.setX(0);
@@ -63,9 +63,13 @@ public class Excavator implements Listener {
                relative.setY(0);
            }
 
+           //the relative block
            Block b = event.getPlayer().getWorld().getBlockAt(event.getBlock().getLocation().add(relative));
+
+           //Skip blocks that have hardness below 0 or above 4
            if (b.getType().getHardness() >= 4 || b.getType().getHardness() < 0){continue;}
 
+           //break naturally (works with silk touch)
            b.breakNaturally(event.getPlayer().getInventory().getItemInMainHand());
        }
 

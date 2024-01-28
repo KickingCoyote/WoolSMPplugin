@@ -28,39 +28,47 @@ public class Quake implements Listener {
     @EventHandler
     public void OnAttack (EntityDamageByEntityEvent event){
 
-        if (EntityClassifications.isPlayerWithEnch(CustomEnchantments.quake, event.getDamager(), EquipmentSlot.HAND)){
-
-            if (((LivingEntity)event.getEntity()).getHealth() < event.getFinalDamage()){
-
-                for (Entity e : event.getEntity().getNearbyEntities(3, 3, 3)){
-
-                    if (e instanceof LivingEntity && !(e == event.getDamager())){
-
-                        CustomDamage.damageEntity((LivingEntity) e, event.getDamage(), EntityClassifications.DamageType.MELEE);
 
 
-                        if (EntityClassifications.isPlayerWithEnch(CustomEnchantments.decay, event.getDamager(), EquipmentSlot.HAND)){
-                            int enchLvl = ((Player)event.getDamager()).getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.decay);
-                            CustomEffects.decay((LivingEntity) event.getEntity(), 80, enchLvl);
-                        }
+        if (!EntityClassifications.isPlayerWithEnch(CustomEnchantments.quake, event.getDamager(), EquipmentSlot.HAND)){ return; }
 
-                        if (EntityClassifications.isPlayerWithEnch(CustomEnchantments.thunder_aspect, event.getDamager(), EquipmentSlot.HAND)){
-                            int enchLvl = ((Player)event.getDamager()).getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.thunder_aspect);
+        if (!(((LivingEntity)event.getEntity()).getHealth() < event.getFinalDamage())){ return; }
 
-                            if (EntityClassifications.getChance(10, enchLvl)){
-                                CustomEffects.decay((LivingEntity) event.getEntity(), 80, enchLvl);
-                            }
-                        }
+        Player damager = (Player) event.getDamager();
 
-                        if (EntityClassifications.isPlayerWithEnch(Enchantment.FIRE_ASPECT, event.getDamager(), EquipmentSlot.HAND)){
-                            int enchLvl = ((Player)event.getDamager()).getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.FIRE_ASPECT);
-                            (event.getEntity()).setFireTicks(enchLvl * 80);
-                        }
+        int quakeLvl = damager.getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.quake);
 
+
+        for (Entity e : event.getEntity().getNearbyEntities(5, 5, 5)){
+
+            if (e instanceof LivingEntity && !(e == event.getDamager())){
+
+                CustomDamage.damageEntity((LivingEntity) e, quakeLvl * event.getDamage(), EntityClassifications.DamageType.MELEE);
+
+
+                if (EntityClassifications.isPlayerWithEnch(CustomEnchantments.decay, damager, EquipmentSlot.HAND)){
+                    int enchLvl = damager.getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.decay);
+                    CustomEffects.decay((LivingEntity) e, 80, enchLvl);
+                }
+
+                if (EntityClassifications.isPlayerWithEnch(CustomEnchantments.ice_aspect, damager, EquipmentSlot.HAND)){
+                    int enchLvl = damager.getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.ice_aspect);
+                    CustomEffects.freeze((LivingEntity) e, 80, enchLvl);
+                }
+
+                if (EntityClassifications.isPlayerWithEnch(CustomEnchantments.thunder_aspect, damager, EquipmentSlot.HAND)){
+                    int enchLvl = damager.getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.thunder_aspect);
+
+                    if (EntityClassifications.getChance(10, enchLvl)){
+                        CustomEffects.stun((LivingEntity) e, 35);
                     }
                 }
+
+
             }
         }
+
+
     }
 
 
