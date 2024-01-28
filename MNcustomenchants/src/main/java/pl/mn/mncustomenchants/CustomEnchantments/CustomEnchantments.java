@@ -43,6 +43,10 @@ public class CustomEnchantments {
                 return inferno;
             case "sustenance":
                 return sustenance;
+            case "curse_of_anemia":
+                return curse_of_anemia;
+            case "regicide":
+                return regicide;
             default:
                 return error;
         }
@@ -63,7 +67,9 @@ public class CustomEnchantments {
             "excavator",
             "true_fire_aspect",
             "inferno",
-            "sustenance"
+            "sustenance",
+            "curse_of_anemia",
+            "regicide"
     );
 
     //All enchantments go here
@@ -102,6 +108,10 @@ public class CustomEnchantments {
     public static final Enchantment inferno = new EnchatmentWrapper("inferno", "Inferno", 2);
 
     public static final Enchantment sustenance = new EnchatmentWrapper("sustenance", "Sustenance", 2);
+    public static final Enchantment curse_of_anemia = new EnchatmentWrapper("curse_of_anemia", "Curse of Anemia", 2, true);
+
+    //10% extra damage to players, all specialist enchantments are handled in the custom damage class
+    public static final Enchantment regicide = new EnchatmentWrapper("regicide", "Regicide", 2);
 
     //SPELLS
     public static final Enchantment arcane_strike = new EnchatmentWrapper("arcane_strike", "Arcane Strike", 2);

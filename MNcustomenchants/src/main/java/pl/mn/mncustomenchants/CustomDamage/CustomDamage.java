@@ -5,13 +5,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerAnimationType;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -36,43 +40,70 @@ public class CustomDamage implements Listener {
     @EventHandler
     public void DamageEvent(EntityDamageEvent event){
 
+        //Damage
+        double damage = event.getDamage();
 
-        if (event.getEntity() instanceof Player && !((Player)event.getEntity()).isHandRaised()){
-            if (event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)){
-                damageEntity((LivingEntity) event.getEntity(), event.getDamage(), EntityClassifications.DamageType.PROJECTILE);
+
+        //Handles Custom Damage by other players
+        if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE){
+            Entity entity = ((EntityDamageByEntityEvent)event).getDamager();
+            if (entity instanceof Player){
+
+
             }
-            else if (event.getCause().equals(EntityDamageEvent.DamageCause.MAGIC) || event.getCause().equals(EntityDamageEvent.DamageCause.DRAGON_BREATH) || event.getCause().equals(EntityDamageEvent.DamageCause.WITHER) || event.getCause().equals(EntityDamageEvent.DamageCause.POISON)){
-                damageEntity((LivingEntity) event.getEntity(), event.getDamage(), EntityClassifications.DamageType.MAGIC);
+            if (entity instanceof Projectile && ((Projectile)entity).getShooter() instanceof Player){
+
             }
-            else if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) || event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) || event.getCause().equals(EntityDamageEvent.DamageCause.THORNS) || event.getCause().equals(EntityDamageEvent.DamageCause.CONTACT)){
-                damageEntity((LivingEntity) event.getEntity(), event.getDamage(), EntityClassifications.DamageType.MELEE);
-            }
-            else if (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE) || event.getCause().equals(EntityDamageEvent.DamageCause.LAVA) || event.getCause().equals(EntityDamageEvent.DamageCause.HOT_FLOOR) || event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK)){
-                damageEntity((LivingEntity) event.getEntity(), event.getDamage(), EntityClassifications.DamageType.FIRE);
-            }
-            else if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL) || event.getCause().equals(EntityDamageEvent.DamageCause.FLY_INTO_WALL)){
-                damageEntity((LivingEntity) event.getEntity(), event.getDamage(), EntityClassifications.DamageType.FALLING);
-            }
-            else if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) || event.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION)){
-                damageEntity((LivingEntity) event.getEntity(), event.getDamage(), EntityClassifications.DamageType.BLAST);
-            }
-            else {
-                damageEntity((LivingEntity) event.getEntity(), event.getDamage(), EntityClassifications.DamageType.TRUE);
-            }
+        }
+
+
+
+        //Apply Damage
+
+        //If Player
+        if (event.getEntity() instanceof Player){
             event.setDamage(0);
 
-        } else if (event.getEntity() instanceof Player){
-            int i = 15;
+            if (!((Player)event.getEntity()).isHandRaised()){
+                if (event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)){
+                    damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.PROJECTILE);
+                }
+                else if (event.getCause().equals(EntityDamageEvent.DamageCause.MAGIC) || event.getCause().equals(EntityDamageEvent.DamageCause.DRAGON_BREATH) || event.getCause().equals(EntityDamageEvent.DamageCause.WITHER) || event.getCause().equals(EntityDamageEvent.DamageCause.POISON)){
+                    damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.MAGIC);
+                }
+                else if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) || event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) || event.getCause().equals(EntityDamageEvent.DamageCause.THORNS) || event.getCause().equals(EntityDamageEvent.DamageCause.CONTACT)){
+                    damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.MELEE);
+                }
+                else if (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE) || event.getCause().equals(EntityDamageEvent.DamageCause.LAVA) || event.getCause().equals(EntityDamageEvent.DamageCause.HOT_FLOOR) || event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK)){
+                    damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.FIRE);
+                }
+                else if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL) || event.getCause().equals(EntityDamageEvent.DamageCause.FLY_INTO_WALL)){
+                    damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.FALLING);
+                }
+                else if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) || event.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION)){
+                    damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.BLAST);
+                }
+                else {
+                    damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.TRUE);
+                }
+            } else {
+                int i = 15;
 
-            ((Player) event.getEntity()).setCooldown(Material.SHIELD, i);
-            ItemStack itemStack = ((Player) event.getEntity()).getInventory().getItemInOffHand();
-            ((Player) event.getEntity()).getInventory().setItemInOffHand(ItemStack.empty());
+                ((Player) event.getEntity()).setCooldown(Material.SHIELD, i);
+                ItemStack itemStack = ((Player) event.getEntity()).getInventory().getItemInOffHand();
+                ((Player) event.getEntity()).getInventory().setItemInOffHand(ItemStack.empty());
 
-            Bukkit.getScheduler().runTaskLater(main.getInstance(), () -> ((Player) event.getEntity()).getInventory().setItemInOffHand(itemStack), 1);
-            event.setDamage(0);
+                Bukkit.getScheduler().runTaskLater(main.getInstance(), () -> ((Player) event.getEntity()).getInventory().setItemInOffHand(itemStack), 1);
 
+
+                event.setDamage(0);
+            }
 
         }
+        //IF not player
+
+
+
 
     }
 
