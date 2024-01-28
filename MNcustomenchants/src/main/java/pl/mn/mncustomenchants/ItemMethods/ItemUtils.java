@@ -99,6 +99,7 @@ public class ItemUtils {
         itemStack.getItemMeta().getPersistentDataContainer().remove(attributeType.getKey());
 
     }
+
     public static void AddAttribute (ItemStack itemStack, AttributeType attributeType, Attribute attribute){
         if (!itemStack.hasItemMeta()) { return; }
         ItemMeta itemMeta = itemStack.getItemMeta();

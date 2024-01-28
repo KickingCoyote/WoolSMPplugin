@@ -35,6 +35,8 @@ public class CustomEnchantments {
                 return ice_aspect;
             case "curse_of_corruption":
                 return curse_of_corruption;
+            case "excavator":
+                return excavator;
             default:
                 return error;
         }
@@ -51,7 +53,8 @@ public class CustomEnchantments {
             "regeneration",
             "arcane_strike",
             "ice_aspect",
-            "curse_of_corruption"
+            "curse_of_corruption",
+            "excavator"
     );
 
     //All enchantments go here
@@ -80,6 +83,8 @@ public class CustomEnchantments {
     public static final Enchantment ice_aspect = new EnchatmentWrapper("ice_aspect", "Ice Aspect", 2);
 
     public static final Enchantment curse_of_corruption = new EnchatmentWrapper("curse_of_corruption", "Curse of Corruption", 1, true);
+
+    public static final Enchantment excavator = new EnchatmentWrapper("excavator", "Excavator", 1);
 
     //SPELLS
     public static final Enchantment arcane_strike = new EnchatmentWrapper("arcane_strike", "Arcane Strike", 2);

@@ -19,6 +19,7 @@ pl\mn\mncustomenchants\EntityMethods\EntityEffects\CustomEffects.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\True_Infinity.class
 pl\mn\mncustomenchants\ItemMethods\Keys.class
 pl\mn\mncustomenchants\CustomDamage\CustomDamage.class
+pl\mn\mncustomenchants\EnchantmentFuctionalities\Excavator.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Decay.class
 pl\mn\mncustomenchants\EntityMethods\EntityEffects\PassiveEffects\PassiveEffects.class
 pl\mn\mncustomenchants\main.class

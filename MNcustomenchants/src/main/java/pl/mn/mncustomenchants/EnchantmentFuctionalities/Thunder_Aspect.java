@@ -1,12 +1,20 @@
 package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 
+import com.destroystokyo.paper.event.block.BlockDestroyEvent;
+import io.papermc.paper.event.block.BlockBreakBlockEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
@@ -62,13 +70,6 @@ public class Thunder_Aspect implements Listener {
         }
 
     }
-
-    @EventHandler
-    public void d(){}
-
-
-
-
 
 
 }

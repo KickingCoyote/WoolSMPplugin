@@ -5,6 +5,7 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.StyleBuilderApplicable;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
@@ -33,6 +34,7 @@ import pl.mn.mncustomenchants.EntityMethods.Classifications.PlayerUpdates;
 
 
 import java.awt.*;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
@@ -64,6 +66,8 @@ public final class main extends JavaPlugin implements CommandExecutor {
         new Regeneration(this);
         new Arcane_Strike(this);
         new Ice_Aspect(this);
+        new Excavator();
+
 
         //CommandStuff
         getCommand("customenchant").setTabCompleter(new TabCompletion());
@@ -133,6 +137,8 @@ public final class main extends JavaPlugin implements CommandExecutor {
             oldLore = meta.lore();
 
 
+        //meta.lore().add(Component.text("", Style.empty()))
+
         Component component;
         TextColor textColor;
         String lvlToSting = String.valueOf(lvl);
@@ -147,9 +153,9 @@ public final class main extends JavaPlugin implements CommandExecutor {
         }
 
 
-        component = Component.text(ench.getName() + " " + lvlToSting, textColor);
 
-
+        component = Component.text(ench.getName() + " " + lvlToSting, Style.style(textColor).unmerge(Style.style().font(Style.DEFAULT_FONT).build()));
+        //component = Component.text("", Style.style(textColor));
 
         assert oldLore != null;
         for (Component com : oldLore){
