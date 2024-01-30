@@ -1,15 +1,20 @@
 package pl.mn.mncustomenchants.Commands;
 
+import com.google.common.collect.Lists;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.ItemMethods.AttributeType;
+import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 import pl.mn.mncustomenchants.ItemMethods.Keys;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,7 +27,7 @@ public class TabCompletion implements TabCompleter {
         if(s.equalsIgnoreCase("edititemv2")){
             if(args.length == 1){
 
-                return List.of("setCustomTag", "setFlag");
+                return List.of("setCustomTag", "setFlag", "Remove_Attribute", "Add_Attribute");
 
             }
             if (args[0].equalsIgnoreCase("setCustomTag")){
@@ -41,6 +46,38 @@ public class TabCompletion implements TabCompleter {
                     flags.add("HIDE_ITEM_SPECIFICS");
 
                     return flags;
+                }
+            } else if (args[0].equalsIgnoreCase("Remove_Attribute")){
+                if (args.length == 2){
+
+                    List<String> attrTypes = new ArrayList<>();
+                    for (AttributeType attributeType : ItemUtils.AttributeTypes){
+                        attrTypes.add(attributeType.ToString());
+                    }
+                    return attrTypes;
+                }
+            } else if (args[0].equalsIgnoreCase("Add_Attribute")){
+                if (args.length == 2){
+                    List<String> attrTypes = new ArrayList<>();
+                    for (AttributeType attributeType : ItemUtils.AttributeTypes){
+                        attrTypes.add(attributeType.ToString());
+                    }
+                    return attrTypes;
+                } else if (args.length == 3){
+                    return List.of("0","1", "2");
+                } else if (args.length == 4){
+                    return List.of(
+                            ItemUtils.AttributeOperator.ADD.toString(),
+                            ItemUtils.AttributeOperator.ADD_PROCENT.toString(),
+                            ItemUtils.AttributeOperator.MULTIPLY_PROCENT.toString()
+                            );
+
+                } else if (args.length == 5){
+                    return List.of(
+                            EquipmentSlot.HAND.toString(), EquipmentSlot.OFF_HAND.toString(),
+                            EquipmentSlot.FEET.toString(), EquipmentSlot.LEGS.toString(),
+                            EquipmentSlot.CHEST.toString(), EquipmentSlot.HEAD.toString()
+                    );
                 }
             }
         }

@@ -40,19 +40,19 @@ public class CustomDamage implements Listener {
     @EventHandler
     public void DamageEvent(EntityDamageEvent event){
 
-        //Damage
+        //The Vanilla damage later turned into pre damage.
         double damage = event.getDamage();
 
 
-        //Handles Custom Damage by other players
+        //Calculates the Pre Damage (The damage before calculating in the receivers damage reduction)
         if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE){
             Entity entity = ((EntityDamageByEntityEvent)event).getDamager();
             if (entity instanceof Player){
 
-
+                damage = calculatePreDamage((Player) entity, event.getEntity(), event.getDamage());
             }
-            if (entity instanceof Projectile && ((Projectile)entity).getShooter() instanceof Player){
-
+            else if (entity instanceof Projectile && ((Projectile)entity).getShooter() instanceof Player){
+                damage = calculatePreDamage((Player) ((Projectile)entity).getShooter(), event.getEntity(), event.getDamage());
             }
         }
 
@@ -107,6 +107,21 @@ public class CustomDamage implements Listener {
 
     }
 
+
+    //Calculates the damage from the sender
+    private double calculatePreDamage(Player sender, Entity receiver, double damage){
+
+
+        int regicide = EntityClassifications.combinedEnchantLvl(sender, CustomEnchantments.regicide);
+
+        //regicide deals bonus damage to players
+        if (receiver instanceof Player && regicide != 0){
+            damage *= (1 + (0.1 * regicide));
+        }
+
+        return damage;
+    }
+
     /*
     @EventHandler
     public void OnBlock (PlayerInteractEvent event){
@@ -121,11 +136,6 @@ public class CustomDamage implements Listener {
         }
     }
     */
-
-    @EventHandler
-    public void onDeath (PlayerDeathEvent event){
-
-    }
 
 
     public static void damageEntity(LivingEntity entity, double damage, EntityClassifications.DamageType damageType){
@@ -144,6 +154,8 @@ public class CustomDamage implements Listener {
 
 
     }
+
+    //Calculates the damage on the receiver (The damage reduction on the receiver)
     public static double calculateFinalDamage (LivingEntity entity, double damage, EntityClassifications.DamageType damageType){
         double damageAfterArmor = damage;
 

@@ -28,4 +28,8 @@ public class AttributeType {
         return showName;
     }
 
+    public String ToString(){
+        return name;
+    }
+
 }

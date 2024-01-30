@@ -1,15 +1,19 @@
 package pl.mn.mncustomenchants.Commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import pl.mn.mncustomenchants.ItemMethods.Attribute;
+import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 import pl.mn.mncustomenchants.ItemMethods.Keys;
 
 import java.security.Key;
@@ -41,7 +45,6 @@ public class EditItemV2 implements CommandExecutor {
 
 
 
-
                         bool = args[2].equalsIgnoreCase("true");
 
 
@@ -55,7 +58,26 @@ public class EditItemV2 implements CommandExecutor {
                 }
             }
 
-            if (args[0].equalsIgnoreCase("setFlag")){
+            else if (args[0].equalsIgnoreCase("Remove_Attribute")){
+
+
+                ItemUtils.RemoveAttribute(player.getInventory().getItemInMainHand(), ItemUtils.getAttributeTypeFromKey(args[1]));
+
+
+
+            }
+            else if (args[0].equalsIgnoreCase("Add_Attribute")){
+
+                ItemUtils.RemoveAttribute(player.getInventory().getItemInMainHand(), ItemUtils.getAttributeTypeFromKey(args[1]));
+
+                Attribute attribute = new Attribute(ItemUtils.AttributeOperator.valueOf(args[3].toUpperCase()), EquipmentSlot.valueOf(args[4].toUpperCase()), Double.valueOf(args[2]));
+
+
+                ItemUtils.AddAttribute(player.getInventory().getItemInMainHand(), ItemUtils.getAttributeTypeFromKey(args[1]), attribute);
+
+            }
+
+            else if (args[0].equalsIgnoreCase("setFlag")){
                 if(!player.getInventory().getItemInMainHand().isEmpty()){
 
                     if (args[1].equalsIgnoreCase("HIDE_ITEM_SPECIFICS")){
@@ -79,6 +101,9 @@ public class EditItemV2 implements CommandExecutor {
                     }
                 }
             }
+
+
+            ItemUtils.UpdateLore(player.getInventory().getItemInMainHand());
         }
         return true;
     }

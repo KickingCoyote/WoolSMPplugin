@@ -97,7 +97,7 @@ public class CustomEnchantments {
     //having more than lvl 143 total regen breaks the game
     public static final Enchantment regeneration = new EnchatmentWrapper("regeneration", "Regeneration", 2);
 
-    public static final Enchantment ice_aspect = new EnchatmentWrapper("ice_aspect", "Ice Aspect", 2);
+    public static final EnchatmentWrapper ice_aspect = new EnchatmentWrapper("ice_aspect", "Ice Aspect", 2);
 
     public static final Enchantment curse_of_corruption = new EnchatmentWrapper("curse_of_corruption", "Curse of Corruption", 1, true);
 

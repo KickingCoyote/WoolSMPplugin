@@ -31,6 +31,7 @@ import pl.mn.mncustomenchants.EnchantmentFuctionalities.*;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.EnchantmentSpells.Arcane_Strike;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.PlayerUpdates;
+import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 
 
 import java.awt.*;
@@ -120,7 +121,8 @@ public final class main extends JavaPlugin implements CommandExecutor {
 
 
 
-            AddLore(item, ench, lvl);
+            //AddLore(item, ench, lvl);
+            ItemUtils.UpdateLore(item);
 
         }
 

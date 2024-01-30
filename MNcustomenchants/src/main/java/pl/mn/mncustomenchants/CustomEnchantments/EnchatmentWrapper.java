@@ -2,13 +2,18 @@ package pl.mn.mncustomenchants.CustomEnchantments;
 
 import io.papermc.paper.enchantments.EnchantmentRarity;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.EntityCategory;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.checkerframework.checker.units.qual.N;
 import org.jetbrains.annotations.NotNull;
+import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 
 import java.util.Set;
 
@@ -75,7 +80,25 @@ public class EnchatmentWrapper extends Enchantment {
 
     @Override
     public @NotNull Component displayName(int i) {
-        return null;
+
+        if (i == 0) { return Component.text(""); }
+
+        Component component;
+        String number;
+        if (maxLvl == 1){ number = ""; }
+        else {
+            number = ItemUtils.getRomanNumber(i);
+        }
+
+        if (this.isCursed()){
+            component = Component.text(name + " " + number, TextColor.color(255, 85,85));
+        } else {
+            component = Component.text(name + " " + number, TextColor.color(169,169,169));
+        }
+
+        component = component.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+
+        return component;
     }
 
     @Override
