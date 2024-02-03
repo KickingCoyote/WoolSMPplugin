@@ -120,8 +120,6 @@ public final class main extends JavaPlugin implements CommandExecutor {
 
 
 
-
-            //AddLore(item, ench, lvl);
             ItemUtils.UpdateLore(item);
 
         }
@@ -129,64 +127,7 @@ public final class main extends JavaPlugin implements CommandExecutor {
         return true;
 
     }
-    public void AddLore(ItemStack item, Enchantment ench, int lvl){
-        ItemMeta meta = item.getItemMeta();
-        List<Component> lore;
-        List<Component> oldLore = new ArrayList<Component>();
-        lore = new ArrayList<Component>();
-        List<String> oldLoreString = new ArrayList<String>();
 
-        if (meta.hasLore())
-            oldLore = meta.lore();
-
-
-        //meta.lore().add(Component.text("", Style.empty()))
-
-        Component component;
-        TextColor textColor;
-        String lvlToSting = String.valueOf(lvl);
-
-        if (ench.isCursed()){
-            textColor = TextColor.color(255, 85 ,85);
-        }else {
-            textColor = TextColor.color(169, 169 ,169);
-        }
-        if (ench.getMaxLevel() == 1){
-            lvlToSting = "";
-        }
-
-
-
-        component = Component.text(ench.getName() + " " + lvlToSting, Style.style(textColor).unmerge(Style.style().font(Style.DEFAULT_FONT).build()));
-        //component = Component.text("", Style.style(textColor));
-
-        assert oldLore != null;
-        for (Component com : oldLore){
-            oldLoreString.add(com.toString());
-        }
-        for (int i = 0; i < oldLoreString.size(); i++){
-            if (oldLoreString.get(i).contains(ench.getName())){
-                oldLore.remove(i);
-            }
-        }
-
-
-        if(oldLore.contains(Component.text("")))
-            oldLore.remove(component);
-
-        if(lvl != 0){
-            lore.add(component);
-        }
-
-        lore.addAll(oldLore);
-
-
-        meta.lore(lore);
-
-
-        item.setItemMeta(meta);
-
-    }
 
     public static main getInstance(){
         return getPlugin(main.class);

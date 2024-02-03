@@ -15,12 +15,15 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Debug;
 import org.w3c.dom.Attr;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.CustomEnchantments.EnchatmentWrapper;
 
+import java.lang.invoke.SwitchPoint;
+import java.sql.Array;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,114 +36,149 @@ import static java.util.Collections.nCopies;
 public class ItemUtils {
 
     public enum AttributeOperator {
+        ITEM_STAT,
         ADD,
-        MULTIPLY_PROCENT,
-        ADD_PROCENT
+        ADD_PROCENT,
 
     };
 
 
+    public static AttributeOperator AttributeOperatorValueOf(String s){
+        AttributeOperator attributeOperator = null;
 
+        for (AttributeOperator ao : AttributeOperator.values()){
 
-    public static final AttributeType THORNS = new AttributeType("THORNS",  "Thorns");
-    public static final AttributeType ARMOR = new AttributeType("ARMOR",  "Armor");
-    public static final AttributeType SPEED = new AttributeType("SPEED", "Speed");
-
-    public static final List<AttributeType> AttributeTypes = List.of(
-            THORNS,
-            ARMOR,
-            SPEED
-    );
-
-    public static AttributeType getAttributeTypeFromKey(String keyAsString){
-        for (AttributeType at : AttributeTypes){
-
-            String key;
-            if (keyAsString.contains("mncustomenchants:")){
-                key = keyAsString;
-            } else {
-                key = "mncustomenchants:" + keyAsString;
+            if (ao.name().equalsIgnoreCase(s)){
+                return ao;
             }
 
-            if (at.getKey().asString().equalsIgnoreCase(key)){
-                return at;
-            }
         }
-        return null;
+
+        return attributeOperator;
     }
 
-    /*
-    public static double GetPlayerAttribute(AttributeType attributeType, Player player){
 
-        double totalLvl = 0;
+
+    public static Attribute getAttributeFromKey(String keyAsString){
+
+        String key;
+        if (keyAsString.contains("mncustomenchants:")){
+            key = keyAsString.split(":")[1].toUpperCase();
+        } else {
+            key = keyAsString.toUpperCase();
+        }
+
+        if (key.split("X").length < 3){
+            return null;
+        }
+
+        AttributeOperator op = AttributeOperatorValueOf(key.split("X")[0]);
+        EquipmentSlot eq = EquipmentSlot.valueOf(key.split("X")[1]);
+        AttributeType at = AttributeType.valueOf(key.split("X")[2]);
+
+
+        if (at == null || op == null){ return null; }
+
+        return new Attribute(op, eq, at, 0);
+
+    }
+
+
+    //returns -2 000 000 if null;
+    public static double getDataContainer(ItemStack itemStack, NamespacedKey key){
+        if (!itemStack.hasItemMeta()) {return -2000000;}
+        if (itemStack.getItemMeta().getPersistentDataContainer().isEmpty()) { return -2000000; }
+        if (itemStack.getItemMeta().getPersistentDataContainer().has(key)) { return itemStack.getItemMeta().getPersistentDataContainer().get(key, PersistentDataType.DOUBLE); }
+
+        return -2000000;
+    }
+
+
+    public static double getPlayerAttribute(Player player, AttributeType type){
+
+        double itemStat = getItemStat(player, type);
+        double add = 0;
+        double multiply = 0;
 
         for (EquipmentSlot eq : EquipmentSlot.values()){
 
-            if (player.getInventory().getItem(eq).isEmpty()){ continue; }
-            Attribute attribute = GetItemAttribute(attributeType, player.getInventory().getItem(eq));
-
-            if (attribute == null) { continue; }
-            if (attribute.getSlot() == eq){
-                totalLvl += attribute.getValue();
+            if (player.getInventory().getItem(eq).isEmpty()) { continue; }
+            if (getDataContainer(player.getInventory().getItem(eq), Attribute.getKey(type, AttributeOperator.ADD, eq)) != -2000000)
+            {
+                add += getDataContainer(player.getInventory().getItem(eq), Attribute.getKey(type, AttributeOperator.ADD, eq));
             }
-
+            if (getDataContainer(player.getInventory().getItem(eq), Attribute.getKey(type, AttributeOperator.ADD_PROCENT, eq)) != -2000000){
+                multiply += getDataContainer(player.getInventory().getItem(eq), Attribute.getKey(type, AttributeOperator.ADD_PROCENT, eq));
+            }
         }
-        return totalLvl;
+
+
+        return (itemStat + add) * (1 + multiply);
     }
 
-    public static Attribute GetItemAttribute(AttributeType attributeType, ItemStack itemStack){
 
-        if (!itemStack.hasItemMeta()) { return null; }
-        if (itemStack.getItemMeta().getPersistentDataContainer().isEmpty()) { return null; }
 
-        return itemStack.getItemMeta().getPersistentDataContainer().get(attributeType.getKey(), new AttributeDataType());
+    private static double getItemStat(Player player, AttributeType type){
 
+        ItemStack mainHand = player.getInventory().getItemInMainHand();
+
+        NamespacedKey key = Attribute.getKey(type, AttributeOperator.ITEM_STAT, EquipmentSlot.HAND);
+
+        if (getDataContainer(mainHand, key) != -2000000){
+            return getDataContainer(mainHand, key);
+        }
+
+        if (type == AttributeType.SPEED) { return 0.1; }
+        if (type == AttributeType.HEALTH) { return 20; }
+
+        return 0;
     }
 
-     */
 
 
-    public static Map<AttributeType, Attribute> GetItemAttributes(ItemStack itemStack){
+    public static List<Attribute> GetItemAttributes(ItemStack itemStack){
 
 
         if (itemStack.getItemMeta().getPersistentDataContainer().isEmpty()){ return null; }
 
-        Map<AttributeType, Attribute> Attributes = new HashMap<>();
+        List<Attribute> Attributes = new ArrayList<>();
 
         for (NamespacedKey key : itemStack.getItemMeta().getPersistentDataContainer().getKeys()){
 
-            if (getAttributeTypeFromKey(key.asString()) == null) {continue;}
+            if (getAttributeFromKey(key.asString()) == null) {continue;}
+            Attribute attr = getAttributeFromKey(key.asString());
 
-            Attributes.put(getAttributeTypeFromKey(key.asString()), itemStack.getItemMeta().getPersistentDataContainer().get(key, new AttributeDataType()));
+            if (!itemStack.getItemMeta().getPersistentDataContainer().getKeys().contains(attr.getKey())) { continue; }
+
+
+            attr.value = itemStack.getItemMeta().getPersistentDataContainer().get(attr.getKey(), PersistentDataType.DOUBLE);
+
+            Attributes.add(attr);
 
         }
 
         return Attributes;
     }
 
-    public static void RemoveAttribute(ItemStack itemStack, AttributeType attributeType){
+    public static void RemoveAttribute(ItemStack itemStack, Attribute attribute){
 
         if (!itemStack.hasItemMeta()) { return; }
         if (itemStack.getItemMeta().getPersistentDataContainer().isEmpty()) { return; }
-        if (!itemStack.getItemMeta().getPersistentDataContainer().getKeys().contains(attributeType.getKey())) { return; }
+        if (!itemStack.getItemMeta().getPersistentDataContainer().getKeys().contains(attribute.getKey())) { return; }
 
-        itemStack.getItemMeta().getPersistentDataContainer().remove(attributeType.getKey());
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.getPersistentDataContainer().remove(attribute.getKey());
 
+        itemStack.setItemMeta(itemMeta);
     }
 
-    public static void AddAttribute (ItemStack itemStack, AttributeType attributeType, Attribute attribute){
+    public static void AddAttribute (ItemStack itemStack, Attribute attribute, Double value){
 
 
         ItemMeta itemMeta = itemStack.getItemMeta();
 
-        /*
-        if (!itemMeta.getPersistentDataContainer().isEmpty() && itemMeta.getPersistentDataContainer().getKeys().contains(attributeType.getKey())){
-            RemoveAttribute(itemStack, attributeType);
-        }
 
-         */
-
-        itemMeta.getPersistentDataContainer().set(attributeType.getKey(), new AttributeDataType(), attribute);
+        itemMeta.getPersistentDataContainer().set(attribute.getKey(), PersistentDataType.DOUBLE, value);
 
         itemStack.setItemMeta(itemMeta);
     }
@@ -162,22 +200,16 @@ public class ItemUtils {
     }
 
     //Gets attributes with a certain slot
-    private static Map<AttributeType, Attribute> GetAttributesOnSlot(Map<AttributeType, Attribute> attributes, EquipmentSlot equipmentSlot){
+    private static List<Attribute> GetAttributesOnSlot(List<Attribute> attributes, EquipmentSlot equipmentSlot){
 
-        Iterator<Map.Entry<AttributeType, Attribute>> attrIter = attributes.entrySet().iterator();
 
-        Map<AttributeType, Attribute> attrOnSlot = new HashMap<>();
+        List<Attribute> attrOnSlot = new ArrayList<>();
 
-        while (attrIter.hasNext()){
-
-            Map.Entry<AttributeType, Attribute> current = attrIter.next();
-
-            if (current.getValue().getSlot() == equipmentSlot){
-                attrOnSlot.put(current.getKey(), current.getValue());
+        for (Attribute a : attributes){
+            if (a.getSlot() == equipmentSlot) {
+                attrOnSlot.add(a);
             }
-
         }
-
 
         return attrOnSlot;
     }
@@ -228,7 +260,7 @@ public class ItemUtils {
         }
 
         //The ACTUAL Lore
-
+        //TODO: make lore actually work.
 
 
         //Attributes
@@ -237,8 +269,9 @@ public class ItemUtils {
             if (ItemUtils.GetItemAttributes(itemStack) == null){ break; }
 
 
-            Map<AttributeType, Attribute> attrOnSlot = ItemUtils.GetAttributesOnSlot(ItemUtils.GetItemAttributes(itemStack), eq);
+            List<Attribute> attrOnSlot = ItemUtils.GetAttributesOnSlot(ItemUtils.GetItemAttributes(itemStack), eq);
 
+            attrOnSlot = sortAttributes(attrOnSlot);
 
             if (attrOnSlot.isEmpty()) { continue; }
 
@@ -251,32 +284,70 @@ public class ItemUtils {
             } else if (eq == EquipmentSlot.OFF_HAND){
                 slotText = "When in Off Hand: ";
             } else {
-                slotText = "When on " + eq.name() + ": ";
+
+                char[] s = eq.name().toLowerCase().toCharArray();
+                s[0] -= 32;
+                String s2 = "";
+                for (char letter : s){
+                    s2 += letter;
+                }
+
+                slotText = "When on " + s2 + ": ";
             }
+
             components.add(Component.text(slotText, TextColor.color(169,169,169)).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
 
 
-            Iterator<Map.Entry<AttributeType, Attribute>> attrIter = attrOnSlot.entrySet().iterator();
-            while (attrIter.hasNext()){
+            for (Attribute a : attrOnSlot){
 
-                Map.Entry<AttributeType, Attribute> current = attrIter.next();
+                String componentText = "";
+                TextColor color = TextColor.color(85,85,255);
 
-                components.add(Component.text(current.getValue().getValue() + " " + current.getKey().getShowName() + " " + current.getValue().getOperator(), TextColor.color(85, 85, 255)).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
+                if(a.getOperator() == AttributeOperator.ADD)
+                {
+                    componentText = "+" + (float)a.value + " " + a.getType().getShowName();
+                }
 
+                else if (a.getOperator() == AttributeOperator.ADD_PROCENT)
+                {
+                    componentText = "+" + Math.round(a.value * 100) + "% " + a.getType().getShowName();
+                }
+
+                else if (a.getOperator() == AttributeOperator.ITEM_STAT)
+                {
+                    componentText = " " + (float)a.value + " " + a.getType().getShowName();
+                    color = TextColor.color(0,169,0);
+                }
+
+
+                components.add(Component.text(componentText, color).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
             }
-
-
 
 
         }
 
 
-
-        //empty bar
-
-
-
         AddLore(itemStack, components);
+
+    }
+
+
+    public static List<Attribute> sortAttributes (List<Attribute> list){
+
+
+        Attribute[] arr = new Attribute[list.size()];
+
+        for (int i = 0; i < list.size(); i++){
+            arr[i] = list.get(i);
+        }
+
+        Arrays.sort(arr);
+
+        List<Attribute> sortedList = new ArrayList<>();
+
+        Collections.addAll(sortedList, arr);
+
+        return sortedList;
 
     }
 

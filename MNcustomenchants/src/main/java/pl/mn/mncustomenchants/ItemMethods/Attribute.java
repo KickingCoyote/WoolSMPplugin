@@ -1,10 +1,13 @@
 package pl.mn.mncustomenchants.ItemMethods;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.EquipmentSlot;
+import org.jetbrains.annotations.NotNull;
+import pl.mn.mncustomenchants.main;
 
 import java.io.Serializable;
 
-public class Attribute implements Serializable {
+public class Attribute implements Serializable, Comparable<Attribute> {
 
 
 
@@ -12,12 +15,26 @@ public class Attribute implements Serializable {
 
     private EquipmentSlot slot;
 
-    private double value;
+    private AttributeType type;
 
-    public Attribute(ItemUtils.AttributeOperator operator, EquipmentSlot slot, Double value){
+    private NamespacedKey key;
+
+    public double value;
+
+    public Attribute(ItemUtils.AttributeOperator operator, EquipmentSlot slot, AttributeType type, double value){
         this.operator = operator;
         this.slot = slot;
+        this.type = type;
         this.value = value;
+        key = Attribute.getKey(type, operator, slot);
+    }
+
+    @Override
+    public int compareTo(Attribute o) {
+        if (operator.compareTo(o.operator) == 0){
+            return type.compareTo(o.type);
+        }
+        return operator.compareTo(o.operator);
     }
 
 
@@ -37,11 +54,19 @@ public class Attribute implements Serializable {
         this.slot = slot;
     }
 
-    public double getValue() {
-        return value;
+
+    public AttributeType getType() {
+        return type;
     }
 
-    public void setValue(double value) {
-        this.value = value;
+
+    public NamespacedKey getKey() {
+        return key;
     }
+
+    public static NamespacedKey getKey(AttributeType type, ItemUtils.AttributeOperator operator, EquipmentSlot slot){
+        return new NamespacedKey(main.getInstance(), operator + "X" + slot + "X" + type.getName());
+    }
+
+
 }

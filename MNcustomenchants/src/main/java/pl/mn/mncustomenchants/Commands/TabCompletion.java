@@ -51,15 +51,27 @@ public class TabCompletion implements TabCompleter {
                 if (args.length == 2){
 
                     List<String> attrTypes = new ArrayList<>();
-                    for (AttributeType attributeType : ItemUtils.AttributeTypes){
+                    for (AttributeType attributeType : AttributeType.values){
                         attrTypes.add(attributeType.ToString());
                     }
                     return attrTypes;
+                } else if (args.length == 3){
+                    return List.of(
+                            ItemUtils.AttributeOperator.ADD.toString(),
+                            ItemUtils.AttributeOperator.ADD_PROCENT.toString(),
+                            ItemUtils.AttributeOperator.ITEM_STAT.toString()
+                    );
+                } else if (args.length == 4){
+                    return List.of(
+                            EquipmentSlot.HAND.toString(), EquipmentSlot.OFF_HAND.toString(),
+                            EquipmentSlot.FEET.toString(), EquipmentSlot.LEGS.toString(),
+                            EquipmentSlot.CHEST.toString(), EquipmentSlot.HEAD.toString()
+                    );
                 }
             } else if (args[0].equalsIgnoreCase("Add_Attribute")){
                 if (args.length == 2){
                     List<String> attrTypes = new ArrayList<>();
-                    for (AttributeType attributeType : ItemUtils.AttributeTypes){
+                    for (AttributeType attributeType : AttributeType.values){
                         attrTypes.add(attributeType.ToString());
                     }
                     return attrTypes;
@@ -69,7 +81,7 @@ public class TabCompletion implements TabCompleter {
                     return List.of(
                             ItemUtils.AttributeOperator.ADD.toString(),
                             ItemUtils.AttributeOperator.ADD_PROCENT.toString(),
-                            ItemUtils.AttributeOperator.MULTIPLY_PROCENT.toString()
+                            ItemUtils.AttributeOperator.ITEM_STAT.toString()
                             );
 
                 } else if (args.length == 5){

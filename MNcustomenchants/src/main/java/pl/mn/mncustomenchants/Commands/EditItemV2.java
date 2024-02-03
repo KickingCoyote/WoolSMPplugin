@@ -61,19 +61,19 @@ public class EditItemV2 implements CommandExecutor {
             else if (args[0].equalsIgnoreCase("Remove_Attribute")){
 
 
-                ItemUtils.RemoveAttribute(player.getInventory().getItemInMainHand(), ItemUtils.getAttributeTypeFromKey(args[1]));
+                ItemUtils.RemoveAttribute(player.getInventory().getItemInMainHand(), ItemUtils.getAttributeFromKey(args[2] + "X"+ args[3] + "X"+ args[1]));
 
 
 
             }
             else if (args[0].equalsIgnoreCase("Add_Attribute")){
 
-                ItemUtils.RemoveAttribute(player.getInventory().getItemInMainHand(), ItemUtils.getAttributeTypeFromKey(args[1]));
+                ItemUtils.RemoveAttribute(player.getInventory().getItemInMainHand(), ItemUtils.getAttributeFromKey(args[3] + "X" + args[4] + "X" + args[1]));
 
-                Attribute attribute = new Attribute(ItemUtils.AttributeOperator.valueOf(args[3].toUpperCase()), EquipmentSlot.valueOf(args[4].toUpperCase()), Double.valueOf(args[2]));
+                //Attribute attribute = new Attribute(ItemUtils.AttributeOperator.valueOf(args[3].toUpperCase()), EquipmentSlot.valueOf(args[4].toUpperCase()), Double.valueOf(args[2]));
 
 
-                ItemUtils.AddAttribute(player.getInventory().getItemInMainHand(), ItemUtils.getAttributeTypeFromKey(args[1]), attribute);
+                ItemUtils.AddAttribute(player.getInventory().getItemInMainHand(), ItemUtils.getAttributeFromKey(args[3] + "X"+ args[4] + "X"+ args[1]), Double.valueOf(args[2]));
 
             }
 

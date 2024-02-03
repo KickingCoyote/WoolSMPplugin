@@ -1,27 +1,24 @@
 package pl.mn.mncustomenchants.ItemMethods;
 
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.jetbrains.annotations.NotNull;
 import pl.mn.mncustomenchants.main;
 
-public class AttributeType {
+import java.util.List;
+
+public class AttributeType implements Comparable<AttributeType>{
 
     private String name;
     private String showName;
 
-    private NamespacedKey key;
-
     public AttributeType(String name, String showName){
         this.name = name;
         this.showName = showName;
-        key = new NamespacedKey(main.getInstance(), this.name);
     }
 
     public String getName(){
         return name;
-    }
-
-    public NamespacedKey getKey() {
-        return key;
     }
 
     public String getShowName() {
@@ -32,4 +29,45 @@ public class AttributeType {
         return name;
     }
 
+
+    public static AttributeType valueOf(String s){
+
+        for (AttributeType at : values){
+
+            if (at.name.equalsIgnoreCase(s)){
+                return at;
+            }
+
+        }
+
+        return null;
+    }
+
+
+    public static final AttributeType THORNS = new AttributeType("THORNS",  "Thorns");
+    public static final AttributeType ARMOR = new AttributeType("ARMOR",  "Armor");
+    public static final AttributeType SPEED = new AttributeType("SPEED", "Speed");
+    public static final AttributeType ATTACK_SPEED = new AttributeType("ATTACK_SPEED", "Attack Speed");
+    public static final AttributeType ATTACK_DAMAGE = new AttributeType("ATTACK_DAMAGE", "Attack Damage");
+    public static final AttributeType HEALTH = new AttributeType("HEALTH", "Health");
+    public static final AttributeType PROJECTILE_DAMAGE = new AttributeType("PROJECTILE_DAMAGE", "Projectile Damage");
+    public static final AttributeType PROJECTILE_SPEED = new AttributeType("PROJECTILE_SPEED", "Projectile Speed");
+
+
+    //They appear in the same order in-game as in the list
+    public static final List<AttributeType> values = List.of(
+            ARMOR,
+            ATTACK_DAMAGE,
+            ATTACK_SPEED,
+            PROJECTILE_DAMAGE,
+            PROJECTILE_SPEED,
+            HEALTH,
+            SPEED,
+            THORNS
+    );
+
+    @Override
+    public int compareTo(AttributeType o) {
+        return values.indexOf(this) - values.indexOf(o);
+    }
 }
