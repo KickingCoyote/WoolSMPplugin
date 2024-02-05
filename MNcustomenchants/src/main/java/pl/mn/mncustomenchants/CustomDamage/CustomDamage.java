@@ -5,22 +5,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerAnimationType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
@@ -49,13 +44,7 @@ public class CustomDamage implements Listener {
 
         //Calculates the Pre Damage (The damage before calculating in the receivers damage reduction)
         if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE){
-            Entity entity = ((EntityDamageByEntityEvent)event).getDamager();
-            if (entity instanceof Player){
-                damage = calculatePreDamage((Player) entity, event.getEntity(), event.getDamage());
-            }
-            else if (entity instanceof Projectile && ((Projectile)entity).getShooter() instanceof Player){
-                damage = calculatePreDamage((Player) ((Projectile)entity).getShooter(), event.getEntity(), event.getDamage());
-            }
+            damage = calculatePreDamage((EntityDamageByEntityEvent)event);
         }
 
 
@@ -109,6 +98,65 @@ public class CustomDamage implements Listener {
     }
 
 
+    private double calculatePreDamage(EntityDamageByEntityEvent event){
+
+
+        double damage = 0;
+
+        //The person dealing damage
+        Player sender;
+        if (event.getDamager() instanceof Player){
+            sender = (Player) event.getDamager();
+        } else {
+            sender = (Player) ((Projectile) event.getDamager()).getShooter();
+        }
+
+
+        if (event.getDamager() instanceof Projectile && ((Projectile) event.getDamager()).getShooter() instanceof Player){
+
+            //TODO: Snowballs may or may not do damage to players, check that.
+            damage = ItemUtils.getPlayerAttribute(sender, AttributeType.PROJECTILE_DAMAGE);
+
+            double projSpeed = ItemUtils.getPlayerAttribute(sender, AttributeType.PROJECTILE_SPEED);
+
+            if (event.getDamager() instanceof Arrow){
+
+                //A value between 0 and 1 based on the arrow velocity that determines the damage
+                double bowCharge =  Math.min(3 * projSpeed, event.getDamager().getVelocity().length()) / (3 * projSpeed);
+                //if bowCharge is above 0.9 round it to 1 for nicer numbers
+                if (bowCharge > 0.9) {
+                    bowCharge = 1;
+                }
+
+                damage *= bowCharge;
+            }
+
+
+        } else if (event.getDamager() instanceof Player){
+            damage = ItemUtils.getPlayerAttribute((Player) event.getDamager(), AttributeType.ATTACK_DAMAGE);
+
+            damage *= ((Player) event.getDamager()).getAttackCooldown();
+            //If critical hit
+            if (event.isCritical()){
+                damage *= 1.5;
+            }
+
+        }
+
+
+        int regicide = EntityClassifications.combinedEnchantLvl(sender, CustomEnchantments.regicide);
+
+        //regicide deals bonus damage to players
+        if (event.getEntity() instanceof Player && regicide != 0){
+            damage *= (1 + (0.1 * regicide));
+        }
+
+
+
+        return damage;
+    }
+
+
     //Calculates the damage from the sender
     private double calculatePreDamage(Player sender, Entity receiver, double damage){
 
@@ -146,7 +194,7 @@ public class CustomDamage implements Listener {
         //IGNORES IFRAMES
         double finalDamage = calculateFinalDamage(entity, damage, damageType);
 
-        Bukkit.getPlayer("MN_128").sendMessage(damage +" ");
+        //Bukkit.getPlayer("MN_128").sendMessage(damage +" ");
         //Apply damage
         if (entity.getHealth() > finalDamage){
             entity.setHealth(entity.getHealth() - finalDamage);

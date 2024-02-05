@@ -31,6 +31,7 @@ import pl.mn.mncustomenchants.EnchantmentFuctionalities.*;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.EnchantmentSpells.Arcane_Strike;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.PlayerUpdates;
+import pl.mn.mncustomenchants.EntityMethods.Projectiles;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 
 
@@ -70,6 +71,10 @@ public final class main extends JavaPlugin implements CommandExecutor {
         new Excavator();
         new True_Fire_Aspect();
         new Sustenance();
+
+        //handles projectiles
+        new Projectiles();
+
 
         //CommandStuff
         getCommand("customenchant").setTabCompleter(new TabCompletion());

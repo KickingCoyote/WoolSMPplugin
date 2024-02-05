@@ -68,13 +68,13 @@ public class ItemUtils {
             key = keyAsString.toUpperCase();
         }
 
-        if (key.split("X").length < 3){
+        if (key.split("/").length < 3){
             return null;
         }
 
-        AttributeOperator op = AttributeOperatorValueOf(key.split("X")[0]);
-        EquipmentSlot eq = EquipmentSlot.valueOf(key.split("X")[1]);
-        AttributeType at = AttributeType.valueOf(key.split("X")[2]);
+        AttributeOperator op = AttributeOperatorValueOf(key.split("/")[0]);
+        EquipmentSlot eq = EquipmentSlot.valueOf(key.split("/")[1]);
+        AttributeType at = AttributeType.valueOf(key.split("/")[2]);
 
 
         if (at == null || op == null){ return null; }
@@ -128,6 +128,7 @@ public class ItemUtils {
             return getDataContainer(mainHand, key);
         }
 
+        if (type == AttributeType.PROJECTILE_SPEED) { return 1; }
         if (type == AttributeType.SPEED) { return 0.1; }
         if (type == AttributeType.HEALTH) { return 20; }
 
@@ -299,6 +300,9 @@ public class ItemUtils {
 
 
             for (Attribute a : attrOnSlot){
+
+
+                if (a.value == 0) { continue; }
 
                 String componentText = "";
                 TextColor color = TextColor.color(85,85,255);

@@ -2,6 +2,7 @@ package pl.mn.mncustomenchants.ItemMethods;
 
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
 import pl.mn.mncustomenchants.main;
 
@@ -49,10 +50,10 @@ public class AttributeType implements Comparable<AttributeType>{
     public static final AttributeType SPEED = new AttributeType("SPEED", "Speed");
     public static final AttributeType ATTACK_SPEED = new AttributeType("ATTACK_SPEED", "Attack Speed");
     public static final AttributeType ATTACK_DAMAGE = new AttributeType("ATTACK_DAMAGE", "Attack Damage");
-    public static final AttributeType HEALTH = new AttributeType("HEALTH", "Health");
+    public static final AttributeType HEALTH = new AttributeType("HEALTH", "Max Health");
     public static final AttributeType PROJECTILE_DAMAGE = new AttributeType("PROJECTILE_DAMAGE", "Projectile Damage");
     public static final AttributeType PROJECTILE_SPEED = new AttributeType("PROJECTILE_SPEED", "Projectile Speed");
-
+    public static final AttributeType THROW_RATE = new AttributeType("THROW_RATE", "Throw Rate");
 
     //They appear in the same order in-game as in the list
     public static final List<AttributeType> values = List.of(
@@ -61,6 +62,7 @@ public class AttributeType implements Comparable<AttributeType>{
             ATTACK_SPEED,
             PROJECTILE_DAMAGE,
             PROJECTILE_SPEED,
+            THROW_RATE,
             HEALTH,
             SPEED,
             THORNS

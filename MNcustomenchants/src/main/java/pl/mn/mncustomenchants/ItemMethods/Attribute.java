@@ -65,7 +65,7 @@ public class Attribute implements Serializable, Comparable<Attribute> {
     }
 
     public static NamespacedKey getKey(AttributeType type, ItemUtils.AttributeOperator operator, EquipmentSlot slot){
-        return new NamespacedKey(main.getInstance(), operator + "X" + slot + "X" + type.getName());
+        return new NamespacedKey(main.getInstance(), operator + "/" + slot + "/" + type.getName());
     }
 
 

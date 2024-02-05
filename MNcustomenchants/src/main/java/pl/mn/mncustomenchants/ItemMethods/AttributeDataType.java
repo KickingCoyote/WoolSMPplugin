@@ -38,7 +38,6 @@ public class AttributeDataType implements PersistentDataType<byte[], Attribute> 
             Logger logger = Logger.getLogger("Minecraft");
             logger.warning(e.toString());
         }
-
         return null;
     }
 }
