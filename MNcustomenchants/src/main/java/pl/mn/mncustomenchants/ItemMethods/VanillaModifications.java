@@ -1,14 +1,13 @@
 package pl.mn.mncustomenchants.ItemMethods;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.SoundCategory;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.EquipmentSlot;
@@ -17,7 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
 
-public class DeleteContraband {
+public class VanillaModifications {
 
 
     public static void Anvil (InventoryOpenEvent event){
@@ -83,6 +82,44 @@ public class DeleteContraband {
                 }
             }
         }
+
+    }
+
+    //The code for all the custom modifiers that use the vanilla modifier as a base
+    public static void customToVanillaAttributes(Player player){
+
+
+        //Gets current vanilla attack speed
+        Double weaponAttackSpeed = 4.0;
+
+        for (AttributeModifier a : player.getInventory().getItemInMainHand().getType().getDefaultAttributeModifiers(EquipmentSlot.HAND).get(Attribute.GENERIC_ATTACK_SPEED)){
+            weaponAttackSpeed += a.getAmount();
+        }
+
+
+        //convert custom attributes to vanilla modifiers
+        AttributeModifier attack_speed = new AttributeModifier("ATTACK_SPEED", ItemUtils.getPlayerAttribute(player, AttributeType.ATTACK_SPEED) - weaponAttackSpeed, AttributeModifier.Operation.ADD_NUMBER);
+        AttributeModifier max_health = new AttributeModifier("MAX_HEALTH", ItemUtils.getPlayerAttribute(player, AttributeType.HEALTH) - 20, AttributeModifier.Operation.ADD_NUMBER);
+        AttributeModifier movement_speed = new AttributeModifier("MOVEMENT_SPEED", ItemUtils.getPlayerAttribute(player, AttributeType.SPEED) -0.1, AttributeModifier.Operation.ADD_NUMBER);
+
+
+        //removes and reattaches the modifiers
+        EntityClassifications.detachAttributeMod(player, Attribute.GENERIC_MAX_HEALTH, "MAX_HEALTH");
+        EntityClassifications.detachAttributeMod(player, Attribute.GENERIC_ATTACK_SPEED, "ATTACK_SPEED");
+        EntityClassifications.detachAttributeMod(player, Attribute.GENERIC_MOVEMENT_SPEED, "MOVEMENT_SPEED");
+        EntityClassifications.attachAttributeMod(player, Attribute.GENERIC_ATTACK_SPEED, attack_speed);
+        EntityClassifications.attachAttributeMod(player, Attribute.GENERIC_MAX_HEALTH, max_health);
+        EntityClassifications.attachAttributeMod(player, Attribute.GENERIC_MOVEMENT_SPEED, movement_speed);
+
+
+
+
+    }
+
+
+    //converts all vanilla gear into custom gear
+    public static void vanillaToCustomAttributes(){
+
 
     }
 

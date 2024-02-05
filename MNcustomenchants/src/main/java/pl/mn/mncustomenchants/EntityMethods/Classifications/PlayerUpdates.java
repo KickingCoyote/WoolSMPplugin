@@ -16,7 +16,7 @@ import org.bukkit.scheduler.BukkitTask;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.Radiant;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.Regeneration;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.Two_Handed;
-import pl.mn.mncustomenchants.ItemMethods.DeleteContraband;
+import pl.mn.mncustomenchants.ItemMethods.VanillaModifications;
 
 public class PlayerUpdates implements Listener {
 
@@ -74,8 +74,8 @@ public class PlayerUpdates implements Listener {
     @EventHandler
     public void OnInventoryOpen (InventoryOpenEvent event){
 
-        DeleteContraband.Enchanting(event);
-        DeleteContraband.Anvil(event);
+        VanillaModifications.Enchanting(event);
+        VanillaModifications.Anvil(event);
     }
 
 
@@ -93,7 +93,9 @@ public class PlayerUpdates implements Listener {
         Radiant.ApplyGlowIfGlow(player);
         Regeneration.CheckRegeneration(player);
 
-        DeleteContraband.NonCustomItemsWithEnchants(player);
+        VanillaModifications.NonCustomItemsWithEnchants(player);
+
+        VanillaModifications.customToVanillaAttributes(player);
 
 
     }

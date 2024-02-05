@@ -128,6 +128,8 @@ public class ItemUtils {
             return getDataContainer(mainHand, key);
         }
 
+        //Values returned if the item has no matching Item Stat
+        if (type == AttributeType.ATTACK_SPEED) { return 4; }
         if (type == AttributeType.PROJECTILE_SPEED) { return 1; }
         if (type == AttributeType.SPEED) { return 0.1; }
         if (type == AttributeType.HEALTH) { return 20; }
@@ -216,14 +218,6 @@ public class ItemUtils {
     }
 
 
-    private static void AddLore(ItemStack itemStack, List<Component> components){
-        ItemMeta iM = itemStack.getItemMeta();
-
-        iM.lore(components);
-
-        itemStack.setItemMeta(iM);
-
-    }
 
     public static void UpdateLore(ItemStack itemStack){
 
@@ -330,8 +324,12 @@ public class ItemUtils {
 
         }
 
+        //Sets the lore
+        ItemMeta iM = itemStack.getItemMeta();
 
-        AddLore(itemStack, components);
+        iM.lore(components);
+
+        itemStack.setItemMeta(iM);
 
     }
 

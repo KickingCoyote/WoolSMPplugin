@@ -48,30 +48,8 @@ public class CustomDamage implements Listener {
         }
 
 
-        //Apply Damage
-        /*
-        //If Player
-        if (event.getEntity() instanceof Player){
-            event.setDamage(0);
 
-            if (!((Player)event.getEntity()).isHandRaised()){
-
-            } else {
-                int i = 15;
-
-                ((Player) event.getEntity()).setCooldown(Material.SHIELD, i);
-                ItemStack itemStack = ((Player) event.getEntity()).getInventory().getItemInOffHand();
-                ((Player) event.getEntity()).getInventory().setItemInOffHand(ItemStack.empty());
-
-                Bukkit.getScheduler().runTaskLater(main.getInstance(), () -> ((Player) event.getEntity()).getInventory().setItemInOffHand(itemStack), 1);
-
-
-                event.setDamage(0);
-            }
-
-        } */
-
-
+        //sort damage into categories
         if (event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)){
             damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.PROJECTILE);
         }
@@ -173,20 +151,7 @@ public class CustomDamage implements Listener {
         return d;
     }
 
-    /*
-    @EventHandler
-    public void OnBlock (PlayerInteractEvent event){
 
-        if(event.getAction().isRightClick()){
-            if(!event.isBlockInHand()){
-                if (event.getPlayer().getInventory().getItemInOffHand().getType().equals(Material.SHIELD)){
-                    Bukkit.getPlayer("MN_28").sendMessage("ello");
-                }
-            }
-
-        }
-    }
-    */
 
 
     public static void damageEntity(LivingEntity entity, double damage, EntityClassifications.DamageType damageType){
@@ -194,7 +159,6 @@ public class CustomDamage implements Listener {
         //IGNORES IFRAMES
         double finalDamage = calculateFinalDamage(entity, damage, damageType);
 
-        //Bukkit.getPlayer("MN_128").sendMessage(damage +" ");
         //Apply damage
         if (entity.getHealth() > finalDamage){
             entity.setHealth(entity.getHealth() - finalDamage);
