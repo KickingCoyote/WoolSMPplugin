@@ -5,6 +5,7 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.StyleBuilderApplicable;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
@@ -30,9 +31,12 @@ import pl.mn.mncustomenchants.EnchantmentFuctionalities.*;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.EnchantmentSpells.Arcane_Strike;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.PlayerUpdates;
+import pl.mn.mncustomenchants.EntityMethods.Projectiles;
+import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 
 
 import java.awt.*;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
@@ -48,7 +52,7 @@ public final class main extends JavaPlugin implements CommandExecutor {
 
 
         //effects list
-        EntityClassifications.activeEffects = new ArrayList<>();
+        //EntityClassifications.activeEffects = new ArrayList<>();
 
         //Updates
         new PlayerUpdates(this);
@@ -63,10 +67,19 @@ public final class main extends JavaPlugin implements CommandExecutor {
         new True_Infinity(this);
         new Regeneration(this);
         new Arcane_Strike(this);
+        new Ice_Aspect(this);
+        new Excavator();
+        new True_Fire_Aspect();
+        new Sustenance();
+
+        //handles projectiles
+        new Projectiles();
+
 
         //CommandStuff
         getCommand("customenchant").setTabCompleter(new TabCompletion());
         getCommand("EditItemV2").setTabCompleter(new TabCompletion());
+
         //getCommand("EditItemV2").register(EditItemV2)
         getCommand("EditItemV2").setExecutor(new EditItemV2());
 
@@ -85,7 +98,7 @@ public final class main extends JavaPlugin implements CommandExecutor {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        EntityClassifications.activeEffects.clear();
+        //EntityClassifications.activeEffects.clear();
 
     }
 
@@ -112,71 +125,14 @@ public final class main extends JavaPlugin implements CommandExecutor {
 
 
 
-            Bukkit.getPlayer("MN_128").sendMessage(player.getInventory().getItemInMainHand().getEnchantments().toString());
-
-            AddLore(item, ench, lvl);
+            ItemUtils.UpdateLore(item);
 
         }
 
         return true;
 
     }
-    public void AddLore(ItemStack item, Enchantment ench, int lvl){
-        ItemMeta meta = item.getItemMeta();
-        List<Component> lore;
-        List<Component> oldLore = new ArrayList<Component>();
-        lore = new ArrayList<Component>();
-        List<String> oldLoreString = new ArrayList<String>();
 
-        if (meta.hasLore())
-            oldLore = meta.lore();
-
-
-        Component component;
-        TextColor textColor;
-        String lvlToSting = String.valueOf(lvl);
-
-        if (ench.isCursed()){
-            textColor = TextColor.color(255, 85 ,85);
-        }else {
-            textColor = TextColor.color(169, 169 ,169);
-        }
-        if (ench.getMaxLevel() == 1){
-            lvlToSting = "";
-        }
-
-
-        component = Component.text(ench.getName() + " " + lvlToSting, textColor);
-
-
-
-        assert oldLore != null;
-        for (Component com : oldLore){
-            oldLoreString.add(com.toString());
-        }
-        for (int i = 0; i < oldLoreString.size(); i++){
-            if (oldLoreString.get(i).contains(ench.getName())){
-                oldLore.remove(i);
-            }
-        }
-
-
-        if(oldLore.contains(Component.text("")))
-            oldLore.remove(component);
-
-        if(lvl != 0){
-            lore.add(component);
-        }
-
-        lore.addAll(oldLore);
-
-
-        meta.lore(lore);
-
-
-        item.setItemMeta(meta);
-
-    }
 
     public static main getInstance(){
         return getPlugin(main.class);

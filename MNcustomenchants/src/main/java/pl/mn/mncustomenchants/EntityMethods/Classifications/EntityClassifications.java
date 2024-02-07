@@ -1,9 +1,10 @@
 package pl.mn.mncustomenchants.EntityMethods.Classifications;
 
 //import jdk.tools.jlink.internal.Archive;
-import com.google.common.collect.Multimap;
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -13,15 +14,10 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
-import pl.mn.mncustomenchants.EntityMethods.EntityEffects.DecayEffect;
-import pl.mn.mncustomenchants.EntityMethods.EntityEffects.EntityEffect;
-import java.lang.reflect.*;
+
 import java.util.*;
 
 public class EntityClassifications {
@@ -45,20 +41,12 @@ public class EntityClassifications {
         BLAST,
         TRUE
     }
-    public static final List<EquipmentSlot> equipmentSlots = List.of(
-
-            EquipmentSlot.HAND,
-            EquipmentSlot.OFF_HAND,
-            EquipmentSlot.HEAD,
-            EquipmentSlot.CHEST,
-            EquipmentSlot.LEGS,
-            EquipmentSlot.FEET
-    );
 
 
 
 
 
+    /*
     public static List<EntityEffect> activeEffects;
 
     public static List<EntityEffect> getActiveEffect(LivingEntity entity) {
@@ -74,13 +62,13 @@ public class EntityClassifications {
 
         return eS;
 
-    }
+    } */
 
     public static int combinedEnchantLvl(Player player, Enchantment enchantment){
 
         int s = 0;
 
-        for (EquipmentSlot e : equipmentSlots){
+        for (EquipmentSlot e : EquipmentSlot.values()){
             if(isPlayerWithEnch(enchantment, player, e)){
                 s += player.getInventory().getItem(e).getEnchantmentLevel(enchantment);
             }
@@ -119,9 +107,24 @@ public class EntityClassifications {
 
     }
 
+    public static boolean hasAttributeModifer(Attributable attributable, Attribute attribute, String modifierName){
+
+        AttributeInstance instance = attributable.getAttribute(attribute);
+
+        if(instance == null){return false;}
+        for (AttributeModifier modifier : instance.getModifiers()){
+            if(modifier.getName().equals(modifierName)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static void detachAttributeMod (Attributable attributable, Attribute attribute, String modifierName){
         AttributeInstance instance = attributable.getAttribute(attribute);
 
+        if(instance == null){return;}
         for (AttributeModifier modifier : instance.getModifiers()){
             if(modifier.getName().equals(modifierName)){
                 instance.removeModifier(modifier);
@@ -136,7 +139,10 @@ public class EntityClassifications {
             return false;
         if (!((Player) entity).getInventory().getItem(equipmentSlot).hasItemMeta())
             return false;
-        return ((Player) entity).getInventory().getItem(equipmentSlot).getItemMeta().hasEnchant(ench);
+        if (!((Player) entity).getInventory().getItem(equipmentSlot).getItemMeta().hasEnchant(ench)) {
+            return  false;
+        }
+        return ((Player) entity).getInventory().getItem(equipmentSlot).getItemMeta().getEnchantLevel(ench) != 0;
     }
 
 
@@ -153,6 +159,16 @@ public class EntityClassifications {
     public static boolean getChance(int n, int r){
         Random random = new Random();
         return random.nextInt(n) < r;
+    }
+
+
+
+    public static void playSound(Location location, int radius, Sound sound, SoundCategory category, float volume, float pitch){
+        for (Player player : location.getWorld().getPlayers()){
+            if (location.distance(player.getLocation()) < radius){
+                player.playSound(location, sound, category, volume, pitch);
+            }
+        }
     }
 
 

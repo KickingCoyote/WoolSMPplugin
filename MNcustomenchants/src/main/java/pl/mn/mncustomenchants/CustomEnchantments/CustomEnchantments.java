@@ -35,6 +35,18 @@ public class CustomEnchantments {
                 return ice_aspect;
             case "curse_of_corruption":
                 return curse_of_corruption;
+            case "excavator":
+                return excavator;
+            case "true_fire_aspect":
+                return true_fire_aspect;
+            case "inferno":
+                return inferno;
+            case "sustenance":
+                return sustenance;
+            case "curse_of_anemia":
+                return curse_of_anemia;
+            case "regicide":
+                return regicide;
             default:
                 return error;
         }
@@ -51,11 +63,19 @@ public class CustomEnchantments {
             "regeneration",
             "arcane_strike",
             "ice_aspect",
-            "curse_of_corruption"
+            "curse_of_corruption",
+            "excavator",
+            "true_fire_aspect",
+            "inferno",
+            "sustenance",
+            "curse_of_anemia",
+            "regicide"
     );
 
     //All enchantments go here
     public static final Enchantment error = new EnchatmentWrapper("error", "Error", 1);
+
+
     public static final Enchantment radiant = new EnchatmentWrapper("radiant", "Radiant", 2);
 
     public static final Enchantment thunder_aspect = new EnchatmentWrapper("thunder_aspect", "Thunder Aspect", 20);
@@ -74,11 +94,24 @@ public class CustomEnchantments {
 
     public static final Enchantment true_infinity = new EnchatmentWrapper("true_infinity", "Infinity", 1);
 
+    //having more than lvl 143 total regen breaks the game
     public static final Enchantment regeneration = new EnchatmentWrapper("regeneration", "Regeneration", 2);
 
-    public static final Enchantment ice_aspect = new EnchatmentWrapper("ice_aspect", "Ice Aspect", 2);
+    public static final EnchatmentWrapper ice_aspect = new EnchatmentWrapper("ice_aspect", "Ice Aspect", 2);
 
     public static final Enchantment curse_of_corruption = new EnchatmentWrapper("curse_of_corruption", "Curse of Corruption", 1, true);
+
+    public static final Enchantment excavator = new EnchatmentWrapper("excavator", "Excavator", 1);
+
+    public static final Enchantment true_fire_aspect = new EnchatmentWrapper("true_fire_aspect", "Fire Aspect", 2);
+
+    public static final Enchantment inferno = new EnchatmentWrapper("inferno", "Inferno", 2);
+
+    public static final Enchantment sustenance = new EnchatmentWrapper("sustenance", "Sustenance", 2);
+    public static final Enchantment curse_of_anemia = new EnchatmentWrapper("curse_of_anemia", "Curse of Anemia", 2, true);
+
+    //10% extra damage to players, all specialist enchantments are handled in the custom damage class
+    public static final Enchantment regicide = new EnchatmentWrapper("regicide", "Regicide", 2);
 
     //SPELLS
     public static final Enchantment arcane_strike = new EnchatmentWrapper("arcane_strike", "Arcane Strike", 2);
