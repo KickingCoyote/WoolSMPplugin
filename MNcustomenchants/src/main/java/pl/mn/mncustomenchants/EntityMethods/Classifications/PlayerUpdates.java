@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
@@ -52,8 +53,8 @@ public class PlayerUpdates implements Listener {
             event.getPlayer().getInventory().setItem(event.getSlot(), ItemStack.empty());
         }
 
-
     }
+
 
 
     @EventHandler
@@ -76,14 +77,21 @@ public class PlayerUpdates implements Listener {
 
         VanillaModifications.Enchanting(event);
         VanillaModifications.Anvil(event);
+
     }
 
 
-    //No Anviling For U (Except Nametags)
     @EventHandler
     public void OnInventoryClick (InventoryClickEvent event){
-
+        VanillaModifications.vanillaToCustomAttributes(event.getCursor());
     }
+    @EventHandler
+    public void OnPickUpItem (PlayerAttemptPickupItemEvent event){
+        VanillaModifications.vanillaToCustomAttributes(event.getItem().getItemStack());
+    }
+
+
+
 
 
 
@@ -93,7 +101,7 @@ public class PlayerUpdates implements Listener {
         Radiant.ApplyGlowIfGlow(player);
         Regeneration.CheckRegeneration(player);
 
-        VanillaModifications.NonCustomItemsWithEnchants(player);
+        //VanillaModifications.NonCustomItemsWithEnchants(player);
 
         VanillaModifications.customToVanillaAttributes(player);
 

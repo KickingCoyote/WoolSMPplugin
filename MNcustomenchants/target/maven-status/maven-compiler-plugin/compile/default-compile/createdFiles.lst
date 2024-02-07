@@ -28,5 +28,6 @@ pl\mn\mncustomenchants\main.class
 pl\mn\mncustomenchants\EntityMethods\Classifications\EntityClassifications$DamageType.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Regeneration.class
 pl\mn\mncustomenchants\Particles\Particles$1.class
+pl\mn\mncustomenchants\ItemMethods\LoreComponent.class
 pl\mn\mncustomenchants\ItemMethods\VanillaModifications.class
 pl\mn\mncustomenchants\EntityMethods\EntityEffects\CustomEffects$1.class

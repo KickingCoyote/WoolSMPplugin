@@ -34,19 +34,19 @@ public class Quake implements Listener {
 
         if (!EntityClassifications.isPlayerWithEnch(CustomEnchantments.quake, event.getDamager(), EquipmentSlot.HAND)){ return; }
 
-        if (!(((LivingEntity)event.getEntity()).getHealth() < event.getFinalDamage())){ return; }
+
+
+        if (!((event.getEntity()).isDead())) { return; }
 
         Player damager = (Player) event.getDamager();
 
         int quakeLvl = damager.getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.quake);
 
-
         for (Entity e : event.getEntity().getNearbyEntities(5, 5, 5)){
 
             if (e instanceof LivingEntity && !(e == event.getDamager())){
 
-                CustomDamage.damageEntity((LivingEntity) e, quakeLvl * event.getDamage(), EntityClassifications.DamageType.MELEE);
-
+                CustomDamage.damageEntity((LivingEntity) e, quakeLvl * CustomDamage.RunPreDamageOperations(event), EntityClassifications.DamageType.MELEE);
 
                 if (EntityClassifications.isPlayerWithEnch(CustomEnchantments.decay, damager, EquipmentSlot.HAND)){
                     int enchLvl = damager.getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.decay);

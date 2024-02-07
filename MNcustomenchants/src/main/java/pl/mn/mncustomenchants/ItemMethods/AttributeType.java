@@ -54,6 +54,7 @@ public class AttributeType implements Comparable<AttributeType>{
     public static final AttributeType PROJECTILE_DAMAGE = new AttributeType("PROJECTILE_DAMAGE", "Projectile Damage");
     public static final AttributeType PROJECTILE_SPEED = new AttributeType("PROJECTILE_SPEED", "Projectile Speed");
     public static final AttributeType THROW_RATE = new AttributeType("THROW_RATE", "Throw Rate");
+    public static final AttributeType KNOCKBACK_RESISTANCE = new AttributeType("KNOCKBACK_RESISTANCE", "Knockback Resistance");
 
     //They appear in the same order in-game as in the list
     public static final List<AttributeType> values = List.of(
@@ -65,6 +66,7 @@ public class AttributeType implements Comparable<AttributeType>{
             THROW_RATE,
             HEALTH,
             SPEED,
+            KNOCKBACK_RESISTANCE,
             THORNS
     );
 

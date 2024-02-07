@@ -27,7 +27,7 @@ public class TabCompletion implements TabCompleter {
         if(s.equalsIgnoreCase("edititemv2")){
             if(args.length == 1){
 
-                return List.of("setCustomTag", "setFlag", "Remove_Attribute", "Add_Attribute");
+                return List.of("setCustomTag", "setFlag", "Remove_Attribute", "Add_Attribute", "Edit_Lore");
 
             }
             if (args[0].equalsIgnoreCase("setCustomTag")){
@@ -47,7 +47,8 @@ public class TabCompletion implements TabCompleter {
 
                     return flags;
                 }
-            } else if (args[0].equalsIgnoreCase("Remove_Attribute")){
+            }
+            else if (args[0].equalsIgnoreCase("Remove_Attribute")){
                 if (args.length == 2){
 
                     List<String> attrTypes = new ArrayList<>();
@@ -68,7 +69,8 @@ public class TabCompletion implements TabCompleter {
                             EquipmentSlot.CHEST.toString(), EquipmentSlot.HEAD.toString()
                     );
                 }
-            } else if (args[0].equalsIgnoreCase("Add_Attribute")){
+            }
+            else if (args[0].equalsIgnoreCase("Add_Attribute")){
                 if (args.length == 2){
                     List<String> attrTypes = new ArrayList<>();
                     for (AttributeType attributeType : AttributeType.values){
@@ -90,6 +92,11 @@ public class TabCompletion implements TabCompleter {
                             EquipmentSlot.FEET.toString(), EquipmentSlot.LEGS.toString(),
                             EquipmentSlot.CHEST.toString(), EquipmentSlot.HEAD.toString()
                     );
+                }
+            }
+            else if (args[0].equalsIgnoreCase("Edit_Lore")){
+                if (args.length == 2){
+                    return List.of("0","1", "2");
                 }
             }
         }

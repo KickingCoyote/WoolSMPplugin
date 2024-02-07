@@ -24,6 +24,9 @@ import pl.mn.mncustomenchants.CustomEnchantments.EnchatmentWrapper;
 
 import java.lang.invoke.SwitchPoint;
 import java.sql.Array;
+import java.text.DecimalFormat;
+import java.text.Format;
+import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -177,6 +180,11 @@ public class ItemUtils {
 
     public static void AddAttribute (ItemStack itemStack, Attribute attribute, Double value){
 
+        if (value == 0) {
+            RemoveAttribute(itemStack, attribute);
+            return;
+        }
+
 
         ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -218,6 +226,28 @@ public class ItemUtils {
     }
 
 
+    public static void EditLore(ItemStack itemStack, int index, String component, int r, int g, int b){
+
+        LoreComponent lore;
+        if (itemStack.hasItemMeta() && itemStack.getItemMeta().getPersistentDataContainer().has(Keys.lore)){
+            lore = itemStack.getItemMeta().getPersistentDataContainer().get(Keys.lore, new LoreComponentDataType());
+        } else {
+            lore = new LoreComponent(new String[10], new int[10], new int[10], new int[10]);
+        }
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+
+        lore.appendText(component, index);
+        lore.appendR(r, index);
+        lore.appendG(g, index);
+        lore.appendB(b, index);
+
+        itemMeta.getPersistentDataContainer().set(Keys.lore, new LoreComponentDataType(), lore);
+
+        itemStack.setItemMeta(itemMeta);
+
+    }
+
 
     public static void UpdateLore(ItemStack itemStack){
 
@@ -255,7 +285,23 @@ public class ItemUtils {
         }
 
         //The ACTUAL Lore
-        //TODO: make lore actually work.
+
+        if (itemStack.hasItemMeta() && itemStack.getItemMeta().getPersistentDataContainer().has(Keys.lore)){
+
+
+
+            for (int i = 0;  i < itemStack.getItemMeta().getPersistentDataContainer().get(Keys.lore, new LoreComponentDataType()).getText().length; i++){
+                LoreComponent s = itemStack.getItemMeta().getPersistentDataContainer().get(Keys.lore, new LoreComponentDataType());
+                if (s.getText()[i] != null){
+                    components.add(Component.text(s.getText()[i].replace('_', ' '), TextColor.color(s.getR()[i],s.getG()[i],s.getB()[i])).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
+                }
+            }
+
+
+
+
+        }
+
 
 
         //Attributes
@@ -296,24 +342,30 @@ public class ItemUtils {
             for (Attribute a : attrOnSlot){
 
 
-                if (a.value == 0) { continue; }
-
                 String componentText = "";
                 TextColor color = TextColor.color(85,85,255);
+                Format format = new DecimalFormat("0.###");
+                String operator = "+";
+                if (a.value < 0)
+                {
+                    operator = "";
+                    color = TextColor.color(255, 85, 85);
+                }
+
 
                 if(a.getOperator() == AttributeOperator.ADD)
                 {
-                    componentText = "+" + (float)a.value + " " + a.getType().getShowName();
+                    componentText = operator + format.format(a.value) + " " + a.getType().getShowName();
                 }
 
                 else if (a.getOperator() == AttributeOperator.ADD_PROCENT)
                 {
-                    componentText = "+" + Math.round(a.value * 100) + "% " + a.getType().getShowName();
+                    componentText = operator + Math.round(a.value * 100) + "% " + a.getType().getShowName();
                 }
 
                 else if (a.getOperator() == AttributeOperator.ITEM_STAT)
                 {
-                    componentText = " " + (float)a.value + " " + a.getType().getShowName();
+                    componentText = " " + format.format(a.value) + " " + a.getType().getShowName();
                     color = TextColor.color(0,169,0);
                 }
 

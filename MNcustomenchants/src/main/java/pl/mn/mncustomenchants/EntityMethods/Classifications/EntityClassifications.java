@@ -1,6 +1,10 @@
 package pl.mn.mncustomenchants.EntityMethods.Classifications;
 
 //import jdk.tools.jlink.internal.Archive;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -155,6 +159,16 @@ public class EntityClassifications {
     public static boolean getChance(int n, int r){
         Random random = new Random();
         return random.nextInt(n) < r;
+    }
+
+
+
+    public static void playSound(Location location, int radius, Sound sound, SoundCategory category, float volume, float pitch){
+        for (Player player : location.getWorld().getPlayers()){
+            if (location.distance(player.getLocation()) < radius){
+                player.playSound(location, sound, category, volume, pitch);
+            }
+        }
     }
 
 

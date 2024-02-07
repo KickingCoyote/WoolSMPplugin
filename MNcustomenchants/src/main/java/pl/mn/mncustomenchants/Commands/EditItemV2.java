@@ -1,5 +1,6 @@
 package pl.mn.mncustomenchants.Commands;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
@@ -15,8 +16,10 @@ import org.jetbrains.annotations.NotNull;
 import pl.mn.mncustomenchants.ItemMethods.Attribute;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 import pl.mn.mncustomenchants.ItemMethods.Keys;
+import pl.mn.mncustomenchants.ItemMethods.LoreComponent;
 
 import java.security.Key;
+
 
 public class EditItemV2 implements CommandExecutor {
 
@@ -70,11 +73,13 @@ public class EditItemV2 implements CommandExecutor {
 
                 ItemUtils.RemoveAttribute(player.getInventory().getItemInMainHand(), ItemUtils.getAttributeFromKey(args[3] + "/" + args[4] + "/" + args[1]));
 
-                //Attribute attribute = new Attribute(ItemUtils.AttributeOperator.valueOf(args[3].toUpperCase()), EquipmentSlot.valueOf(args[4].toUpperCase()), Double.valueOf(args[2]));
 
 
                 ItemUtils.AddAttribute(player.getInventory().getItemInMainHand(), ItemUtils.getAttributeFromKey(args[3] + "/"+ args[4] + "/"+ args[1]), Double.valueOf(args[2]));
 
+            }
+            else if (args[0].equalsIgnoreCase("Edit_Lore")){
+                ItemUtils.EditLore(player.getInventory().getItemInMainHand(), Integer.parseInt(args[1]), args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
             }
 
             else if (args[0].equalsIgnoreCase("setFlag")){

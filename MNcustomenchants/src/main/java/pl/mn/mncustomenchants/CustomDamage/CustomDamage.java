@@ -3,6 +3,7 @@ package pl.mn.mncustomenchants.CustomDamage;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.SoundCategory;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
@@ -40,11 +41,11 @@ public class CustomDamage implements Listener {
         //The Vanilla damage later turned into pre damage.
         double damage = event.getDamage();
 
-        event.setDamage(0);
+
 
         //Calculates the Pre Damage (The damage before calculating in the receivers damage reduction)
         if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE){
-            damage = calculatePreDamage((EntityDamageByEntityEvent)event);
+            damage = RunPreDamageOperations((EntityDamageByEntityEvent)event);
         }
 
 
@@ -72,30 +73,51 @@ public class CustomDamage implements Listener {
             damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.TRUE);
         }
 
+        event.setDamage(0);
 
+        //event.setCancelled(true);
     }
 
 
-    private double calculatePreDamage(EntityDamageByEntityEvent event){
+
+
+    public static double RunPreDamageOperations(EntityDamageByEntityEvent event){
 
 
         double damage = 0;
 
+
+
         //The person dealing damage
-        Player sender;
-        if (event.getDamager() instanceof Player){
-            sender = (Player) event.getDamager();
+        LivingEntity sender;
+        if (event.getDamager() instanceof Projectile){
+            sender = (LivingEntity) ((Projectile) event.getDamager()).getShooter();
         } else {
-            sender = (Player) ((Projectile) event.getDamager()).getShooter();
+
+            sender = (LivingEntity) event.getDamager();
         }
+
+
+
+
+        //Thorns
+        if (event.getEntity() instanceof Player && ItemUtils.getPlayerAttribute((Player) event.getEntity(), AttributeType.THORNS) != 0){
+            damageEntity(sender, ItemUtils.getPlayerAttribute((Player) event.getEntity(), AttributeType.THORNS), EntityClassifications.DamageType.MELEE);
+
+            //Play hurt sound if the entity doesn't die
+            if (!sender.isDead()){
+                EntityClassifications.playSound(sender.getLocation(), 30, sender.getHurtSound(), SoundCategory.HOSTILE, 1, 1);
+            }
+        }
+
 
 
         if (event.getDamager() instanceof Projectile && ((Projectile) event.getDamager()).getShooter() instanceof Player){
 
             //TODO: Snowballs may or may not do damage to players, check that.
-            damage = ItemUtils.getPlayerAttribute(sender, AttributeType.PROJECTILE_DAMAGE);
+            damage = ItemUtils.getPlayerAttribute((Player) sender, AttributeType.PROJECTILE_DAMAGE);
 
-            double projSpeed = ItemUtils.getPlayerAttribute(sender, AttributeType.PROJECTILE_SPEED);
+            double projSpeed = ItemUtils.getPlayerAttribute((Player) sender, AttributeType.PROJECTILE_SPEED);
 
             if (event.getDamager() instanceof Arrow){
 
@@ -119,15 +141,21 @@ public class CustomDamage implements Listener {
                 damage *= 1.5;
             }
 
+        } else {
+            damage = event.getDamage();
         }
 
 
-        int regicide = EntityClassifications.combinedEnchantLvl(sender, CustomEnchantments.regicide);
+        if (sender instanceof Player){
+            int regicide = EntityClassifications.combinedEnchantLvl((Player) sender, CustomEnchantments.regicide);
 
-        //regicide deals bonus damage to players
-        if (event.getEntity() instanceof Player && regicide != 0){
-            damage *= (1 + (0.1 * regicide));
+            //regicide deals bonus damage to players
+            if (event.getEntity() instanceof Player && regicide != 0){
+                damage *= (1 + (0.1 * regicide));
+            }
         }
+
+
 
 
 
@@ -135,21 +163,6 @@ public class CustomDamage implements Listener {
     }
 
 
-    //Calculates the damage from the sender
-    private double calculatePreDamage(Player sender, Entity receiver, double damage){
-
-        double d = ItemUtils.getPlayerAttribute(sender, AttributeType.ATTACK_DAMAGE);
-
-        int regicide = EntityClassifications.combinedEnchantLvl(sender, CustomEnchantments.regicide);
-
-        //regicide deals bonus damage to players
-        if (receiver instanceof Player && regicide != 0){
-            d *= (1 + (0.1 * regicide));
-        }
-
-
-        return d;
-    }
 
 
 
@@ -158,6 +171,9 @@ public class CustomDamage implements Listener {
 
         //IGNORES IFRAMES
         double finalDamage = calculateFinalDamage(entity, damage, damageType);
+
+
+        entity.playHurtAnimation(10);
 
         //Apply damage
         if (entity.getHealth() > finalDamage){
@@ -207,7 +223,11 @@ public class CustomDamage implements Listener {
 
         //Damage Calculations
         if (damageType == EntityClassifications.DamageType.PROJECTILE || damageType == EntityClassifications.DamageType.MAGIC || damageType == EntityClassifications.DamageType.MELEE || damageType == EntityClassifications.DamageType.BLAST || damageType == EntityClassifications.DamageType.FIRE){
-            damageAfterArmor = damage * Math.pow(0.96, EntityClassifications.combinedAttributeLvl(entity, Attribute.GENERIC_ARMOR) + EntityClassifications.combinedAttributeLvl(entity, Attribute.GENERIC_ARMOR_TOUGHNESS));
+            if (entity instanceof Player){
+                damageAfterArmor = damage * Math.pow(0.96, ItemUtils.getPlayerAttribute((Player) entity, AttributeType.ARMOR));
+            } else {
+                damageAfterArmor = damage * Math.pow(0.96, EntityClassifications.combinedAttributeLvl(entity, Attribute.GENERIC_ARMOR) + EntityClassifications.combinedAttributeLvl(entity, Attribute.GENERIC_ARMOR_TOUGHNESS));
+            }
         }
 
 
