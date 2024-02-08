@@ -1,11 +1,8 @@
 package pl.mn.mncustomenchants.ItemMethods;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -18,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
+import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 
 public class VanillaModifications {
 
@@ -107,15 +104,15 @@ public class VanillaModifications {
         AttributeModifier knockback_resistance = new AttributeModifier("KNOCKBACK_RESISTANCE", ItemUtils.getPlayerAttribute(player, AttributeType.KNOCKBACK_RESISTANCE), AttributeModifier.Operation.ADD_NUMBER);
 
         //removes and reattaches the modifiers
-        EntityClassifications.detachAttributeMod(player, Attribute.GENERIC_MAX_HEALTH, "MAX_HEALTH");
-        EntityClassifications.detachAttributeMod(player, Attribute.GENERIC_ATTACK_SPEED, "ATTACK_SPEED");
-        EntityClassifications.detachAttributeMod(player, Attribute.GENERIC_MOVEMENT_SPEED, "MOVEMENT_SPEED");
-        EntityClassifications.detachAttributeMod(player, Attribute.GENERIC_KNOCKBACK_RESISTANCE, "KNOCKBACK_RESISTANCE");
+        EntityUtils.detachAttributeMod(player, Attribute.GENERIC_MAX_HEALTH, "MAX_HEALTH");
+        EntityUtils.detachAttributeMod(player, Attribute.GENERIC_ATTACK_SPEED, "ATTACK_SPEED");
+        EntityUtils.detachAttributeMod(player, Attribute.GENERIC_MOVEMENT_SPEED, "MOVEMENT_SPEED");
+        EntityUtils.detachAttributeMod(player, Attribute.GENERIC_KNOCKBACK_RESISTANCE, "KNOCKBACK_RESISTANCE");
 
-        EntityClassifications.attachAttributeMod(player, Attribute.GENERIC_ATTACK_SPEED, attack_speed);
-        EntityClassifications.attachAttributeMod(player, Attribute.GENERIC_MAX_HEALTH, max_health);
-        EntityClassifications.attachAttributeMod(player, Attribute.GENERIC_MOVEMENT_SPEED, movement_speed);
-        EntityClassifications.attachAttributeMod(player, Attribute.GENERIC_KNOCKBACK_RESISTANCE, knockback_resistance);
+        EntityUtils.attachAttributeMod(player, Attribute.GENERIC_ATTACK_SPEED, attack_speed);
+        EntityUtils.attachAttributeMod(player, Attribute.GENERIC_MAX_HEALTH, max_health);
+        EntityUtils.attachAttributeMod(player, Attribute.GENERIC_MOVEMENT_SPEED, movement_speed);
+        EntityUtils.attachAttributeMod(player, Attribute.GENERIC_KNOCKBACK_RESISTANCE, knockback_resistance);
 
 
 

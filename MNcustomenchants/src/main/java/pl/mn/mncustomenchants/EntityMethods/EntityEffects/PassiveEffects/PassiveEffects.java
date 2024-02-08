@@ -1,11 +1,9 @@
 package pl.mn.mncustomenchants.EntityMethods.EntityEffects.PassiveEffects;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
-import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
+import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 
 public class PassiveEffects {
 
@@ -18,11 +16,11 @@ public class PassiveEffects {
         AttributeModifier curseAttackSpeed = new AttributeModifier(AttackSpeedName, -4, AttributeModifier.Operation.ADD_NUMBER);
 
         if(bool){
-            EntityClassifications.attachAttributeMod(player, Attribute.GENERIC_MOVEMENT_SPEED, curseSpeed);
-            EntityClassifications.attachAttributeMod(player, Attribute.GENERIC_ATTACK_SPEED, curseAttackSpeed);
+            EntityUtils.attachAttributeMod(player, Attribute.GENERIC_MOVEMENT_SPEED, curseSpeed);
+            EntityUtils.attachAttributeMod(player, Attribute.GENERIC_ATTACK_SPEED, curseAttackSpeed);
         }else {
-            EntityClassifications.detachAttributeMod(player, Attribute.GENERIC_ATTACK_SPEED, AttackSpeedName);
-            EntityClassifications.detachAttributeMod(player, Attribute.GENERIC_MOVEMENT_SPEED, speedName);
+            EntityUtils.detachAttributeMod(player, Attribute.GENERIC_ATTACK_SPEED, AttackSpeedName);
+            EntityUtils.detachAttributeMod(player, Attribute.GENERIC_MOVEMENT_SPEED, speedName);
         }
 
     }

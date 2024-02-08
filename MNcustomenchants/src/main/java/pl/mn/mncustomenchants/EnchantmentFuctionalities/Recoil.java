@@ -1,9 +1,6 @@
 package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 
-import com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,7 +9,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
-import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
+import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 
 public class Recoil implements Listener {
 
@@ -28,7 +25,7 @@ public class Recoil implements Listener {
 
 
         if (event.getEntity().getShooter() instanceof Player){
-            if (EntityClassifications.isPlayerWithEnch(CustomEnchantments.recoil, (Player)event.getEntity().getShooter(), EquipmentSlot.HAND)){
+            if (EntityUtils.isPlayerWithEnch(CustomEnchantments.recoil, (Player)event.getEntity().getShooter(), EquipmentSlot.HAND)){
 
 
 

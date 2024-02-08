@@ -1,31 +1,20 @@
 package pl.mn.mncustomenchants.CustomDamage;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Rotation;
 import org.bukkit.SoundCategory;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.*;
-import org.bukkit.event.player.PlayerAnimationEvent;
-import org.bukkit.event.player.PlayerAnimationType;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
-import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
+import pl.mn.mncustomenchants.EnchantmentFuctionalities.*;
+import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.ItemMethods.AttributeType;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
-import pl.mn.mncustomenchants.main;
 
 public class CustomDamage implements Listener {
 
@@ -46,6 +35,8 @@ public class CustomDamage implements Listener {
 
 
 
+
+
         //Calculates the Pre Damage (The damage before calculating in the receivers damage reduction)
         if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE){
             damage = RunPreDamageOperations((EntityDamageByEntityEvent)event);
@@ -55,25 +46,25 @@ public class CustomDamage implements Listener {
 
         //sort damage into categories
         if (event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)){
-            damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.PROJECTILE);
+            damageEntity((LivingEntity) event.getEntity(), damage, EntityUtils.DamageType.PROJECTILE);
         }
         else if (event.getCause().equals(EntityDamageEvent.DamageCause.MAGIC) || event.getCause().equals(EntityDamageEvent.DamageCause.DRAGON_BREATH) || event.getCause().equals(EntityDamageEvent.DamageCause.WITHER) || event.getCause().equals(EntityDamageEvent.DamageCause.POISON)){
-            damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.MAGIC);
+            damageEntity((LivingEntity) event.getEntity(), damage, EntityUtils.DamageType.MAGIC);
         }
         else if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) || event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) || event.getCause().equals(EntityDamageEvent.DamageCause.THORNS) || event.getCause().equals(EntityDamageEvent.DamageCause.CONTACT)){
-            damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.MELEE);
+            damageEntity((LivingEntity) event.getEntity(), damage, EntityUtils.DamageType.MELEE);
         }
         else if (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE) || event.getCause().equals(EntityDamageEvent.DamageCause.LAVA) || event.getCause().equals(EntityDamageEvent.DamageCause.HOT_FLOOR) || event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK)){
-            damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.FIRE);
+            damageEntity((LivingEntity) event.getEntity(), damage, EntityUtils.DamageType.FIRE);
         }
         else if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL) || event.getCause().equals(EntityDamageEvent.DamageCause.FLY_INTO_WALL)){
-            damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.FALLING);
+            damageEntity((LivingEntity) event.getEntity(), damage, EntityUtils.DamageType.FALLING);
         }
         else if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) || event.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION)){
-            damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.BLAST);
+            damageEntity((LivingEntity) event.getEntity(), damage, EntityUtils.DamageType.BLAST);
         }
         else {
-            damageEntity((LivingEntity) event.getEntity(), damage, EntityClassifications.DamageType.TRUE);
+            damageEntity((LivingEntity) event.getEntity(), damage, EntityUtils.DamageType.TRUE);
         }
 
         event.setDamage(0);
@@ -90,6 +81,14 @@ public class CustomDamage implements Listener {
 
 
 
+        //Fully Cancels the event if the weapon is on cooldown
+        //Only for melee
+        if (event.getDamager() instanceof Player && ((Player) event.getDamager()).getCooldown(((Player)event.getDamager()).getInventory().getItemInMainHand().getType()) != 0) {
+            event.setCancelled(true);
+            return 0;
+        }
+
+
 
 
         double damage = 0;
@@ -101,8 +100,13 @@ public class CustomDamage implements Listener {
         if (event.getDamager() instanceof Projectile){
             sender = (LivingEntity) ((Projectile) event.getDamager()).getShooter();
         } else {
-
             sender = (LivingEntity) event.getDamager();
+        }
+
+
+        if (sender instanceof Player){
+            damage = playerSpecificDamageEvents((Player)sender, damage, event);
+
         }
 
 
@@ -110,18 +114,18 @@ public class CustomDamage implements Listener {
 
         //Thorns
         if (event.getEntity() instanceof Player && ItemUtils.getPlayerAttribute((Player) event.getEntity(), AttributeType.THORNS) != 0){
-            damageEntity(sender, ItemUtils.getPlayerAttribute((Player) event.getEntity(), AttributeType.THORNS), EntityClassifications.DamageType.MELEE);
+            damageEntity(sender, ItemUtils.getPlayerAttribute((Player) event.getEntity(), AttributeType.THORNS), EntityUtils.DamageType.MELEE);
 
             //Play hurt sound if the entity doesn't die
             if (!sender.isDead()){
-                EntityClassifications.playSound(sender.getLocation(), 30, sender.getHurtSound(), SoundCategory.HOSTILE, 1, 1);
+                EntityUtils.playSound(sender.getLocation(), 30, sender.getHurtSound(), SoundCategory.HOSTILE, 1, 1);
                 ((LivingEntity)event.getDamager()).playHurtAnimation(10);
             }
         }
 
 
-
-        if (event.getDamager() instanceof Projectile && ((Projectile) event.getDamager()).getShooter() instanceof Player){
+        //If the damage was ranged and dealt by a player
+        if (event.getDamager() instanceof Projectile && sender instanceof Player){
 
             //TODO: Snowballs may or may not do damage to players, check that.
             damage = ItemUtils.getPlayerAttribute((Player) sender, AttributeType.PROJECTILE_DAMAGE);
@@ -130,18 +134,14 @@ public class CustomDamage implements Listener {
 
             if (event.getDamager() instanceof Arrow){
 
-                //A value between 0 and 1 based on the arrow velocity that determines the damage
-                double bowCharge =  Math.min(3 * projSpeed, event.getDamager().getVelocity().length()) / (3 * projSpeed);
-                //if bowCharge is above 0.9 round it to 1 for nicer numbers
-                if (bowCharge > 0.9) {
-                    bowCharge = 1;
-                }
+                damage *= EntityUtils.bowCharge((Player) sender, (Arrow) event.getDamager());
 
-                damage *= bowCharge;
             }
 
 
-        } else if (event.getDamager() instanceof Player){
+        }
+        //If the damage was melee and dealt by a player
+        else if (sender instanceof Player){
             damage = ItemUtils.getPlayerAttribute((Player) event.getDamager(), AttributeType.ATTACK_DAMAGE);
 
             damage *= ((Player) event.getDamager()).getAttackCooldown();
@@ -150,20 +150,19 @@ public class CustomDamage implements Listener {
                 damage *= 1.5;
             }
 
-        } else {
+        }
+        //If the direct / indirect sender wasn't a player set the damage to vanilla damage
+        else {
             damage = event.getDamage();
         }
 
 
-        if (sender instanceof Player){
-            int regicide = EntityClassifications.combinedEnchantLvl((Player) sender, CustomEnchantments.regicide);
 
-            //regicide deals bonus damage to players
-            if (event.getEntity() instanceof Player && regicide != 0){
-                damage *= (1 + (0.1 * regicide));
-            }
-        }
 
+
+
+
+        //Blocking
         if (event.getEntity() instanceof Player){
 
             Player receiver = (Player)event.getEntity();
@@ -180,11 +179,30 @@ public class CustomDamage implements Listener {
     }
 
 
+    //Returns modified damage but also does other calculations like thunder/fire/ice aspect
+    private static double playerSpecificDamageEvents (Player player, Double damage, EntityDamageByEntityEvent event){
+
+        int regicide = EntityUtils.combinedEnchantLvl(player, CustomEnchantments.regicide);
+
+
+        //Checks if effects such as Thunder Aspect and Decay should be applied
+        AttackEffectEnchantments.CheckAttackEffects(event, player);
+
+        //regicide deals bonus damage to players
+        if (event.getEntity() instanceof Player && regicide != 0){
+            damage *= (1 + (0.1 * regicide));
+        }
 
 
 
 
-    public static void damageEntity(LivingEntity entity, double damage, EntityClassifications.DamageType damageType){
+        return 0;
+    }
+
+
+
+
+    public static void damageEntity(LivingEntity entity, double damage, EntityUtils.DamageType damageType){
 
         //IGNORES IFRAMES
         double finalDamage = calculateFinalDamage(entity, damage, damageType);
@@ -203,7 +221,7 @@ public class CustomDamage implements Listener {
     }
 
     //Calculates the damage on the receiver (The damage reduction on the receiver)
-    public static double calculateFinalDamage (LivingEntity entity, double damage, EntityClassifications.DamageType damageType){
+    public static double calculateFinalDamage (LivingEntity entity, double damage, EntityUtils.DamageType damageType){
         double damageAfterArmor = damage;
 
 
@@ -215,35 +233,41 @@ public class CustomDamage implements Listener {
 
         if (entity instanceof Player){
 
-            if (damageType == EntityClassifications.DamageType.MAGIC){
-                secProtLvl = EntityClassifications.combinedEnchantLvl((Player) entity, CustomEnchantments.magic_protection);
+            if (damageType == EntityUtils.DamageType.MAGIC){
+                secProtLvl = EntityUtils.combinedEnchantLvl((Player) entity, CustomEnchantments.magic_protection);
 
 
-            } else if (damageType == EntityClassifications.DamageType.PROJECTILE) {
-                secProtLvl = EntityClassifications.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_PROJECTILE);
+            } else if (damageType == EntityUtils.DamageType.PROJECTILE) {
+                secProtLvl = EntityUtils.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_PROJECTILE);
 
 
-            } else if (damageType == EntityClassifications.DamageType.FIRE){
-                secProtLvl = EntityClassifications.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_FIRE);
+            } else if (damageType == EntityUtils.DamageType.FIRE){
+                secProtLvl = EntityUtils.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_FIRE);
 
 
-            } else if (damageType == EntityClassifications.DamageType.MELEE){
-                secProtLvl = EntityClassifications.combinedEnchantLvl((Player) entity, CustomEnchantments.melee_protection);
+            } else if (damageType == EntityUtils.DamageType.MELEE){
+                secProtLvl = EntityUtils.combinedEnchantLvl((Player) entity, CustomEnchantments.melee_protection);
 
-            } else if (damageType == EntityClassifications.DamageType.FALLING){
-                secProtLvl = 2 * EntityClassifications.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_FALL);
+            } else if (damageType == EntityUtils.DamageType.FALLING){
+                //TODO: why is there a 2 here???
+                secProtLvl = 2 * EntityUtils.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_FALL);
+
+            } else if (damageType == EntityUtils.DamageType.BLAST){
+                secProtLvl = EntityUtils.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_EXPLOSIONS);
+
             }
-            protLvl = EntityClassifications.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_ENVIRONMENTAL);
+
+            protLvl = EntityUtils.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_ENVIRONMENTAL);
         }
 
 
 
         //Damage Calculations
-        if (damageType == EntityClassifications.DamageType.PROJECTILE || damageType == EntityClassifications.DamageType.MAGIC || damageType == EntityClassifications.DamageType.MELEE || damageType == EntityClassifications.DamageType.BLAST || damageType == EntityClassifications.DamageType.FIRE){
+        if (damageType == EntityUtils.DamageType.PROJECTILE || damageType == EntityUtils.DamageType.MAGIC || damageType == EntityUtils.DamageType.MELEE || damageType == EntityUtils.DamageType.BLAST || damageType == EntityUtils.DamageType.FIRE){
             if (entity instanceof Player){
                 damageAfterArmor = damage * Math.pow(0.96, ItemUtils.getPlayerAttribute((Player) entity, AttributeType.ARMOR));
             } else {
-                damageAfterArmor = damage * Math.pow(0.96, EntityClassifications.combinedAttributeLvl(entity, Attribute.GENERIC_ARMOR) + EntityClassifications.combinedAttributeLvl(entity, Attribute.GENERIC_ARMOR_TOUGHNESS));
+                damageAfterArmor = damage * Math.pow(0.96, EntityUtils.combinedAttributeLvl(entity, Attribute.GENERIC_ARMOR) + EntityUtils.combinedAttributeLvl(entity, Attribute.GENERIC_ARMOR_TOUGHNESS));
             }
         }
 
@@ -254,7 +278,6 @@ public class CustomDamage implements Listener {
         }
 
 
-        //TODO: SecProtLvl might be doubled 1 time to much
         finalDamage = damageAfterArmor * Math.pow(0.96, 2 * secProtLvl + protLvl) * (1 - Math.min(1, resEffect * 0.2));
         return finalDamage;
     }
