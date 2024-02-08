@@ -3,6 +3,7 @@ package pl.mn.mncustomenchants.CustomDamage;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Rotation;
 import org.bukkit.SoundCategory;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
@@ -10,6 +11,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerAnimationType;
@@ -18,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
 import pl.mn.mncustomenchants.ItemMethods.AttributeType;
@@ -75,6 +78,8 @@ public class CustomDamage implements Listener {
 
         event.setDamage(0);
 
+
+
         //event.setCancelled(true);
     }
 
@@ -82,6 +87,9 @@ public class CustomDamage implements Listener {
 
 
     public static double RunPreDamageOperations(EntityDamageByEntityEvent event){
+
+
+
 
 
         double damage = 0;
@@ -107,6 +115,7 @@ public class CustomDamage implements Listener {
             //Play hurt sound if the entity doesn't die
             if (!sender.isDead()){
                 EntityClassifications.playSound(sender.getLocation(), 30, sender.getHurtSound(), SoundCategory.HOSTILE, 1, 1);
+                ((LivingEntity)event.getDamager()).playHurtAnimation(10);
             }
         }
 
@@ -155,8 +164,16 @@ public class CustomDamage implements Listener {
             }
         }
 
+        if (event.getEntity() instanceof Player){
 
+            Player receiver = (Player)event.getEntity();
 
+            if (receiver.isBlocking() && receiver.getLocation().getDirection().setY(0).angle(event.getDamager().getLocation().getDirection().setY(0).multiply(-1)) < 1.5708){
+
+                damage = 0;
+            }
+
+        }
 
 
         return damage;
@@ -173,7 +190,7 @@ public class CustomDamage implements Listener {
         double finalDamage = calculateFinalDamage(entity, damage, damageType);
 
 
-        entity.playHurtAnimation(10);
+
 
         //Apply damage
         if (entity.getHealth() > finalDamage){
