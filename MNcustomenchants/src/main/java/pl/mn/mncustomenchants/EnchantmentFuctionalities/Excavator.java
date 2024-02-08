@@ -1,25 +1,18 @@
 package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 
-import io.papermc.paper.math.BlockPosition;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockReceiveGameEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.util.Vector;
-import org.joml.Vector2d;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
-import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
+import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.main;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class Excavator implements Listener {
 
@@ -33,7 +26,7 @@ public class Excavator implements Listener {
 
         Enchantment ench = CustomEnchantments.excavator;
 
-        if (!EntityClassifications.isPlayerWithEnch(ench, event.getPlayer(), EquipmentSlot.HAND)){ return; }
+        if (!EntityUtils.isPlayerWithEnch(ench, event.getPlayer(), EquipmentSlot.HAND)){ return; }
 
         if (event.getPlayer().isSneaking()) { return; }
         //gets the direction of the block face

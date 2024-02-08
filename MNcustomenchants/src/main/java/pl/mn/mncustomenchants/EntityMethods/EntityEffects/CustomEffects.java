@@ -1,7 +1,5 @@
 package pl.mn.mncustomenchants.EntityMethods.EntityEffects;
 
-import org.apache.logging.log4j.message.Message;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.SoundCategory;
 import org.bukkit.attribute.Attribute;
@@ -12,11 +10,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 import pl.mn.mncustomenchants.CustomDamage.CustomDamage;
-import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
+import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.Particles.Particles;
 import pl.mn.mncustomenchants.main;
 
-import java.rmi.UnexpectedException;
 import java.util.*;
 
 public class CustomEffects {
@@ -90,14 +87,14 @@ public class CustomEffects {
         Particles.ring(entity, main.getInstance(), Color.ORANGE, ticks, 0.5, 0.2, entity.getEyeLocation().add(0, 0.5, 0));
 
 
-        if (EntityClassifications.containsAttribute(entity, Attribute.GENERIC_MOVEMENT_SPEED)){
+        if (EntityUtils.containsAttribute(entity, Attribute.GENERIC_MOVEMENT_SPEED)){
 
-            if (EntityClassifications.hasAttributeModifer(entity, Attribute.GENERIC_MOVEMENT_SPEED, "STUNNED_MODIFIER")){
+            if (EntityUtils.hasAttributeModifer(entity, Attribute.GENERIC_MOVEMENT_SPEED, "STUNNED_MODIFIER")){
 
-                EntityClassifications.detachAttributeMod(entity, Attribute.GENERIC_MOVEMENT_SPEED, "STUNNED_MODIFIER");
+                EntityUtils.detachAttributeMod(entity, Attribute.GENERIC_MOVEMENT_SPEED, "STUNNED_MODIFIER");
             }
 
-            EntityClassifications.attachAttributeMod(entity, Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("STUNNED_MODIFIER", -1, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
+            EntityUtils.attachAttributeMod(entity, Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("STUNNED_MODIFIER", -1, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
         }
 
         stunned.put(entity, ticks);
@@ -114,14 +111,14 @@ public class CustomEffects {
         //Particles
 
 
-        if (EntityClassifications.containsAttribute(entity, Attribute.GENERIC_MOVEMENT_SPEED)){
+        if (EntityUtils.containsAttribute(entity, Attribute.GENERIC_MOVEMENT_SPEED)){
 
-            if (EntityClassifications.hasAttributeModifer(entity, Attribute.GENERIC_MOVEMENT_SPEED, "FROZEN_MODIFIER")){
+            if (EntityUtils.hasAttributeModifer(entity, Attribute.GENERIC_MOVEMENT_SPEED, "FROZEN_MODIFIER")){
 
-                EntityClassifications.detachAttributeMod(entity, Attribute.GENERIC_MOVEMENT_SPEED, "FROZEN_MODIFIER");
+                EntityUtils.detachAttributeMod(entity, Attribute.GENERIC_MOVEMENT_SPEED, "FROZEN_MODIFIER");
             }
 
-            EntityClassifications.attachAttributeMod(entity, Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("FROZEN_MODIFIER", level*-0.1, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
+            EntityUtils.attachAttributeMod(entity, Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("FROZEN_MODIFIER", level*-0.1, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
         }
         frozen.put(entity, ticks);
         if(!isRunningEffectTimer){
@@ -195,7 +192,7 @@ public class CustomEffects {
             } else {
 
                 //The burning damage
-                CustomDamage.damageEntity(current.getKey(), 1 + Math.pow(current.getValue().getY(), 0.95), EntityClassifications.DamageType.FIRE);
+                CustomDamage.damageEntity(current.getKey(), 1 + Math.pow(current.getValue().getY(), 0.95), EntityUtils.DamageType.FIRE);
 
                 //Burn visuals goes here
                 current.getKey().playHurtAnimation(0.1f);
@@ -226,7 +223,7 @@ public class CustomEffects {
             }
 
             if (current.getValue() == 0){
-                EntityClassifications.detachAttributeMod(current.getKey(), Attribute.GENERIC_MOVEMENT_SPEED, "STUNNED_MODIFIER");
+                EntityUtils.detachAttributeMod(current.getKey(), Attribute.GENERIC_MOVEMENT_SPEED, "STUNNED_MODIFIER");
 
                 stunned.remove(current.getKey());
 
@@ -258,7 +255,7 @@ public class CustomEffects {
 
             if (current.getValue() == 0){
                 //Removes frozen if its time
-                EntityClassifications.detachAttributeMod(current.getKey(), Attribute.GENERIC_MOVEMENT_SPEED, "FROZEN_MODIFIER");
+                EntityUtils.detachAttributeMod(current.getKey(), Attribute.GENERIC_MOVEMENT_SPEED, "FROZEN_MODIFIER");
 
                 frozen.remove(current.getKey());
 
@@ -288,7 +285,7 @@ public class CustomEffects {
             } else {
 
                 //Damage
-                CustomDamage.damageEntity(current.getKey(), current.getValue().getY(), EntityClassifications.DamageType.MAGIC);
+                CustomDamage.damageEntity(current.getKey(), current.getValue().getY(), EntityUtils.DamageType.MAGIC);
 
 
 

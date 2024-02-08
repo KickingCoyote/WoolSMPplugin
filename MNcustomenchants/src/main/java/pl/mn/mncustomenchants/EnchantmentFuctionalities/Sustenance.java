@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
-import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
+import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.main;
 
 
@@ -23,8 +23,8 @@ public class Sustenance implements Listener {
 
         if (!(event.getEntity() instanceof Player)) { return; }
 
-        int enchLvl = EntityClassifications.combinedEnchantLvl((Player) event.getEntity(), CustomEnchantments.sustenance);
-        int curseLvl = EntityClassifications.combinedEnchantLvl((Player) event.getEntity(), CustomEnchantments.curse_of_anemia);
+        int enchLvl = EntityUtils.combinedEnchantLvl((Player) event.getEntity(), CustomEnchantments.sustenance);
+        int curseLvl = EntityUtils.combinedEnchantLvl((Player) event.getEntity(), CustomEnchantments.curse_of_anemia);
 
         event.setAmount(event.getAmount() * (1 + (0.1 * (enchLvl - curseLvl))));
 

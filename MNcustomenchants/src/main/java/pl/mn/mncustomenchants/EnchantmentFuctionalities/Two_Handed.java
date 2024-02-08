@@ -1,12 +1,10 @@
 package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.MainHand;
 import org.bukkit.plugin.Plugin;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
-import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
+import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.PassiveEffects.PassiveEffects;
 
 public class Two_Handed {
@@ -18,7 +16,7 @@ public class Two_Handed {
 
     public static void CheckTwoHanded (Player player){
 
-        boolean isTwoHanded = EntityClassifications.isPlayerWithEnch(CustomEnchantments.two_handed, player, EquipmentSlot.HAND);
+        boolean isTwoHanded = EntityUtils.isPlayerWithEnch(CustomEnchantments.two_handed, player, EquipmentSlot.HAND);
         boolean hasOffHand = !player.getInventory().getItemInOffHand().isEmpty();
 
         if (isTwoHanded && hasOffHand && !(player.getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(CustomEnchantments.two_handed) == 0)){

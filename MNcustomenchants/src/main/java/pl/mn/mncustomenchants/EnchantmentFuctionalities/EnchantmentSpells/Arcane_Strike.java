@@ -7,7 +7,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.Plugin;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
-import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
+import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 
 public class Arcane_Strike implements Listener {
 
@@ -19,7 +19,7 @@ public class Arcane_Strike implements Listener {
     }
 
     public void OnMeleeHit (EntityDamageByEntityEvent event){
-        if (event.getDamager() instanceof Player && EntityClassifications.isPlayerWithEnch(CustomEnchantments.arcane_strike, (Player)event.getDamager(), EquipmentSlot.HAND)){
+        if (event.getDamager() instanceof Player && EntityUtils.isPlayerWithEnch(CustomEnchantments.arcane_strike, (Player)event.getDamager(), EquipmentSlot.HAND)){
 
 
 

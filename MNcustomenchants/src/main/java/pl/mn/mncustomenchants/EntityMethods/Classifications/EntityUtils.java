@@ -1,26 +1,22 @@
 package pl.mn.mncustomenchants.EntityMethods.Classifications;
 
 //import jdk.tools.jlink.internal.Archive;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
+import org.bukkit.*;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+import pl.mn.mncustomenchants.ItemMethods.AttributeType;
+import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 
 import java.util.*;
 
-public class EntityClassifications {
+public class EntityUtils {
     public static final EnumSet<EntityType> FlyingEntities = EnumSet.of(
             EntityType.BEE,
             EntityType.VEX,
@@ -63,6 +59,26 @@ public class EntityClassifications {
         return eS;
 
     } */
+
+
+    public static double bowCharge(Player sender, Arrow arrow){
+
+        if (sender.getInventory().getItemInMainHand().getType() != Material.BOW) { return 1; }
+
+
+        double projSpeed = ItemUtils.getPlayerAttribute(sender, AttributeType.PROJECTILE_SPEED);
+
+        //A value between 0 and 1 based on the arrow velocity that determines the damage
+        double bowCharge =  Math.min(3 * projSpeed, arrow.getVelocity().length()) / (3 * projSpeed);
+        //if bowCharge is above 0.9 round it to 1 for nicer numbers
+        if (bowCharge > 0.9) {
+            bowCharge = 1;
+        }
+
+        return bowCharge;
+    }
+
+
 
     public static int combinedEnchantLvl(Player player, Enchantment enchantment){
 

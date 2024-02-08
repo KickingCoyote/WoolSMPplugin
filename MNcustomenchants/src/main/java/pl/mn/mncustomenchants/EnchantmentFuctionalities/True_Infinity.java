@@ -1,26 +1,20 @@
 package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 
 
-import com.destroystokyo.paper.event.entity.PlayerNaturallySpawnCreaturesEvent;
-import net.kyori.adventure.text.Component;
+import io.papermc.paper.event.entity.EntityLoadCrossbowEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.event.player.PlayerPickupArrowEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scheduler.BukkitTask;
+import org.checkerframework.checker.units.qual.A;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
-import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityClassifications;
+import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 
 public class True_Infinity implements Listener {
 
@@ -31,28 +25,43 @@ public class True_Infinity implements Listener {
         this.plugin = plugin;
     }
 
+
+
+
+    //Infinity for crossbows
+    @EventHandler
+    public void LoadCrossbow(EntityLoadCrossbowEvent event){
+
+        if (!EntityUtils.isPlayerWithEnch(CustomEnchantments.true_infinity, event.getEntity(), EquipmentSlot.HAND)) { return; }
+
+        event.setConsumeItem(false);
+
+    }
+
+
     @EventHandler
     public void OnProjectile (ProjectileLaunchEvent event){
 
         if (!(event.getEntity().getShooter() instanceof Player)){ return; }
 
 
+
+
         Player player = (Player) event.getEntity().getShooter();
 
-        if(!EntityClassifications.isPlayerWithEnch(CustomEnchantments.true_infinity, player, EquipmentSlot.HAND)){ return; }
+        if(!EntityUtils.isPlayerWithEnch(CustomEnchantments.true_infinity, player, EquipmentSlot.HAND)){ return; }
 
 
-
-        if (player.getInventory().getItemInMainHand().getType() == Material.CROSSBOW && event.getEntity() instanceof Arrow && ((Arrow) event.getEntity()).getItemStack().getType() == Material.ARROW){
-
-            player.getInventory().addItem(new ItemStack(Material.ARROW));
-
-            ((Arrow)event.getEntity()).setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
+        //Infinity for crossbows part 2
+        //Makes it so that arrows cant be duped
+        if (player.getInventory().getItemInMainHand().getType() == Material.CROSSBOW && event.getEntity() instanceof Arrow){
+            ((Arrow) event.getEntity()).setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
         }
 
 
+
         //Infinity for throwables
-        else if (event.getEntity() instanceof Snowball || event.getEntity() instanceof Egg || event.getEntity() instanceof EnderPearl){
+        if (event.getEntity() instanceof Snowball || event.getEntity() instanceof Egg || event.getEntity() instanceof EnderPearl){
 
 
             ItemStack itemStack = player.getInventory().getItemInMainHand();
@@ -89,7 +98,7 @@ public class True_Infinity implements Listener {
     //Infinite Consumables
     @EventHandler
     public void OnConsumable (PlayerItemConsumeEvent event){
-        if (!EntityClassifications.isPlayerWithEnch(CustomEnchantments.true_infinity, event.getPlayer(), EquipmentSlot.HAND)){ return; }
+        if (!EntityUtils.isPlayerWithEnch(CustomEnchantments.true_infinity, event.getPlayer(), EquipmentSlot.HAND)){ return; }
 
         event.setReplacement(event.getItem());
 
