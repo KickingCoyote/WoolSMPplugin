@@ -125,7 +125,7 @@ public class Rocket_Crossbow implements Listener {
         }
 
 
-        Firework firework = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
+        Firework firework = (Firework) player.getWorld().spawnEntity(player.getEyeLocation().subtract(0, 0.25, 0), EntityType.FIREWORK);
 
         firework.setVelocity(projectile.getVelocity());
 
