@@ -5,6 +5,7 @@ import org.bukkit.SoundCategory;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
@@ -38,7 +39,7 @@ public class CustomDamage implements Listener {
 
 
         //Calculates the Pre Damage (The damage before calculating in the receivers damage reduction)
-        if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE){
+        if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION){
             damage = RunPreDamageOperations((EntityDamageByEntityEvent)event);
         }
 
@@ -90,8 +91,8 @@ public class CustomDamage implements Listener {
 
 
 
-
         double damage = 0;
+
 
 
 
@@ -106,9 +107,7 @@ public class CustomDamage implements Listener {
 
         if (sender instanceof Player){
             damage = playerSpecificDamageEvents((Player)sender, damage, event);
-
         }
-
 
 
 
@@ -127,14 +126,24 @@ public class CustomDamage implements Listener {
         //If the damage was ranged and dealt by a player
         if (event.getDamager() instanceof Projectile && sender instanceof Player){
 
-            //TODO: Snowballs may or may not do damage to players, check that.
+
+           // ((LivingEntity)event.getDamager()).playHurtAnimation(10);
+
+
             damage = ItemUtils.getPlayerAttribute((Player) sender, AttributeType.PROJECTILE_DAMAGE);
 
             double projSpeed = ItemUtils.getPlayerAttribute((Player) sender, AttributeType.PROJECTILE_SPEED);
 
             if (event.getDamager() instanceof Arrow){
 
-                damage *= EntityUtils.bowCharge((Player) sender, (Arrow) event.getDamager());
+                damage *= EntityUtils.bowCharge((Player) sender, (Projectile) event.getDamager());
+
+            }
+
+            if (event.getDamager() instanceof Firework){
+
+
+                damage *= Math.min(1, 1.5 - (event.getEntity().getLocation().distance(event.getDamager().getLocation()) / 5));
 
             }
 
@@ -155,7 +164,6 @@ public class CustomDamage implements Listener {
         else {
             damage = event.getDamage();
         }
-
 
 
 
@@ -215,6 +223,7 @@ public class CustomDamage implements Listener {
             entity.setHealth(entity.getHealth() - finalDamage);
         } else {
             entity.setHealth(0);
+
         }
 
 

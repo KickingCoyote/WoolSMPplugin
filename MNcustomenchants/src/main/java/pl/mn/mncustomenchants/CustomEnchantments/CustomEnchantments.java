@@ -47,6 +47,10 @@ public class CustomEnchantments {
                 return curse_of_anemia;
             case "regicide":
                 return regicide;
+            case "rocket_crossbow":
+                return rocket_crossbow;
+            case "teleportation":
+                return teleportation;
             default:
                 return error;
         }
@@ -69,7 +73,9 @@ public class CustomEnchantments {
             "inferno",
             "sustenance",
             "curse_of_anemia",
-            "regicide"
+            "regicide",
+            "rocket_crossbow",
+            "teleportation"
     );
 
     //All enchantments go here
@@ -94,10 +100,15 @@ public class CustomEnchantments {
 
     public static final Enchantment true_infinity = new EnchatmentWrapper("true_infinity", "Infinity", 1);
 
+    public static final Enchantment rocket_crossbow = new EnchatmentWrapper("rocket_crossbow", "Rocket Bow", 2);
+
+    //5 blocks per lvl
+    public static final Enchantment teleportation = new EnchatmentWrapper("teleportation", "Teleportation", 2);
+
     //having more than lvl 143 total regen breaks the game
     public static final Enchantment regeneration = new EnchatmentWrapper("regeneration", "Regeneration", 2);
 
-    public static final EnchatmentWrapper ice_aspect = new EnchatmentWrapper("ice_aspect", "Ice Aspect", 2);
+    public static final Enchantment ice_aspect = new EnchatmentWrapper("ice_aspect", "Ice Aspect", 2);
 
     public static final Enchantment curse_of_corruption = new EnchatmentWrapper("curse_of_corruption", "Curse of Corruption", 1, true);
 

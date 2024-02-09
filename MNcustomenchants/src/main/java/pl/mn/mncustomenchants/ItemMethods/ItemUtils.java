@@ -123,13 +123,20 @@ public class ItemUtils {
 
     private static double getItemStat(Player player, AttributeType type){
 
-        ItemStack mainHand = player.getInventory().getItemInMainHand();
 
-        NamespacedKey key = Attribute.getKey(type, AttributeOperator.ITEM_STAT, EquipmentSlot.HAND);
+        //TODO: prioritize so it chooses the highest value for armor and offhand
+        //The order goes HAND, OFF_HAND, FEET -> HEAD
+        for (EquipmentSlot e : EquipmentSlot.values()){
 
-        if (getDataContainer(mainHand, key) != -2000000){
-            return getDataContainer(mainHand, key);
+            ItemStack item = player.getInventory().getItem(e);
+
+            NamespacedKey key = Attribute.getKey(type, AttributeOperator.ITEM_STAT, EquipmentSlot.HAND);
+
+            if (getDataContainer(item, key) != -2000000){
+                return getDataContainer(item, key);
+            }
         }
+
 
         //Values returned if the item has no matching Item Stat
         if (type == AttributeType.ATTACK_SPEED) { return 4; }

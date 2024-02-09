@@ -3,10 +3,7 @@ package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
@@ -38,7 +35,7 @@ public class AttackEffectEnchantments {
         int enchLvl;
 
 
-        boolean fullyChargedWeapon = event.getDamager() instanceof Arrow ? EntityUtils.bowCharge(sender, (Arrow) event.getDamager()) == 1 : sender.getAttackCooldown() == 1;
+        boolean fullyChargedWeapon = event.getDamager() instanceof Projectile ? EntityUtils.bowCharge(sender, (Projectile) event.getDamager()) == 1 : sender.getAttackCooldown() == 1;
 
 
         if (EntityUtils.isPlayerWithEnch(ench, sender, EquipmentSlot.HAND) && fullyChargedWeapon) {
@@ -69,11 +66,11 @@ public class AttackEffectEnchantments {
 
     private static void CheckFireAspect (EntityDamageByEntityEvent event, Player sender){
 
+
         if (!EntityUtils.isPlayerWithEnch(CustomEnchantments.true_fire_aspect, sender, EquipmentSlot.HAND)){ return; }
 
         int enchLvl = sender.getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.true_fire_aspect);
         int infernoLvl = EntityUtils.combinedEnchantLvl(sender, CustomEnchantments.inferno);
-
 
         CustomEffects.burn((LivingEntity) event.getEntity(), 80 * enchLvl, infernoLvl);
 
@@ -87,11 +84,9 @@ public class AttackEffectEnchantments {
         Enchantment ench = CustomEnchantments.ice_aspect;
 
 
-        boolean fullyChargedWeapon = event.getDamager() instanceof Arrow ? EntityUtils.bowCharge(sender, (Arrow) event.getDamager()) == 1 : sender.getAttackCooldown() == 1;
-
+        boolean fullyChargedWeapon = event.getDamager() instanceof Projectile ? EntityUtils.bowCharge(sender, (Projectile) event.getDamager()) == 1 : sender.getAttackCooldown() == 1;
 
         if (EntityUtils.isPlayerWithEnch(ench, sender, EquipmentSlot.HAND) && fullyChargedWeapon){
-
 
             int enchLvl = sender.getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(ench);
 
@@ -107,7 +102,6 @@ public class AttackEffectEnchantments {
 
             //if pve
             else if (event.getEntity() instanceof Mob){
-
                 CustomEffects.freeze(entity, 80, enchLvl);
 
             }

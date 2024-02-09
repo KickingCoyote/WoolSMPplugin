@@ -1,9 +1,11 @@
 package pl.mn.mncustomenchants.EntityMethods.EntityEffects;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.SoundCategory;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -34,6 +36,7 @@ public class CustomEffects {
 
     private static void startEffectTimer(){
         BukkitTask runnable = new BukkitRunnable() {
+
 
             int t = 1;
 
@@ -99,6 +102,7 @@ public class CustomEffects {
 
         stunned.put(entity, ticks);
         if(!isRunningEffectTimer){
+            isRunningEffectTimer = true;
             startEffectTimer();
         }
     }
@@ -109,6 +113,7 @@ public class CustomEffects {
         }
 
         //Particles
+        //Particles.ring(entity, main.getInstance(), Color.BLUE, ticks, 0.5, 0.2, entity.getEyeLocation().add(0, 0.5, 0));
 
 
         if (EntityUtils.containsAttribute(entity, Attribute.GENERIC_MOVEMENT_SPEED)){
@@ -120,8 +125,11 @@ public class CustomEffects {
 
             EntityUtils.attachAttributeMod(entity, Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("FROZEN_MODIFIER", level*-0.1, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
         }
+
+
         frozen.put(entity, ticks);
         if(!isRunningEffectTimer){
+            isRunningEffectTimer = true;
             startEffectTimer();
         }
 
@@ -136,6 +144,7 @@ public class CustomEffects {
         decaying.put(entity, new Vector(ticks, level, 0));
 
         if(!isRunningEffectTimer){
+            isRunningEffectTimer = true;
             startEffectTimer();
         }
     }
@@ -152,6 +161,7 @@ public class CustomEffects {
             regenerating.put(entity, level);
 
             if(!isRunningEffectTimer){
+                isRunningEffectTimer = true;
                 startEffectTimer();
             }
         }
@@ -168,6 +178,7 @@ public class CustomEffects {
         entity.setVisualFire(true);
 
         if(!isRunningEffectTimer){
+            isRunningEffectTimer = true;
             startEffectTimer();
         }
     }
@@ -182,6 +193,7 @@ public class CustomEffects {
 
             if (current.getKey().isDead()) {
                 burning.remove(current.getKey());
+                current.getKey().setVisualFire(false);
                 break;
             }
 
@@ -260,6 +272,7 @@ public class CustomEffects {
                 frozen.remove(current.getKey());
 
             } else {
+
                 current.setValue(current.getValue() - 1);
                 frozen.replace(current.getKey(), current.getValue());
             }

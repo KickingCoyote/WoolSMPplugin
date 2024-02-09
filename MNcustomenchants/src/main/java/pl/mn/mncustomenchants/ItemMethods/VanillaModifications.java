@@ -89,6 +89,7 @@ public class VanillaModifications {
     //The code for all the custom modifiers that use the vanilla modifier as a base
     public static void customToVanillaAttributes(Player player){
 
+
         //Gets current vanilla attack speed
         Double weaponAttackSpeed = 4.0;
 

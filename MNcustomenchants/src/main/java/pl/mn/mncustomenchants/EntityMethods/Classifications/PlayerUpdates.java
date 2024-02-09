@@ -4,9 +4,12 @@ import io.papermc.paper.event.player.PlayerInventorySlotChangeEvent;
 import io.papermc.paper.event.player.PlayerPickItemEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -14,10 +17,13 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
+import org.checkerframework.checker.units.qual.A;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.Radiant;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.Regeneration;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.Two_Handed;
 import pl.mn.mncustomenchants.ItemMethods.VanillaModifications;
+
+import java.util.List;
 
 public class PlayerUpdates implements Listener {
 
@@ -91,7 +97,26 @@ public class PlayerUpdates implements Listener {
     }
 
 
+    @EventHandler
+    public void OnDeath (PlayerDeathEvent event){
 
+
+        //resets modifiers on death
+        List<Attribute> attrs = List.of(
+                Attribute.GENERIC_MOVEMENT_SPEED,
+                Attribute.GENERIC_ARMOR,
+                Attribute.GENERIC_KNOCKBACK_RESISTANCE,
+                Attribute.GENERIC_ATTACK_DAMAGE
+        );
+
+        for (Attribute attr : attrs){
+            for (AttributeModifier a : event.getPlayer().getAttribute(attr).getModifiers()){
+                event.getPlayer().getAttribute(attr).removeModifier(a);
+            }
+        }
+
+
+    }
 
 
 

@@ -43,6 +43,8 @@ public final class main extends JavaPlugin implements CommandExecutor {
         new Excavator();
         new Quake();
         new Sustenance();
+        new Teleportation();
+        new Rocket_Crossbow();
 
 
 

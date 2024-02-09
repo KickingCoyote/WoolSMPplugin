@@ -61,7 +61,7 @@ public class EntityUtils {
     } */
 
 
-    public static double bowCharge(Player sender, Arrow arrow){
+    public static double bowCharge(Player sender, Projectile projectile){
 
         if (sender.getInventory().getItemInMainHand().getType() != Material.BOW) { return 1; }
 
@@ -69,7 +69,7 @@ public class EntityUtils {
         double projSpeed = ItemUtils.getPlayerAttribute(sender, AttributeType.PROJECTILE_SPEED);
 
         //A value between 0 and 1 based on the arrow velocity that determines the damage
-        double bowCharge =  Math.min(3 * projSpeed, arrow.getVelocity().length()) / (3 * projSpeed);
+        double bowCharge =  Math.min(3 * projSpeed, projectile.getVelocity().length()) / (3 * projSpeed);
         //if bowCharge is above 0.9 round it to 1 for nicer numbers
         if (bowCharge > 0.9) {
             bowCharge = 1;
@@ -153,12 +153,23 @@ public class EntityUtils {
             return false;
         if (((Player) entity).getInventory().getItem(equipmentSlot).equals(ItemStack.empty()))
             return false;
-        if (!((Player) entity).getInventory().getItem(equipmentSlot).hasItemMeta())
-            return false;
-        if (!((Player) entity).getInventory().getItem(equipmentSlot).getItemMeta().hasEnchant(ench)) {
-            return  false;
+        return  itemEnchLvl(ench, ((Player) entity).getInventory().getItem(equipmentSlot)) != 0;
+    }
+
+    //Returns enchantment lvl on itemstack
+    //returns 0 if the item lacks the enchantment
+    public static int itemEnchLvl(Enchantment ench, ItemStack itemStack){
+
+        if (!itemStack.hasItemMeta()) {
+            return 0;
         }
-        return ((Player) entity).getInventory().getItem(equipmentSlot).getItemMeta().getEnchantLevel(ench) != 0;
+
+        if (!itemStack.getItemMeta().hasEnchant(ench)) {
+            return  0;
+        }
+
+        return itemStack.getItemMeta().getEnchantLevel(ench);
+
     }
 
 
