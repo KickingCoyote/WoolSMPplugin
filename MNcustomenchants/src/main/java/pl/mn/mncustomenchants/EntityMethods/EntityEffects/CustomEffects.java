@@ -204,7 +204,7 @@ public class CustomEffects {
             } else {
 
                 //The burning damage
-                CustomDamage.damageEntity(current.getKey(), 1 + Math.pow(current.getValue().getY(), 0.95), EntityUtils.DamageType.FIRE);
+                CustomDamage.damage(current.getKey(), null, 1 + Math.pow(current.getValue().getY(), 0.95), EntityUtils.DamageType.FIRE);
 
                 //Burn visuals goes here
                 current.getKey().playHurtAnimation(0.1f);
@@ -260,6 +260,10 @@ public class CustomEffects {
         {
             Map.Entry<LivingEntity, Integer> current = frozenIter.next();
 
+            if (current == null){
+                continue;
+            }
+
             if (current.getKey().isDead()){
                 frozen.remove(current.getKey());
                 break;
@@ -298,7 +302,7 @@ public class CustomEffects {
             } else {
 
                 //Damage
-                CustomDamage.damageEntity(current.getKey(), current.getValue().getY(), EntityUtils.DamageType.MAGIC);
+                CustomDamage.damage(current.getKey(), null, current.getValue().getY(), EntityUtils.DamageType.MAGIC);
 
 
 

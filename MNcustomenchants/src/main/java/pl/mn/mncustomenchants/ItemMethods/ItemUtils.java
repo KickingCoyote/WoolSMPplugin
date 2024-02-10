@@ -99,7 +99,12 @@ public class ItemUtils {
 
     public static double getPlayerAttribute(Player player, AttributeType type){
 
-        double itemStat = getItemStat(player, type);
+        return (getItemStat(player, type) + getPlayerAttribute(player, type, AttributeOperator.ADD)) * getPlayerAttribute(player, type, AttributeOperator.ADD_PROCENT);
+
+    }
+
+    public static double getPlayerAttribute(Player player, AttributeType type, AttributeOperator operator){
+
         double add = 0;
         double multiply = 0;
 
@@ -115,10 +120,18 @@ public class ItemUtils {
             }
         }
 
+        if (operator == AttributeOperator.ITEM_STAT){
+            return getItemStat(player, type);
+        }
+        if (operator == AttributeOperator.ADD){
+            return add;
+        }
+        if (operator == AttributeOperator.ADD_PROCENT){
+            return 1 + multiply;
+        }
 
-        return (itemStat + add) * (1 + multiply);
+        return 0;
     }
-
 
 
     private static double getItemStat(Player player, AttributeType type){

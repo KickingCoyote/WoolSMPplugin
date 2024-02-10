@@ -1,6 +1,8 @@
 package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 
+import com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,6 +12,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
+import pl.mn.mncustomenchants.Spells.SpellManager;
+import pl.mn.mncustomenchants.Spells.Spells.FireballSpell;
 
 public class Recoil implements Listener {
 
@@ -21,23 +25,25 @@ public class Recoil implements Listener {
     }
 
     @EventHandler
-    public void OnProjectileFired(ProjectileLaunchEvent event){
+    public void OnProjectileFired(PlayerLaunchProjectileEvent event){
+
+        //if (event.getProjectile() instanceof Fireball){return;}
+        //SpellManager.castSpell(new FireballSpell(event.getPlayer(), 10, event.getPlayer().getEyeLocation(), event.getPlayer().getLocation().getDirection(), 1, 20, 10, 1));
+
+        if (!event.getPlayer().isSneaking()){
+            if (EntityUtils.isPlayerWithEnch(CustomEnchantments.recoil, event.getPlayer(), EquipmentSlot.HAND)){
 
 
-        if (event.getEntity().getShooter() instanceof Player){
-            if (EntityUtils.isPlayerWithEnch(CustomEnchantments.recoil, (Player)event.getEntity().getShooter(), EquipmentSlot.HAND)){
 
+                double enchLvl = event.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(CustomEnchantments.recoil);
 
-
-                double enchLvl = ((Player)event.getEntity().getShooter()).getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(CustomEnchantments.recoil);
-
-                Vector vector = event.getEntity().getVelocity().normalize().multiply(-0.5 * Math.sqrt(enchLvl));
+                Vector vector = event.getProjectile().getVelocity().normalize().multiply(-0.5 * Math.sqrt(enchLvl));
 
 
                 vector.setY(Math.max(0.1, vector.getY()));
 
 
-                ((Player) event.getEntity().getShooter()).setVelocity(vector);
+                event.getPlayer().setVelocity(vector);
 
 
             }

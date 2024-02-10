@@ -30,7 +30,7 @@ public class Quake implements Listener{
         Player sender;
 
 
-        if (event.getDamager() instanceof Projectile){
+        if (event.getDamager() instanceof Projectile && ((Projectile)event.getDamager()).getShooter() instanceof Player){
             sender = (Player)((Projectile)event.getDamager()).getShooter();
         } else if (event.getDamager() instanceof Player){
             sender = (Player) event.getDamager();
@@ -54,9 +54,11 @@ public class Quake implements Listener{
 
             if (e instanceof LivingEntity && !(e == sender)){
 
-                CustomDamage.damageEntity((LivingEntity) e, quakeLvl * CustomDamage.RunPreDamageOperations(event), sender instanceof Projectile ? EntityUtils.DamageType.PROJECTILE : EntityUtils.DamageType.MELEE);
-                ((LivingEntity) e).playHurtAnimation(10);
+                EntityUtils.DamageType damageType = event.getDamager() instanceof Projectile ? EntityUtils.DamageType.PROJECTILE : EntityUtils.DamageType.MELEE;
 
+                CustomDamage.damage((LivingEntity) e, sender, quakeLvl * CustomDamage.getDamage((LivingEntity) e, sender, CustomDamage.getRawDamage(event, sender), damageType), damageType, true, event.getDamager());
+
+                /*
                 if (EntityUtils.isPlayerWithEnch(CustomEnchantments.decay, sender, EquipmentSlot.HAND)){
                     int enchLvl = sender.getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.decay);
                     CustomEffects.decay((LivingEntity) e, 80, enchLvl);
@@ -83,6 +85,8 @@ public class Quake implements Listener{
                     e.setFireTicks(80 * enchLvl);
                 }
 
+
+                 */
 
             }
         }

@@ -10,6 +10,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.Vector;
 import pl.mn.mncustomenchants.ItemMethods.AttributeType;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
@@ -64,6 +65,7 @@ public class EntityUtils {
     public static double bowCharge(Player sender, Projectile projectile){
 
         if (sender.getInventory().getItemInMainHand().getType() != Material.BOW) { return 1; }
+
 
 
         double projSpeed = ItemUtils.getPlayerAttribute(sender, AttributeType.PROJECTILE_SPEED);
