@@ -191,16 +191,15 @@ public class CustomEffects {
 
             Map.Entry<LivingEntity, Vector> current = burnIter.next();
 
-            if (current.getKey().isDead()) {
-                burning.remove(current.getKey());
-                current.getKey().setVisualFire(false);
-                break;
-            }
 
-            if (current.getValue().getX() == 0) {
+            if (current.getValue().getX() == 0 || current.getKey().isDead()) {
 
                 burning.remove(current.getKey());
                 current.getKey().setVisualFire(false);
+
+                burnIter = burning.entrySet().iterator();
+
+
             } else {
 
                 //The burning damage
@@ -231,13 +230,14 @@ public class CustomEffects {
 
             if (current.getKey().isDead()){
                 stunned.remove(current.getKey());
-                break;
+                stunnedIter = stunned.entrySet().iterator();
             }
 
             if (current.getValue() == 0){
                 EntityUtils.detachAttributeMod(current.getKey(), Attribute.GENERIC_MOVEMENT_SPEED, "STUNNED_MODIFIER");
 
                 stunned.remove(current.getKey());
+                stunnedIter = stunned.entrySet().iterator();
 
             } else {
 
@@ -260,20 +260,17 @@ public class CustomEffects {
         {
             Map.Entry<LivingEntity, Integer> current = frozenIter.next();
 
-            if (current == null){
-                continue;
-            }
-
             if (current.getKey().isDead()){
                 frozen.remove(current.getKey());
-                break;
-            }
 
-            if (current.getValue() == 0){
+                frozenIter = frozen.entrySet().iterator();
+            }
+            else if (current.getValue() == 0){
                 //Removes frozen if its time
                 EntityUtils.detachAttributeMod(current.getKey(), Attribute.GENERIC_MOVEMENT_SPEED, "FROZEN_MODIFIER");
-
                 frozen.remove(current.getKey());
+
+                frozenIter = frozen.entrySet().iterator();
 
             } else {
 
@@ -292,12 +289,13 @@ public class CustomEffects {
 
             if (current.getKey().isDead()){
                 decaying.remove(current.getKey());
-                break;
-            }
+                decayIter = decaying.entrySet().iterator();
 
-            if (current.getValue().getX() == 0){
+            }
+            else if (current.getValue().getX() == 0){
 
                 decaying.remove(current.getKey());
+                decayIter = decaying.entrySet().iterator();
 
             } else {
 
@@ -330,13 +328,13 @@ public class CustomEffects {
         while (regenIter.hasNext()) {
             Map.Entry<LivingEntity, Integer> current = regenIter.next();
 
-            if (current.getKey().isDead()) {
-                break;
-            }
-
             double regenAmount = Math.sqrt(current.getValue()) / 12;
 
-            if (current.getKey().getHealth() + regenAmount <= current.getKey().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() && current.getKey().getHealth() >= 1){
+            if (current.getKey().isDead()) {
+                regenerating.remove(current.getKey());
+                regenIter = regenerating.entrySet().iterator();
+            }
+            else if (current.getKey().getHealth() + regenAmount <= current.getKey().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() && current.getKey().getHealth() >= 1){
                 current.getKey().setHealth(current.getKey().getHealth() + regenAmount);
             }
 
