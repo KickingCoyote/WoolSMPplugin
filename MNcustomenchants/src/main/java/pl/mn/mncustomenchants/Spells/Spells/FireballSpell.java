@@ -18,26 +18,19 @@ import java.util.List;
 public class FireballSpell extends Spell {
 
 
-    int cooldown;
-    Location spawnLocation;
-    Vector direction;
     double speed;
 
-    float power;
     double range;
     SmallFireball fireball;
     double damage;
 
     List<Entity> targets;
 
-    public FireballSpell(Entity caster, int cooldown, Location spawnLocation, Vector direction, int speed, float power, double range, double damage){
+    public FireballSpell(LivingEntity caster, Location castLocation, int speed, double range, double damage){
         this.caster = caster;
+        this.castLocation = castLocation;
 
-        this.cooldown = cooldown;
-        this.spawnLocation = spawnLocation;
-        this.direction = direction;
         this.speed = speed;
-        this.power = power;
         this.range = range;
         this.damage = damage;
 
@@ -48,7 +41,7 @@ public class FireballSpell extends Spell {
     @Override
     public void onTick() {
 
-        if (spawnLocation.toVector().distance(fireball.getLocation().toVector()) > range){
+        if (castLocation.toVector().distance(fireball.getLocation().toVector()) > range){
 
             fireball.remove();
             onEnd();
@@ -106,15 +99,13 @@ public class FireballSpell extends Spell {
 
     @Override
     public void onCast() {
-        fireball = (SmallFireball) caster.getWorld().spawnEntity(spawnLocation, EntityType.SMALL_FIREBALL);
+        fireball = (SmallFireball) caster.getWorld().spawnEntity(castLocation, EntityType.SMALL_FIREBALL);
 
-        fireball.setVelocity(direction.multiply(speed));
+        fireball.setVelocity(castLocation.getDirection().multiply(speed));
 
-        fireball.setShooter((ProjectileSource) caster);
+        fireball.setShooter(caster);
 
         fireball.setIsIncendiary(false);
-
-        fireball.setYield(power);
 
     }
 
@@ -129,7 +120,7 @@ public class FireballSpell extends Spell {
 
             if (e instanceof LivingEntity){
 
-                CustomEffects.burn((LivingEntity) e, 60, 3);
+                CustomDamage.damage((LivingEntity) e, caster, damage, EntityUtils.DamageType.MAGIC, true, fireball);
 
             }
 

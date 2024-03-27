@@ -1,14 +1,17 @@
 package pl.mn.mncustomenchants.Spells;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 
 public abstract class Spell {
 
 
-    public String name;
-    public int cooldown;
-    public Entity caster;
+    public LivingEntity caster;
+    public Location castLocation;
+
+
 
     public abstract void onTick();
 

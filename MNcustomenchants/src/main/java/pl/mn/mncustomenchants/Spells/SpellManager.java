@@ -4,8 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 import pl.mn.mncustomenchants.main;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SpellManager {
 
@@ -15,6 +14,8 @@ public class SpellManager {
 
     private static BukkitTask tick;
 
+    private static int spellCounter = 0;
+
 
     public static void tick(){
 
@@ -22,8 +23,11 @@ public class SpellManager {
             @Override
             public void run() {
 
+
                 for (Spell spell : new ArrayList<>(activeSpells)){
+
                     spell.onTick();
+
                 }
 
             }
@@ -37,6 +41,9 @@ public class SpellManager {
         spell.onCast();
 
         activeSpells.add(spell);
+        spellCounter++;
+
+
 
         if(!isTicking){
             isTicking = true;

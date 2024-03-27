@@ -8,13 +8,16 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.mn.mncustomenchants.Bosses.Hellborn_Servant;
 import pl.mn.mncustomenchants.Commands.EditItemV2;
 import pl.mn.mncustomenchants.Commands.TabCompletion;
 import pl.mn.mncustomenchants.CustomDamage.CustomDamage;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.CustomEnchantments.EnchantmentRegister;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.*;
+import pl.mn.mncustomenchants.EnchantmentFuctionalities.EnchantmentSpells.Advancing_Shadows;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.EnchantmentSpells.Arcane_Strike;
+import pl.mn.mncustomenchants.EnchantmentFuctionalities.EnchantmentSpells.Dragonblade;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.PlayerUpdates;
 import pl.mn.mncustomenchants.EntityMethods.Projectiles;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
@@ -46,6 +49,11 @@ public final class main extends JavaPlugin implements CommandExecutor {
         new Teleportation();
         new Rocket_Crossbow();
 
+        new Dragonblade();
+        new Advancing_Shadows();
+
+        //Bosses
+        new Hellborn_Servant();
 
 
         //handles projectiles

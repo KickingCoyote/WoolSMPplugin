@@ -1,6 +1,7 @@
 package pl.mn.mncustomenchants.CustomDamage;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.SoundCategory;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
@@ -184,136 +185,8 @@ public class CustomDamage implements Listener {
     }
 
 
-    /*
-    public static double RunPreDamageOperations(EntityDamageByEntityEvent event){
 
 
-
-        //Fully Cancels the event if the weapon is on cooldown
-        //Only for melee
-        if (event.getDamager() instanceof Player && ((Player) event.getDamager()).getCooldown(((Player)event.getDamager()).getInventory().getItemInMainHand().getType()) != 0) {
-            event.setCancelled(true);
-            return 0;
-        }
-
-
-
-        double damage = 0;
-
-
-
-
-        //The person dealing damage
-        LivingEntity sender;
-        if (event.getDamager() instanceof Projectile){
-            sender = (LivingEntity) ((Projectile) event.getDamager()).getShooter();
-        } else {
-            sender = (LivingEntity) event.getDamager();
-        }
-
-
-
-
-
-        //Thorns
-        if (event.getEntity() instanceof Player && ItemUtils.getPlayerAttribute((Player) event.getEntity(), AttributeType.THORNS) != 0){
-            damage(sender, (Player)event.getEntity(), ItemUtils.getPlayerAttribute((Player) event.getEntity(), AttributeType.THORNS), EntityUtils.DamageType.MELEE);
-
-            //Play hurt sound if the entity doesn't die
-            if (!sender.isDead()){
-                EntityUtils.playSound(sender.getLocation(), 30, sender.getHurtSound(), SoundCategory.HOSTILE, 1, 1);
-                ((LivingEntity)event.getDamager()).playHurtAnimation(10);
-            }
-        }
-
-
-        //If the damage was ranged and dealt by a player
-        if (event.getDamager() instanceof Projectile && sender instanceof Player){
-
-
-           // ((LivingEntity)event.getDamager()).playHurtAnimation(10);
-
-
-            damage = ItemUtils.getPlayerAttribute((Player) sender, AttributeType.PROJECTILE_DAMAGE);
-
-            double projSpeed = ItemUtils.getPlayerAttribute((Player) sender, AttributeType.PROJECTILE_SPEED);
-
-            if (event.getDamager() instanceof Arrow){
-
-                damage *= EntityUtils.bowCharge((Player) sender, (Projectile) event.getDamager());
-
-            }
-
-            if (event.getDamager() instanceof Firework){
-
-
-                damage *= Math.min(1, 1.5 - (event.getEntity().getLocation().distance(event.getDamager().getLocation()) / 5));
-
-            }
-
-
-        }
-        //If the damage was melee and dealt by a player
-        else if (sender instanceof Player){
-            damage = ItemUtils.getPlayerAttribute((Player) event.getDamager(), AttributeType.ATTACK_DAMAGE);
-
-            damage *= ((Player) event.getDamager()).getAttackCooldown();
-            //If critical hit
-            if (event.isCritical()){
-                damage *= 1.5;
-            }
-
-        }
-        //If the direct / indirect sender wasn't a player set the damage to vanilla damage
-        else {
-            damage = event.getDamage();
-        }
-
-
-
-
-
-
-        //Blocking
-        if (event.getEntity() instanceof Player){
-
-            Player receiver = (Player)event.getEntity();
-
-            if (receiver.isBlocking() && receiver.getLocation().getDirection().setY(0).angle(event.getDamager().getLocation().getDirection().setY(0).multiply(-1)) < 1.5708){
-
-                damage = 0;
-            }
-
-        }
-
-
-        return damage;
-    }
-
-
-     */
-
-    /*
-    //Returns modified damage but also does other calculations like thunder/fire/ice aspect
-    private static double playerSpecificDamageEvents (Player player, Double damage, EntityDamageByEntityEvent event){
-
-        int regicide = EntityUtils.combinedEnchantLvl(player, CustomEnchantments.regicide);
-
-
-        //Checks if effects such as Thunder Aspect and Decay should be applied
-        AttackEffectEnchantments.CheckAttackEffects(event, player);
-
-        //regicide deals bonus damage to players
-        if (event.getEntity() instanceof Player && regicide != 0){
-            damage *= (1 + (0.1 * regicide));
-        }
-
-
-
-
-        return 0;
-    }
-    */
 
     public static void damage(LivingEntity target, LivingEntity damager, double damage, EntityUtils.DamageType damageType){
 
@@ -324,9 +197,15 @@ public class CustomDamage implements Listener {
 
     public static void damage(LivingEntity target, LivingEntity damager, double damage, EntityUtils.DamageType damageType, boolean applyEffects, Entity directDamager){
 
+
+        if (target.isDead() || (target instanceof Player && ((Player)target).getGameMode() == GameMode.CREATIVE)){
+            return;
+        }
+
         damage = getDamage(target, damager, damage, damageType);
 
         target.playHurtAnimation(10);
+
 
         //Apply weapon effects
         if (applyEffects && damager instanceof Player){

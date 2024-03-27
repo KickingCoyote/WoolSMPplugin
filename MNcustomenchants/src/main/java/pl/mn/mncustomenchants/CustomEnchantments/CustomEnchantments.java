@@ -51,6 +51,10 @@ public class CustomEnchantments {
                 return rocket_crossbow;
             case "teleportation":
                 return teleportation;
+            case "dragonblade":
+                return dragonblade;
+            case "advancing_shadows":
+                return advancing_shadows;
             default:
                 return error;
         }
@@ -75,7 +79,9 @@ public class CustomEnchantments {
             "curse_of_anemia",
             "regicide",
             "rocket_crossbow",
-            "teleportation"
+            "teleportation",
+            "dragonblade",
+            "advancing_shadows"
     );
 
     //All enchantments go here
@@ -126,6 +132,8 @@ public class CustomEnchantments {
 
     //SPELLS
     public static final Enchantment arcane_strike = new EnchatmentWrapper("arcane_strike", "Arcane Strike", 2);
+    public static final Enchantment dragonblade = new EnchatmentWrapper("dragonblade", "Dragonblade", 1);
+    public static final Enchantment advancing_shadows = new EnchatmentWrapper("advancing_shadows", "Advancing Shadows", 1);
 
 
 }

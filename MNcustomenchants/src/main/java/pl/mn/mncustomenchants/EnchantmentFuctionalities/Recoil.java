@@ -2,6 +2,7 @@ package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 
 import com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,6 +13,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
+import pl.mn.mncustomenchants.Spells.Spell;
+import pl.mn.mncustomenchants.Spells.SpellBases.ChainCastSpell;
+import pl.mn.mncustomenchants.Spells.SpellBases.ConeCastSpell;
 import pl.mn.mncustomenchants.Spells.SpellManager;
 import pl.mn.mncustomenchants.Spells.Spells.FireballSpell;
 
@@ -27,8 +31,7 @@ public class Recoil implements Listener {
     @EventHandler
     public void OnProjectileFired(PlayerLaunchProjectileEvent event){
 
-        //if (event.getProjectile() instanceof Fireball){return;}
-        //SpellManager.castSpell(new FireballSpell(event.getPlayer(), 10, event.getPlayer().getEyeLocation(), event.getPlayer().getLocation().getDirection(), 1, 20, 10, 1));
+
 
         if (!event.getPlayer().isSneaking()){
             if (EntityUtils.isPlayerWithEnch(CustomEnchantments.recoil, event.getPlayer(), EquipmentSlot.HAND)){

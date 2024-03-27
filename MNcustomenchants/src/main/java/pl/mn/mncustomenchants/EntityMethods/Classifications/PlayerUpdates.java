@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.checkerframework.checker.units.qual.A;
+import pl.mn.mncustomenchants.EnchantmentFuctionalities.Curse_of_Corruption;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.Radiant;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.Regeneration;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.Two_Handed;
@@ -56,7 +57,7 @@ public class PlayerUpdates implements Listener {
         inventoryUpdate(event.getPlayer());
 
         if (event.getNewItemStack().getType() == Material.ELYTRA){
-            event.getPlayer().getInventory().setItem(event.getSlot(), ItemStack.empty());
+            //event.getPlayer().getInventory().setItem(event.getSlot(), ItemStack.empty());
         }
 
     }
@@ -123,6 +124,8 @@ public class PlayerUpdates implements Listener {
 
     public static void inventoryUpdate (Player player){
         Two_Handed.CheckTwoHanded(player);
+        Curse_of_Corruption.CheckCoC(player);
+
         Radiant.ApplyGlowIfGlow(player);
         Regeneration.CheckRegeneration(player);
 
