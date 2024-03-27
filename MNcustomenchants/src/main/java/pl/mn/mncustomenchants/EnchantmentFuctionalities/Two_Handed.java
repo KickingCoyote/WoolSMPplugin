@@ -9,10 +9,6 @@ import pl.mn.mncustomenchants.EntityMethods.EntityEffects.PassiveEffects.Passive
 
 public class Two_Handed {
 
-    Plugin plugin;
-    public Two_Handed (Plugin plugin){
-        this.plugin = plugin;
-    }
 
     public static void CheckTwoHanded (Player player){
 

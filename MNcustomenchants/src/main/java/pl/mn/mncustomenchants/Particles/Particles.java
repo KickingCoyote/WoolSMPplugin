@@ -1,6 +1,7 @@
 package pl.mn.mncustomenchants.Particles;
 
 import com.destroystokyo.paper.ParticleBuilder;
+import jdk.jshell.execution.LoaderDelegate;
 import org.apache.logging.log4j.message.Message;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
@@ -10,11 +11,13 @@ import org.bukkit.entity.Vex;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import pl.mn.mncustomenchants.MathUtils;
 import pl.mn.mncustomenchants.main;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LongSummaryStatistics;
+import java.util.Random;
 
 public class Particles {
 
@@ -140,7 +143,133 @@ public class Particles {
 
 
 
-    public static List<Vector> spiral (ParticleData pD, double yMod, double particleDensity, double size, boolean dual, double rotations){
+    public static List<Vector> sphere(Location location, double density, double radius){
+
+        List<Vector> locations = new ArrayList<>();
+        Random r = new Random();
+
+
+
+        for (int i = 0; i < density; i++){
+
+            double x = r.nextDouble() - 0.5;
+            double y = r.nextDouble() - 0.5;
+            double z = r.nextDouble() - 0.5;
+
+            Vector v = new Vector(x,y,z);
+            v.normalize();
+
+            v.multiply(radius);
+
+            locations.add(location.toVector().clone().add(v));
+
+        }
+
+
+
+        return locations;
+    }
+
+
+    public static List<Vector> sphereExplosion(Location location, double density, double radius){
+
+        List<Vector> locations = new ArrayList<>();
+        Random r = new Random();
+
+
+
+        for (int i = 0; i < density; i++){
+
+            double x = r.nextDouble() - 0.5;
+            double y = r.nextDouble() - 0.5;
+            double z = r.nextDouble() - 0.5;
+
+            Vector v = new Vector(x,y,z);
+            v.normalize();
+
+            v.multiply(i * radius / density);
+
+            locations.add(location.toVector().clone().add(v));
+
+        }
+
+
+
+        return locations;
+    }
+
+    public static List<Vector> line (Location a, Location b, double density){
+        return line(a, b, density, 1);
+    }
+
+    /**
+     *
+     * @param a location 1
+     * @param b location 2
+     * @param density total amount of locations
+     * @param slerpPower the density distribution of the line, takes in odd integers, 1 is linear and higher numbers focuses the density towards the center
+     * @return locations list
+     */
+    public static List<Vector> line (Location a, Location b, double density, double slerpPower){
+
+
+        List<Vector> locations = new ArrayList<>();
+
+        for (double i = 0; i <= density; i++){
+
+            Vector v;
+
+            v = MathUtils.Slerp(a.toVector(), b.toVector(), i / density, slerpPower);
+
+
+            locations.add(v);
+        }
+
+
+
+        return locations;
+    }
+
+
+
+    /**
+     *
+     * @param location the tip of the cone
+     * @param direction cast direction
+     * @param density how many locations in total
+     * @param radius radius
+     * @param angle the cone angle in radians
+     * @param densityDistribution the distribution of the particles, lower numbers are more towards the edge, higher towards the center, 0.5 is approximately equal
+     * @return location list
+     */
+
+    public static List<Vector> cone(Location location, Vector direction, double density, double radius, double angle, double densityDistribution){
+
+        List<Vector> locations = new ArrayList<>();
+
+        Random r = new Random();
+        direction.normalize();
+
+
+        for (double i = 0; i < density; i++){
+
+            Vector v = direction.clone();
+            v.rotateAroundY((r.nextDouble() -0.5) * angle);
+            v.multiply(Math.pow(i / density, densityDistribution) * radius);
+
+            locations.add(v);
+        }
+
+
+
+
+
+        return locations;
+    }
+
+
+
+    public static List<Vector> spiral (Location location, double yMod, double particleDensity, double size, boolean dual, double rotations){
 
         List<Vector> locations = new ArrayList<Vector>();
 
@@ -158,7 +287,7 @@ public class Particles {
 
 
         //sets vector to pos relative to entity.location
-        Vector vector = pD.location.subtract(pD.entity.getLocation().toVector());
+        Vector vector = location.toVector();
 
         for (double theta = Math.PI * rotations; theta > 0; theta -= particleDensity / size){
 

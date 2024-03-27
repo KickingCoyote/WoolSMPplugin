@@ -35,9 +35,6 @@ public class Rocket_Crossbow implements Listener {
     @EventHandler
     public void OnCrossbowLoad (EntityLoadCrossbowEvent event){
 
-        if (!(event.getEntity() instanceof Player)) { return; }
-
-        Player player = (Player) event.getEntity();
 
         ItemStack loadItem;
         List<ItemStack> loadItems = new ArrayList<>();
@@ -102,14 +99,14 @@ public class Rocket_Crossbow implements Listener {
     @EventHandler
     private  void onEntityBow (EntityShootBowEvent event){
 
-        if(!(event.getEntity() instanceof Player)) { return; }
+        //if(!(event.getEntity() instanceof Player)) { return; }
 
 
-        launchFirework((Player) event.getEntity(), (Projectile) event.getProjectile(), event.getBow());
+        launchFirework( event.getEntity(), (Projectile) event.getProjectile(), event.getBow());
 
     }
 
-    private void launchFirework (Player player, Projectile projectile, ItemStack itemStack){
+    private void launchFirework (LivingEntity entity, Projectile projectile, ItemStack itemStack){
 
         int enchLvl = EntityUtils.itemEnchLvl(CustomEnchantments.rocket_crossbow, itemStack);
 
@@ -125,13 +122,13 @@ public class Rocket_Crossbow implements Listener {
         }
 
 
-        Firework firework = (Firework) player.getWorld().spawnEntity(player.getEyeLocation().subtract(0, 0.25, 0), EntityType.FIREWORK);
+        Firework firework = (Firework) entity.getWorld().spawnEntity(entity.getEyeLocation().subtract(0, 0.25, 0), EntityType.FIREWORK);
 
         firework.setVelocity(projectile.getVelocity());
 
         firework.setShotAtAngle(true);
 
-        firework.setShooter(player);
+        firework.setShooter(entity);
 
         FireworkMeta fireworkMeta = firework.getFireworkMeta();
 
