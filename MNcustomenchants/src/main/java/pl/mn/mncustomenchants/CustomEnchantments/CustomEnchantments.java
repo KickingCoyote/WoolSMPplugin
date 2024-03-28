@@ -51,10 +51,14 @@ public class CustomEnchantments {
                 return rocket_crossbow;
             case "teleportation":
                 return teleportation;
-            case "dragonblade":
-                return dragonblade;
+            case "dragon_blade":
+                return dragon_blade;
             case "advancing_shadows":
                 return advancing_shadows;
+            case "sweeping_edge":
+                return sweeping_edge;
+            case "aerial_strike":
+                return aerial_strike;
             default:
                 return error;
         }
@@ -80,8 +84,10 @@ public class CustomEnchantments {
             "regicide",
             "rocket_crossbow",
             "teleportation",
-            "dragonblade",
-            "advancing_shadows"
+            "dragon_blade",
+            "advancing_shadows",
+            "sweeping_edge",
+            "aerial_strike"
     );
 
     //All enchantments go here
@@ -127,12 +133,17 @@ public class CustomEnchantments {
     public static final Enchantment sustenance = new EnchatmentWrapper("sustenance", "Sustenance", 2);
     public static final Enchantment curse_of_anemia = new EnchatmentWrapper("curse_of_anemia", "Curse of Anemia", 2, true);
 
-    //10% extra damage to players, all specialist enchantments are handled in the custom damage class
+    //ENCHANTMENTS HANDLED IN CUSTOM DAMAGE CLASS
+    //10% extra damage to players
     public static final Enchantment regicide = new EnchatmentWrapper("regicide", "Regicide", 2);
+    //1 + damage * lvl / (lvl + 1)
+    public static final Enchantment sweeping_edge = new EnchatmentWrapper("sweeping_edge", "Sweeping Edge", 2);
+    //If fall_distance > 1 => Critical damage * (1 + lvl * fall_distance^0.5 / 10)
+    public static final Enchantment aerial_strike = new EnchatmentWrapper("aerial_strike", "Aerial Strike", 2);
 
     //SPELLS
     public static final Enchantment arcane_strike = new EnchatmentWrapper("arcane_strike", "Arcane Strike", 2);
-    public static final Enchantment dragonblade = new EnchatmentWrapper("dragonblade", "Dragonblade", 1);
+    public static final Enchantment dragon_blade = new EnchatmentWrapper("dragon_blade", "Dragonblade", 1);
     public static final Enchantment advancing_shadows = new EnchatmentWrapper("advancing_shadows", "Advancing Shadows", 1);
 
 

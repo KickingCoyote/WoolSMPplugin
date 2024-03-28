@@ -1,14 +1,21 @@
 package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 
+import com.destroystokyo.paper.event.player.PlayerAttackEntityCooldownResetEvent;
 import com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent;
+import io.papermc.paper.entity.TeleportFlag;
+import io.papermc.paper.event.player.PlayerArmSwingEvent;
+import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.util.Vector;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
@@ -41,14 +48,25 @@ public class Teleportation implements Listener {
         Player shooter = event.getPlayer();
 
 
-        Location location = projectile.getLocation().add(projectile.getLocation().getDirection().multiply(-distance).multiply(new Vector(1, 1 , -1)));
 
-        Location landingLocation = shooter.rayTraceBlocks(distance, FluidCollisionMode.NEVER) == null ? location : shooter.rayTraceBlocks(distance, FluidCollisionMode.NEVER).getHitBlock().getLocation().add(shooter.rayTraceBlocks(distance, FluidCollisionMode.NEVER).getHitBlockFace().getDirection().multiply(1.5));
-
-        landingLocation.setDirection(shooter.getLocation().getDirection());
 
         if (shooter.getCooldown(event.getItemStack().getType()) == 0){
-            shooter.teleport(landingLocation);
+
+            Location location = projectile.getLocation().add(projectile.getLocation().getDirection().multiply(-distance).multiply(new Vector(1, 1 , -1)));
+
+            Location landingLocation = shooter.rayTraceBlocks(distance, FluidCollisionMode.NEVER) == null ? location : shooter.rayTraceBlocks(distance, FluidCollisionMode.NEVER).getHitBlock().getLocation().add(shooter.rayTraceBlocks(distance, FluidCollisionMode.NEVER).getHitBlockFace().getDirection().multiply(1.5));
+
+            landingLocation.setDirection(shooter.getLocation().getDirection());
+
+            shooter.teleport(landingLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
+
+
+            //Temporarily sets attack speed to 100 to counter the fact that teleporting resets attack cool down to 0 (probably bug)
+            if(shooter.getAttackCooldown() == 1){
+                Bukkit.getScheduler().runTaskLater(main.getInstance(), () -> shooter.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(100), 1);
+            }
+
+
             shooter.setCooldown(event.getItemStack().getType(), cooldown);
         }
 
@@ -62,6 +80,8 @@ public class Teleportation implements Listener {
         event.setCancelled(true);
 
     }
+
+
 
 
 }

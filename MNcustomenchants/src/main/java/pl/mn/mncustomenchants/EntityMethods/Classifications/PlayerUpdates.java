@@ -1,5 +1,6 @@
 package pl.mn.mncustomenchants.EntityMethods.Classifications;
 
+import io.papermc.paper.event.player.PlayerArmSwingEvent;
 import io.papermc.paper.event.player.PlayerInventorySlotChangeEvent;
 import io.papermc.paper.event.player.PlayerPickItemEvent;
 import org.bukkit.Bukkit;
@@ -62,6 +63,12 @@ public class PlayerUpdates implements Listener {
 
     }
 
+    @EventHandler
+    public void swingEvent(PlayerArmSwingEvent event){
+
+        event.getPlayer().getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
+    }
+
 
 
     @EventHandler
@@ -102,6 +109,7 @@ public class PlayerUpdates implements Listener {
     public void OnDeath (PlayerDeathEvent event){
 
 
+        //TODO: Check if this is needed
         //resets modifiers on death
         List<Attribute> attrs = List.of(
                 Attribute.GENERIC_MOVEMENT_SPEED,

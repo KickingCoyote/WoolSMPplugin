@@ -10,6 +10,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
@@ -139,31 +140,59 @@ public class CustomDamage implements Listener {
 
             damage = ItemUtils.getPlayerAttribute((Player) event.getDamager(), AttributeType.ATTACK_DAMAGE);
 
-            damage *= ((Player) event.getDamager()).getAttackCooldown();
-            //If critical hit
-            if (event.isCritical()){
-                damage *= 1.5;
+
+            //Direct Damage
+            if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK){
+                damage *= ((Player) event.getDamager()).getAttackCooldown();
+
+
+                //Air strike
+                if (sender.getFallDistance() > 1 && sender.getAttackCooldown() == 1 && EntityUtils.isPlayerWithEnch(CustomEnchantments.aerial_strike, sender, EquipmentSlot.HAND)){
+                    damage *= 1 + Math.sqrt(sender.getFallDistance()) * EntityUtils.itemEnchLvl(CustomEnchantments.aerial_strike, sender.getInventory().getItemInMainHand()) / 10;
+                }
+
+                //If critical hit
+                if (event.isCritical()){
+                    damage *= 1.5;
+                }
+
+
             }
+
+            //Sweep damage
+            else if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK){
+
+                int sweepLvl = EntityUtils.itemEnchLvl(CustomEnchantments.sweeping_edge, sender.getInventory().getItemInMainHand());
+
+                damage = 1 + (damage * sweepLvl / (sweepLvl + 1));
+            }
+
         }
+
         //Ranged
         if(event.getDamager() instanceof Projectile){
 
             damage = ItemUtils.getPlayerAttribute(sender, AttributeType.PROJECTILE_DAMAGE);
 
-            double projSpeed = ItemUtils.getPlayerAttribute(sender, AttributeType.PROJECTILE_SPEED);
 
+            //Damage depending on actual projectile speed compared to projectile speed stat
             if (event.getDamager() instanceof Arrow){
-
                 damage *= EntityUtils.bowCharge(sender, (Projectile) event.getDamager());
 
             }
 
+            //aoe damage for fireworks
             if (event.getDamager() instanceof Firework){
-
 
                 damage *= Math.min(1, 1.5 - (event.getEntity().getLocation().distance(event.getDamager().getLocation()) / 5));
 
             }
+
+            //Air strike for projectile weapons
+            if (sender.getFallDistance() > 1 && EntityUtils.isPlayerWithEnch(CustomEnchantments.aerial_strike, sender, EquipmentSlot.HAND)){
+                damage *= 1 + Math.sqrt(sender.getFallDistance()) * EntityUtils.itemEnchLvl(CustomEnchantments.aerial_strike, sender.getInventory().getItemInMainHand()) / 10;
+            }
+
 
         }
 
@@ -223,6 +252,7 @@ public class CustomDamage implements Listener {
 
     }
 
+    //Damage after armor & protection & potion effect calculations
     public static double getDamage(LivingEntity target, LivingEntity damager, double damage, EntityUtils.DamageType damageType){
 
 
@@ -320,90 +350,4 @@ public class CustomDamage implements Listener {
     }
 
 
-
-    /*
-    public static void damageEntity(LivingEntity entity, double damage, EntityUtils.DamageType damageType){
-
-        //IGNORES IFRAMES
-        double finalDamage = calculateFinalDamage(entity, damage, damageType);
-
-
-
-
-        //Apply damage
-        if (entity.getHealth() > finalDamage){
-            entity.setHealth(entity.getHealth() - finalDamage);
-        } else {
-            entity.setHealth(0);
-
-        }
-
-
-    }
-
-    //Calculates the damage on the receiver (The damage reduction on the receiver)
-    public static double calculateFinalDamage (LivingEntity entity, double damage, EntityUtils.DamageType damageType){
-        double damageAfterArmor = damage;
-
-
-
-        double protLvl = 0;
-        double secProtLvl = 0;
-
-        double finalDamage;
-
-        if (entity instanceof Player){
-
-            if (damageType == EntityUtils.DamageType.MAGIC){
-                secProtLvl = EntityUtils.combinedEnchantLvl((Player) entity, CustomEnchantments.magic_protection);
-
-
-            } else if (damageType == EntityUtils.DamageType.PROJECTILE) {
-                secProtLvl = EntityUtils.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_PROJECTILE);
-
-
-            } else if (damageType == EntityUtils.DamageType.FIRE){
-                secProtLvl = EntityUtils.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_FIRE);
-
-
-            } else if (damageType == EntityUtils.DamageType.MELEE){
-                secProtLvl = EntityUtils.combinedEnchantLvl((Player) entity, CustomEnchantments.melee_protection);
-
-            } else if (damageType == EntityUtils.DamageType.FALLING){
-                //
-                secProtLvl = 2 * EntityUtils.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_FALL);
-
-            } else if (damageType == EntityUtils.DamageType.BLAST){
-                secProtLvl = EntityUtils.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_EXPLOSIONS);
-
-            }
-
-            protLvl = EntityUtils.combinedEnchantLvl((Player) entity, Enchantment.PROTECTION_ENVIRONMENTAL);
-        }
-
-
-
-        //Damage Calculations
-        if (damageType == EntityUtils.DamageType.PROJECTILE || damageType == EntityUtils.DamageType.MAGIC || damageType == EntityUtils.DamageType.MELEE || damageType == EntityUtils.DamageType.BLAST || damageType == EntityUtils.DamageType.FIRE){
-            if (entity instanceof Player){
-                damageAfterArmor = damage * Math.pow(0.96, ItemUtils.getPlayerAttribute((Player) entity, AttributeType.ARMOR));
-            } else {
-                damageAfterArmor = damage * Math.pow(0.96, EntityUtils.combinedAttributeLvl(entity, Attribute.GENERIC_ARMOR) + EntityUtils.combinedAttributeLvl(entity, Attribute.GENERIC_ARMOR_TOUGHNESS));
-            }
-        }
-
-
-        int resEffect = 0;
-        if (entity.hasPotionEffect(PotionEffectType.DAMAGE_RESISTANCE)){
-            resEffect = entity.getPotionEffect(PotionEffectType.DAMAGE_RESISTANCE).getAmplifier();
-        }
-
-
-        finalDamage = damageAfterArmor * Math.pow(0.96, 2 * secProtLvl + protLvl) * (1 - Math.min(1, resEffect * 0.2));
-        return finalDamage;
-    }
-
-
-
-     */
 }

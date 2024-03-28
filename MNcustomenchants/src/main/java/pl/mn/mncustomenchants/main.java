@@ -25,7 +25,7 @@ import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 public final class main extends JavaPlugin implements CommandExecutor {
 
     //THIS IS THE REAL VERSION
-    //ONLY THIS VERSION APEARS ON GIT
+    //ONLY THIS VERSION APPEARS ON GIT
 
     @Override
     public void onEnable() {

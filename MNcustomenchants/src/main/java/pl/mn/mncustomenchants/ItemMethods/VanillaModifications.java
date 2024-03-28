@@ -133,6 +133,7 @@ public class VanillaModifications {
         if(itemStack.getType().getMaxDurability() == 0) { return; }
 
 
+        //Clear enchants, fix flags, then add custom_item tag
         ItemMeta itemMeta = itemStack.getItemMeta();
 
         if (itemMeta.hasEnchants()){
@@ -145,6 +146,11 @@ public class VanillaModifications {
 
         itemStack.setItemMeta(itemMeta);
 
+
+
+        //Convert Vanilla attributes to custom ones
+
+        //Attack damage & speed
         double vAttackSpeed = 0;
         double vAttackDamage = 0;
         if (itemStack.getType().getDefaultAttributeModifiers(EquipmentSlot.HAND).containsKey(Attribute.GENERIC_ATTACK_DAMAGE)){
@@ -152,7 +158,12 @@ public class VanillaModifications {
             vAttackSpeed = itemStack.getType().getDefaultAttributeModifiers(EquipmentSlot.HAND).get(Attribute.GENERIC_ATTACK_SPEED).toArray(new AttributeModifier[1])[0].getAmount() + 4;
         }
 
+        ItemUtils.AddAttribute(itemStack, new pl.mn.mncustomenchants.ItemMethods.Attribute(ItemUtils.AttributeOperator.ITEM_STAT, EquipmentSlot.HAND, AttributeType.ATTACK_DAMAGE, 0), vAttackDamage);
+        ItemUtils.AddAttribute(itemStack, new pl.mn.mncustomenchants.ItemMethods.Attribute(ItemUtils.AttributeOperator.ITEM_STAT, EquipmentSlot.HAND, AttributeType.ATTACK_SPEED, 0), vAttackSpeed);
 
+
+
+        //Armor & Armor Toughness => Custom Armor
         for (EquipmentSlot eq : EquipmentSlot.values()){
 
             double vArmor = 0;
@@ -175,13 +186,15 @@ public class VanillaModifications {
         }
 
 
-
-
-
-
-
-        ItemUtils.AddAttribute(itemStack, new pl.mn.mncustomenchants.ItemMethods.Attribute(ItemUtils.AttributeOperator.ITEM_STAT, EquipmentSlot.HAND, AttributeType.ATTACK_DAMAGE, 0), vAttackDamage);
-        ItemUtils.AddAttribute(itemStack, new pl.mn.mncustomenchants.ItemMethods.Attribute(ItemUtils.AttributeOperator.ITEM_STAT, EquipmentSlot.HAND, AttributeType.ATTACK_SPEED, 0), vAttackSpeed);
+        //Add custom attributes to bows and crossbows
+        if (itemStack.getType() == Material.BOW){
+            ItemUtils.AddAttribute(itemStack, new pl.mn.mncustomenchants.ItemMethods.Attribute(ItemUtils.AttributeOperator.ITEM_STAT, EquipmentSlot.HAND, AttributeType.PROJECTILE_DAMAGE, 0), 6.0);
+            ItemUtils.AddAttribute(itemStack, new pl.mn.mncustomenchants.ItemMethods.Attribute(ItemUtils.AttributeOperator.ITEM_STAT, EquipmentSlot.HAND, AttributeType.PROJECTILE_SPEED, 0), 1.0);
+        }
+        if (itemStack.getType() == Material.CROSSBOW){
+            ItemUtils.AddAttribute(itemStack, new pl.mn.mncustomenchants.ItemMethods.Attribute(ItemUtils.AttributeOperator.ITEM_STAT, EquipmentSlot.HAND, AttributeType.PROJECTILE_DAMAGE, 0), 8.0);
+            ItemUtils.AddAttribute(itemStack, new pl.mn.mncustomenchants.ItemMethods.Attribute(ItemUtils.AttributeOperator.ITEM_STAT, EquipmentSlot.HAND, AttributeType.PROJECTILE_SPEED, 0), 1.0);
+        }
 
 
 

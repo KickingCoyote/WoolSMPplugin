@@ -34,8 +34,7 @@ public class Dragonblade implements Listener {
         if(!(event.getDamager() instanceof Player)) { return; }
         if (!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) { return; }
 
-        if (!EntityUtils.isPlayerWithEnch(CustomEnchantments.dragonblade, event.getDamager(), EquipmentSlot.HAND)) { return; }
-
+        if (!EntityUtils.isPlayerWithEnch(CustomEnchantments.dragon_blade, event.getDamager(), EquipmentSlot.HAND)) { return; }
 
 
         event.getDamager().setVelocity(event.getDamager().getLocation().toVector().subtract(event.getEntity().getLocation().toVector()).multiply(-1));
