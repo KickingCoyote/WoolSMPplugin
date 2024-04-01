@@ -1,5 +1,6 @@
 package pl.mn.mncustomenchants.ItemMethods;
 
+
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
@@ -7,6 +8,9 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.EquipmentSlot;
@@ -20,7 +24,7 @@ import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 public class VanillaModifications {
 
 
-    public static void Anvil (InventoryOpenEvent event){
+    public static void anvil (InventoryOpenEvent event){
 
 
         if (event.getInventory().getType() == InventoryType.ANVIL){
@@ -45,6 +49,7 @@ public class VanillaModifications {
 
 
 
+
                         event.getPlayer().getWorld().playSound(event.getPlayer(), Sound.BLOCK_ANVIL_PLACE,1, 1);
                     }
                 }
@@ -52,7 +57,16 @@ public class VanillaModifications {
             event.setCancelled(true);
 
         }
+
+
     }
+
+    public static void grindstone (InventoryOpenEvent event){
+        if (event.getInventory().getType() == InventoryType.GRINDSTONE){
+            event.setCancelled(true);
+        }
+    }
+
 
     public static void Enchanting (InventoryOpenEvent event){
         if (event.getInventory().getType() == InventoryType.ENCHANTING){
@@ -191,10 +205,11 @@ public class VanillaModifications {
             ItemUtils.AddAttribute(itemStack, new pl.mn.mncustomenchants.ItemMethods.Attribute(ItemUtils.AttributeOperator.ITEM_STAT, EquipmentSlot.HAND, AttributeType.PROJECTILE_DAMAGE, 0), 6.0);
             ItemUtils.AddAttribute(itemStack, new pl.mn.mncustomenchants.ItemMethods.Attribute(ItemUtils.AttributeOperator.ITEM_STAT, EquipmentSlot.HAND, AttributeType.PROJECTILE_SPEED, 0), 1.0);
         }
-        if (itemStack.getType() == Material.CROSSBOW){
+        if (itemStack.getType() == Material.CROSSBOW || itemStack.getType() == Material.TRIDENT){
             ItemUtils.AddAttribute(itemStack, new pl.mn.mncustomenchants.ItemMethods.Attribute(ItemUtils.AttributeOperator.ITEM_STAT, EquipmentSlot.HAND, AttributeType.PROJECTILE_DAMAGE, 0), 8.0);
             ItemUtils.AddAttribute(itemStack, new pl.mn.mncustomenchants.ItemMethods.Attribute(ItemUtils.AttributeOperator.ITEM_STAT, EquipmentSlot.HAND, AttributeType.PROJECTILE_SPEED, 0), 1.0);
         }
+
 
 
 

@@ -6,8 +6,12 @@ commands:
   CustomEnchant:
     usage: /CustomEnchant [enchant] [level]
     description: Adds custom Enchants
-    permission: MMCustomEnchantments.enchant
+    permission: MNCustomEnchantments.enchant
   EditItemV2:
     usage: /EditItemV2 [Edit]
     description: Adds custom Stats
-    permission: MMCustomEnchantments.enchant
+    permission: MNCustomEnchantments.enchant
+  UpdateItem:
+    usage: /UpdateItem
+    description: updates lore of item
+    permission: MNCustomEnchantments.enchant

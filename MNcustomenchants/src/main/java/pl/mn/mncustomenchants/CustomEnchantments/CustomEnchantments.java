@@ -59,6 +59,8 @@ public class CustomEnchantments {
                 return sweeping_edge;
             case "aerial_strike":
                 return aerial_strike;
+            case "weightless":
+                return  weightless;
             default:
                 return error;
         }
@@ -87,7 +89,8 @@ public class CustomEnchantments {
             "dragon_blade",
             "advancing_shadows",
             "sweeping_edge",
-            "aerial_strike"
+            "aerial_strike",
+            "weightless"
     );
 
     //All enchantments go here
@@ -103,6 +106,8 @@ public class CustomEnchantments {
     public static final Enchantment recoil = new EnchatmentWrapper("recoil", "Recoil", 2);
 
     public static final Enchantment two_handed = new EnchatmentWrapper("two_handed", "Two Handed", 1, true);
+
+    public static final Enchantment weightless = new EnchatmentWrapper("weightless", "Weightless", 1);
 
     public static final Enchantment quake = new EnchatmentWrapper("quake", "Quake", 2);
 

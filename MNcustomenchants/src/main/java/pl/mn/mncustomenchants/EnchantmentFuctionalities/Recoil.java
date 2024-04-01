@@ -29,24 +29,30 @@ public class Recoil implements Listener {
     }
 
     @EventHandler
-    public void OnProjectileFired(PlayerLaunchProjectileEvent event){
+    public void OnProjectileFired(ProjectileLaunchEvent event){
+
+        if (!(event.getEntity().getShooter() instanceof Player)){
+            return;
+        }
+
+        Player player = (Player) event.getEntity().getShooter();
+
+        if (!player.isSneaking()){
+
+
+            if (EntityUtils.isPlayerWithEnch(CustomEnchantments.recoil, player, EquipmentSlot.HAND)){
 
 
 
-        if (!event.getPlayer().isSneaking()){
-            if (EntityUtils.isPlayerWithEnch(CustomEnchantments.recoil, event.getPlayer(), EquipmentSlot.HAND)){
+                double enchLvl = player.getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(CustomEnchantments.recoil);
 
-
-
-                double enchLvl = event.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(CustomEnchantments.recoil);
-
-                Vector vector = event.getProjectile().getVelocity().normalize().multiply(-0.5 * Math.sqrt(enchLvl));
+                Vector vector = event.getEntity().getVelocity().normalize().multiply(-0.5 * Math.sqrt(enchLvl));
 
 
                 vector.setY(Math.max(0.1, vector.getY()));
 
 
-                event.getPlayer().setVelocity(vector);
+                player.setVelocity(vector);
 
 
             }
