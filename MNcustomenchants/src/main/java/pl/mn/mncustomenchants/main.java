@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pl.mn.mncustomenchants.Bosses.Hellborn_Servant;
 import pl.mn.mncustomenchants.Commands.EditItemV2;
 import pl.mn.mncustomenchants.Commands.TabCompletion;
+import pl.mn.mncustomenchants.Commands.UpdateItem;
 import pl.mn.mncustomenchants.CustomDamage.CustomDamage;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.CustomEnchantments.EnchantmentRegister;
@@ -20,6 +21,7 @@ import pl.mn.mncustomenchants.EnchantmentFuctionalities.EnchantmentSpells.Arcane
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.EnchantmentSpells.Dragonblade;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.PlayerUpdates;
 import pl.mn.mncustomenchants.EntityMethods.Projectiles;
+import pl.mn.mncustomenchants.ItemMethods.Attributes.JumpHeight;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 
 public final class main extends JavaPlugin implements CommandExecutor {
@@ -52,6 +54,9 @@ public final class main extends JavaPlugin implements CommandExecutor {
         new Dragonblade();
         new Advancing_Shadows();
 
+        //Attributes
+        new JumpHeight();
+
         //Bosses
         new Hellborn_Servant();
 
@@ -66,6 +71,7 @@ public final class main extends JavaPlugin implements CommandExecutor {
 
         //getCommand("EditItemV2").register(EditItemV2)
         getCommand("EditItemV2").setExecutor(new EditItemV2());
+        getCommand("UpdateItem").setExecutor(new UpdateItem());
 
         //Register all enchantments
         for (String s : CustomEnchantments.enchantmentArgs){

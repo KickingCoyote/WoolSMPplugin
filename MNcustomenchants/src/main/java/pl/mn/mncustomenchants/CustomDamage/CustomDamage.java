@@ -2,6 +2,7 @@ package pl.mn.mncustomenchants.CustomDamage;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.SoundCategory;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
@@ -11,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
@@ -244,9 +246,27 @@ public class CustomDamage implements Listener {
 
 
         //Apply damage
+
+        //Go through absorption first
+        if(target.getAbsorptionAmount() > 0){
+            target.setAbsorptionAmount(Math.max(0, target.getAbsorptionAmount() - damage));
+            damage = Math.max(0, damage - target.getAbsorptionAmount());
+        }
+        //If they should survive
         if (target.getHealth() > damage){
             target.setHealth(target.getHealth() - damage);
-        } else {
+        }
+        //If they should die
+        else {
+
+            //Disables Totems
+            if (target.getEquipment().getItemInMainHand().getType() == Material.TOTEM_OF_UNDYING){
+                target.getEquipment().setItem(EquipmentSlot.HAND, new ItemStack(Material.AIR));
+            }
+            if (target.getEquipment().getItemInOffHand().getType() == Material.TOTEM_OF_UNDYING){
+                target.getEquipment().setItem(EquipmentSlot.OFF_HAND, new ItemStack(Material.AIR));
+            }
+
             target.setHealth(0);
         }
 

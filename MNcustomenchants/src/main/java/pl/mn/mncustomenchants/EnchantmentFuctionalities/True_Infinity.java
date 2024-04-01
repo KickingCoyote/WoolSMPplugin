@@ -8,14 +8,17 @@ import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.checkerframework.checker.units.qual.A;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
+import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 
 public class True_Infinity implements Listener {
 
@@ -104,6 +107,24 @@ public class True_Infinity implements Listener {
         if (EntityUtils.itemEnchLvl(CustomEnchantments.true_infinity, event.getItem()) == 0){ return; }
 
         event.setReplacement(event.getItem());
+
+    }
+
+
+    //Infinite Blocks
+    @EventHandler
+    public void OnBlock(BlockPlaceEvent event){
+
+        if (EntityUtils.itemEnchLvl(CustomEnchantments.true_infinity, event.getItemInHand()) == 0){
+            return;
+        }
+
+        ItemStack itemStack = event.getItemInHand();
+
+
+        event.getPlayer().getInventory().setItemInMainHand(itemStack);
+
+
 
     }
 
