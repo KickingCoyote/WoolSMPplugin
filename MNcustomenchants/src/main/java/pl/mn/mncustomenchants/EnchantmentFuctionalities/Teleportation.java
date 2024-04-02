@@ -41,7 +41,7 @@ public class Teleportation implements Listener {
 
 
 
-        int cooldown = ItemUtils.getPlayerAttribute(event.getPlayer(), AttributeType.THROW_RATE) > 0 ? (int) Math.round(20 / ItemUtils.getPlayerAttribute(event.getPlayer(), AttributeType.THROW_RATE)) : 0;
+        int cooldown = ItemUtils.getEntityAttribute(event.getPlayer(), AttributeType.THROW_RATE) > 0 ? (int) Math.round(20 / ItemUtils.getEntityAttribute(event.getPlayer(), AttributeType.THROW_RATE)) : 0;
 
 
         Projectile projectile = event.getProjectile();

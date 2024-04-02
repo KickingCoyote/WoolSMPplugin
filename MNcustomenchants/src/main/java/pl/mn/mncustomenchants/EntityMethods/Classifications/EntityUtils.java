@@ -68,7 +68,7 @@ public class EntityUtils {
 
 
 
-        double projSpeed = ItemUtils.getPlayerAttribute(sender, AttributeType.PROJECTILE_SPEED);
+        double projSpeed = ItemUtils.getEntityAttribute(sender, AttributeType.PROJECTILE_SPEED);
 
         //A value between 0 and 1 based on the arrow velocity that determines the damage
         double bowCharge =  Math.min(3 * projSpeed, projectile.getVelocity().length()) / (3 * projSpeed);

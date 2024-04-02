@@ -44,14 +44,14 @@ public class Projectiles implements Listener {
         Projectile projectile = event.getProjectile();
         Player shooter = event.getPlayer();
 
-        projectile.setVelocity(projectile.getVelocity().multiply(ItemUtils.getPlayerAttribute(shooter, AttributeType.PROJECTILE_SPEED)));
+        projectile.setVelocity(projectile.getVelocity().multiply(ItemUtils.getEntityAttribute(shooter, AttributeType.PROJECTILE_SPEED)));
 
 
 
 
-        if ((projectile instanceof Snowball || projectile instanceof Egg || projectile instanceof Trident || projectile instanceof ThrownPotion) && ItemUtils.getPlayerAttribute(shooter, AttributeType.THROW_RATE) != 0) {
+        if ((projectile instanceof Snowball || projectile instanceof Egg || projectile instanceof Trident || projectile instanceof ThrownPotion) && ItemUtils.getEntityAttribute(shooter, AttributeType.THROW_RATE) != 0) {
 
-            shooter.setCooldown(event.getItemStack().getType(), (int) Math.round(20 / ItemUtils.getPlayerAttribute(shooter, AttributeType.THROW_RATE)));
+            shooter.setCooldown(event.getItemStack().getType(), (int) Math.round(20 / ItemUtils.getEntityAttribute(shooter, AttributeType.THROW_RATE)));
 
         }
 

@@ -20,7 +20,7 @@ public class JumpHeight implements Listener {
     @EventHandler
     public void playerJump(PlayerJumpEvent event){
 
-        double jumpHeight = ItemUtils.getPlayerAttribute(event.getPlayer(), AttributeType.JUMP_HEIGHT);
+        double jumpHeight = ItemUtils.getEntityAttribute(event.getPlayer(), AttributeType.JUMP_HEIGHT);
 
 
 

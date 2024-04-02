@@ -113,10 +113,10 @@ public class VanillaModifications {
 
 
         //convert custom attributes to vanilla modifiers
-        AttributeModifier attack_speed = new AttributeModifier("ATTACK_SPEED", ItemUtils.getPlayerAttribute(player, AttributeType.ATTACK_SPEED) - weaponAttackSpeed, AttributeModifier.Operation.ADD_NUMBER);
-        AttributeModifier max_health = new AttributeModifier("MAX_HEALTH", ItemUtils.getPlayerAttribute(player, AttributeType.HEALTH) - 20, AttributeModifier.Operation.ADD_NUMBER);
-        AttributeModifier movement_speed = new AttributeModifier("MOVEMENT_SPEED", ItemUtils.getPlayerAttribute(player, AttributeType.SPEED) -0.1, AttributeModifier.Operation.ADD_NUMBER);
-        AttributeModifier knockback_resistance = new AttributeModifier("KNOCKBACK_RESISTANCE", ItemUtils.getPlayerAttribute(player, AttributeType.KNOCKBACK_RESISTANCE), AttributeModifier.Operation.ADD_NUMBER);
+        AttributeModifier attack_speed = new AttributeModifier("ATTACK_SPEED", ItemUtils.getEntityAttribute(player, AttributeType.ATTACK_SPEED) - weaponAttackSpeed, AttributeModifier.Operation.ADD_NUMBER);
+        AttributeModifier max_health = new AttributeModifier("MAX_HEALTH", ItemUtils.getEntityAttribute(player, AttributeType.HEALTH) - 20, AttributeModifier.Operation.ADD_NUMBER);
+        AttributeModifier movement_speed = new AttributeModifier("MOVEMENT_SPEED", ItemUtils.getEntityAttribute(player, AttributeType.SPEED) -0.1, AttributeModifier.Operation.ADD_NUMBER);
+        AttributeModifier knockback_resistance = new AttributeModifier("KNOCKBACK_RESISTANCE", ItemUtils.getEntityAttribute(player, AttributeType.KNOCKBACK_RESISTANCE), AttributeModifier.Operation.ADD_NUMBER);
 
         //removes and reattaches the modifiers
         EntityUtils.detachAttributeMod(player, Attribute.GENERIC_MAX_HEALTH, "MAX_HEALTH");

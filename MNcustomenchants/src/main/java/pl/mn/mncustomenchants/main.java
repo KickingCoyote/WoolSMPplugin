@@ -21,6 +21,7 @@ import pl.mn.mncustomenchants.EnchantmentFuctionalities.EnchantmentSpells.Arcane
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.EnchantmentSpells.Dragonblade;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.PlayerUpdates;
 import pl.mn.mncustomenchants.EntityMethods.Projectiles;
+import pl.mn.mncustomenchants.GUI.InventoryShulkers;
 import pl.mn.mncustomenchants.ItemMethods.Attributes.JumpHeight;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 
@@ -63,6 +64,10 @@ public final class main extends JavaPlugin implements CommandExecutor {
 
         //handles projectiles
         new Projectiles();
+
+        //GUI
+        //new InventoryShulkers();
+
 
 
         //CommandStuff

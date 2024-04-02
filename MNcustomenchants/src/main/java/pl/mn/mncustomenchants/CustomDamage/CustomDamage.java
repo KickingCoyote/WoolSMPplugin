@@ -1,5 +1,6 @@
 package pl.mn.mncustomenchants.CustomDamage;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -53,22 +54,17 @@ public class CustomDamage implements Listener {
 
             //Blocking and Thorns
             if (event.getEntity() instanceof Player){
-
-
                 Player receiver = (Player)event.getEntity();
 
+                //Blocking
                 if (receiver.isBlocking() && receiver.getLocation().getDirection().setY(0).angle(((EntityDamageByEntityEvent)event).getDamager().getLocation().getDirection().setY(0).multiply(-1)) < 1.5708){
-
                     event.setDamage(0);
                     return;
-
                 }
 
-
-                if (ItemUtils.getPlayerAttribute(receiver, AttributeType.THORNS) > 0 && eSender != null){
-
-                    damage(eSender, receiver, ItemUtils.getPlayerAttribute(receiver, AttributeType.THORNS), EntityUtils.DamageType.MELEE);
-
+                //Thorns
+                if (ItemUtils.getEntityAttribute(receiver, AttributeType.THORNS) > 0 && eSender != null){
+                    damage(eSender, receiver, ItemUtils.getEntityAttribute(receiver, AttributeType.THORNS), EntityUtils.DamageType.MELEE);
                 }
 
             }
@@ -78,7 +74,6 @@ public class CustomDamage implements Listener {
 
             if (((EntityDamageByEntityEvent) event).getDamager() instanceof Projectile && eSender instanceof Player){
                 Player sender = (Player) eSender;
-
                 damage((LivingEntity) event.getEntity(), sender, getRawDamage((EntityDamageByEntityEvent) event, sender), EntityUtils.DamageType.MELEE, true, ((EntityDamageByEntityEvent) event).getDamager());
 
                 event.setDamage(0);
@@ -87,11 +82,36 @@ public class CustomDamage implements Listener {
             } else if (eSender instanceof Player){
 
                 Player sender = (Player) eSender;
-
                 damage((LivingEntity) event.getEntity(), sender, getRawDamage((EntityDamageByEntityEvent) event, sender), EntityUtils.DamageType.MELEE, true, ((EntityDamageByEntityEvent) event).getDamager());
 
                 event.setDamage(0);
                 return;
+            }
+
+
+            //Damage by entities
+            else {
+
+                //Projectile shoot by Entity
+                if (((EntityDamageByEntityEvent) event).getDamager() instanceof Projectile){
+
+                    //Not a dispenser
+                    if (((Projectile) ((EntityDamageByEntityEvent) event).getDamager()).getShooter() instanceof LivingEntity){
+                        damage((LivingEntity) event.getEntity(), (LivingEntity) ((Projectile) ((EntityDamageByEntityEvent) event).getDamager()).getShooter(), damage, EntityUtils.DamageType.PROJECTILE);
+                        return;
+                    }
+
+                }
+                //Melee by entity
+                else {
+                    //you never know, an item frame might just kill you
+                    if (((EntityDamageByEntityEvent) event).getDamager() instanceof LivingEntity){
+                        damage((LivingEntity) event.getEntity(), (LivingEntity) ((EntityDamageByEntityEvent) event).getDamager(), damage, EntityUtils.DamageType.MELEE);
+                        return;
+                    }
+
+                }
+
             }
 
 
@@ -140,7 +160,7 @@ public class CustomDamage implements Listener {
         //Melee
         if(event.getDamager() instanceof Player){
 
-            damage = ItemUtils.getPlayerAttribute((Player) event.getDamager(), AttributeType.ATTACK_DAMAGE);
+            damage = ItemUtils.getEntityAttribute((LivingEntity) event.getDamager(), AttributeType.ATTACK_DAMAGE);
 
 
             //Direct Damage
@@ -174,7 +194,7 @@ public class CustomDamage implements Listener {
         //Ranged
         if(event.getDamager() instanceof Projectile){
 
-            damage = ItemUtils.getPlayerAttribute(sender, AttributeType.PROJECTILE_DAMAGE);
+            damage = ItemUtils.getEntityAttribute(sender, AttributeType.PROJECTILE_DAMAGE);
 
 
             //Damage depending on actual projectile speed compared to projectile speed stat
@@ -252,9 +272,13 @@ public class CustomDamage implements Listener {
             target.setAbsorptionAmount(Math.max(0, target.getAbsorptionAmount() - damage));
             damage = Math.max(0, damage - target.getAbsorptionAmount());
         }
+
+
         //If they should survive
-        if (target.getHealth() > damage){
+        if (Math.floor(target.getHealth() - damage) > 0){
+
             target.setHealth(target.getHealth() - damage);
+
         }
         //If they should die
         else {
@@ -268,9 +292,54 @@ public class CustomDamage implements Listener {
             }
 
             target.setHealth(0);
+
+            if(target instanceof Player){
+                deathMessage((Player) target, damager, damageType);
+            }
+
         }
 
     }
+
+    private static void deathMessage(Player target, LivingEntity damager, EntityUtils.DamageType damageType){
+
+        if (damager == null){
+
+            String message;
+
+            if (damageType == EntityUtils.DamageType.FALLING){
+                message = " experienced deadly velocities";
+            } else if (damageType == EntityUtils.DamageType.FIRE) {
+                message = " burnt to a crisp";
+            } else if (damageType == EntityUtils.DamageType.BLAST){
+                message = " blew up";
+            } else if (damageType == EntityUtils.DamageType.MAGIC){
+                message = " was hexed to death by a mean wizard";
+            } else {
+                message = " was killed by unknown forces";
+            }
+
+            //Component component = Component.text(target.getName() + message);
+
+            Bukkit.getServer().sendMessage(Component.text(target.getName() + message));
+
+            return;
+        }
+
+        Bukkit.getServer().sendMessage(Component.text(target.getName() + " was killed by " + damager.getName()));
+    }
+
+
+
+    //removes death messages
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event){
+        event.deathMessage(Component.text(""));
+    }
+
+
+
+
 
     //Damage after armor & protection & potion effect calculations
     public static double getDamage(LivingEntity target, LivingEntity damager, double damage, EntityUtils.DamageType damageType){
@@ -287,16 +356,16 @@ public class CustomDamage implements Listener {
 
             if (damageType == EntityUtils.DamageType.MELEE){
 
-                damage += ItemUtils.getPlayerAttribute((Player) damager, AttributeType.ATTACK_DAMAGE, ItemUtils.AttributeOperator.ADD);
-                damage *= ItemUtils.getPlayerAttribute((Player) damager, AttributeType.ATTACK_DAMAGE, ItemUtils.AttributeOperator.ADD_PROCENT);
+                damage += ItemUtils.getEntityAttribute(damager, AttributeType.ATTACK_DAMAGE, ItemUtils.AttributeOperator.ADD);
+                damage *= ItemUtils.getEntityAttribute(damager, AttributeType.ATTACK_DAMAGE, ItemUtils.AttributeOperator.ADD_PROCENT);
 
             } else if (damageType == EntityUtils.DamageType.PROJECTILE) {
-                damage += ItemUtils.getPlayerAttribute((Player) damager, AttributeType.PROJECTILE_DAMAGE, ItemUtils.AttributeOperator.ADD);
-                damage *= ItemUtils.getPlayerAttribute((Player) damager, AttributeType.PROJECTILE_DAMAGE, ItemUtils.AttributeOperator.ADD_PROCENT);
+                damage += ItemUtils.getEntityAttribute(damager, AttributeType.PROJECTILE_DAMAGE, ItemUtils.AttributeOperator.ADD);
+                damage *= ItemUtils.getEntityAttribute(damager, AttributeType.PROJECTILE_DAMAGE, ItemUtils.AttributeOperator.ADD_PROCENT);
 
             } else if (damageType == EntityUtils.DamageType.MAGIC){
-                damage += ItemUtils.getPlayerAttribute((Player) damager, AttributeType.MAGIC_DAMAGE, ItemUtils.AttributeOperator.ADD);
-                damage *= ItemUtils.getPlayerAttribute((Player) damager, AttributeType.MAGIC_DAMAGE, ItemUtils.AttributeOperator.ADD_PROCENT);
+                damage += ItemUtils.getEntityAttribute(damager, AttributeType.MAGIC_DAMAGE, ItemUtils.AttributeOperator.ADD);
+                damage *= ItemUtils.getEntityAttribute(damager, AttributeType.MAGIC_DAMAGE, ItemUtils.AttributeOperator.ADD_PROCENT);
 
             } else if (damageType == EntityUtils.DamageType.FIRE){
 
@@ -347,11 +416,9 @@ public class CustomDamage implements Listener {
 
         //Armor
         if (damageType == EntityUtils.DamageType.PROJECTILE || damageType == EntityUtils.DamageType.MAGIC || damageType == EntityUtils.DamageType.MELEE || damageType == EntityUtils.DamageType.BLAST || damageType == EntityUtils.DamageType.FIRE){
-            if (target instanceof Player){
-                damage *= Math.pow(0.96, ItemUtils.getPlayerAttribute((Player) target, AttributeType.ARMOR));
-            } else {
-                damage *= Math.pow(0.96, EntityUtils.combinedAttributeLvl(target, Attribute.GENERIC_ARMOR) + EntityUtils.combinedAttributeLvl(target, Attribute.GENERIC_ARMOR_TOUGHNESS));
-            }
+
+            damage *= Math.pow(0.96, ItemUtils.getEntityAttribute(target, AttributeType.ARMOR));
+
         }
 
         //Resistance
