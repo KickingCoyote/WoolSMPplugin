@@ -23,7 +23,6 @@ pl\mn\mncustomenchants\Commands\EditItemV2.class
 pl\mn\mncustomenchants\ItemMethods\ItemUtils.class
 pl\mn\mncustomenchants\Commands\TabCompletion.class
 pl\mn\mncustomenchants\EntityMethods\Classifications\PlayerUpdates.class
-pl\mn\mncustomenchants\EnchantmentFuctionalities\Two_Handed.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\AttackEffectEnchantments.class
 pl\mn\mncustomenchants\ItemMethods\Keys.class
 pl\mn\mncustomenchants\CustomDamage\CustomDamage.class

@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
@@ -97,31 +98,37 @@ public class ItemUtils {
     }
 
 
-    public static double getPlayerAttribute(Player player, AttributeType type){
+    public static double getEntityAttribute(LivingEntity target, AttributeType type){
 
-        return (getItemStat(player, type) + getPlayerAttribute(player, type, AttributeOperator.ADD)) * getPlayerAttribute(player, type, AttributeOperator.ADD_PROCENT);
+        return (getItemStat(target, type) + getEntityAttribute(target, type, AttributeOperator.ADD)) * getEntityAttribute(target, type, AttributeOperator.ADD_PROCENT);
 
     }
 
-    public static double getPlayerAttribute(Player player, AttributeType type, AttributeOperator operator){
+    public static double getEntityAttribute(LivingEntity target, AttributeType type, AttributeOperator operator){
 
         double add = 0;
         double multiply = 0;
 
+        if(target.getEquipment() == null){
+            return 0;
+        }
+
         for (EquipmentSlot eq : EquipmentSlot.values()){
 
-            if (player.getInventory().getItem(eq).isEmpty()) { continue; }
-            if (getDataContainer(player.getInventory().getItem(eq), Attribute.getKey(type, AttributeOperator.ADD, eq)) != -2000000)
+
+
+            if (target.getEquipment().getItem(eq).isEmpty()) { continue; }
+            if (getDataContainer(target.getEquipment().getItem(eq), Attribute.getKey(type, AttributeOperator.ADD, eq)) != -2000000)
             {
-                add += getDataContainer(player.getInventory().getItem(eq), Attribute.getKey(type, AttributeOperator.ADD, eq));
+                add += getDataContainer(target.getEquipment().getItem(eq), Attribute.getKey(type, AttributeOperator.ADD, eq));
             }
-            if (getDataContainer(player.getInventory().getItem(eq), Attribute.getKey(type, AttributeOperator.ADD_PROCENT, eq)) != -2000000){
-                multiply += getDataContainer(player.getInventory().getItem(eq), Attribute.getKey(type, AttributeOperator.ADD_PROCENT, eq));
+            if (getDataContainer(target.getEquipment().getItem(eq), Attribute.getKey(type, AttributeOperator.ADD_PROCENT, eq)) != -2000000){
+                multiply += getDataContainer(target.getEquipment().getItem(eq), Attribute.getKey(type, AttributeOperator.ADD_PROCENT, eq));
             }
         }
 
         if (operator == AttributeOperator.ITEM_STAT){
-            return getItemStat(player, type);
+            return getItemStat(target, type);
         }
         if (operator == AttributeOperator.ADD){
             return add;
@@ -134,14 +141,21 @@ public class ItemUtils {
     }
 
 
-    private static double getItemStat(Player player, AttributeType type){
+    private static double getItemStat(LivingEntity target, AttributeType type){
 
+        if(target.getEquipment() == null){
+            return 0;
+        }
 
         //TODO: prioritize so it chooses the highest value for armor and offhand
         //The order goes HAND, OFF_HAND, FEET -> HEAD
         for (EquipmentSlot e : EquipmentSlot.values()){
 
-            ItemStack item = player.getInventory().getItem(e);
+
+
+            ItemStack item = target.getEquipment().getItem(e);
+
+
 
             NamespacedKey key = Attribute.getKey(type, AttributeOperator.ITEM_STAT, EquipmentSlot.HAND);
 
