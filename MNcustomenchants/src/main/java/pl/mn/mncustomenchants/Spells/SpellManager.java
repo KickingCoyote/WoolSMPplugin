@@ -38,7 +38,6 @@ public class SpellManager {
     }
 
     public static void castSpell(Spell spell){
-        spell.onCast();
 
         activeSpells.add(spell);
         spellCounter++;
@@ -49,6 +48,8 @@ public class SpellManager {
             isTicking = true;
             tick();
         }
+
+        spell.onCast();
 
     }
 

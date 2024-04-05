@@ -8,6 +8,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.mn.mncustomenchants.Abilities.AbilityManager;
 import pl.mn.mncustomenchants.Bosses.Hellborn_Servant;
 import pl.mn.mncustomenchants.Commands.EditItemV2;
 import pl.mn.mncustomenchants.Commands.TabCompletion;
@@ -22,6 +23,7 @@ import pl.mn.mncustomenchants.EnchantmentFuctionalities.EnchantmentSpells.Dragon
 import pl.mn.mncustomenchants.EntityMethods.Classifications.PlayerUpdates;
 import pl.mn.mncustomenchants.EntityMethods.Projectiles;
 import pl.mn.mncustomenchants.GUI.InventoryShulkers;
+import pl.mn.mncustomenchants.Graves.SpawnGrave;
 import pl.mn.mncustomenchants.ItemMethods.Attributes.JumpHeight;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 
@@ -61,14 +63,11 @@ public final class main extends JavaPlugin implements CommandExecutor {
         //Bosses
         new Hellborn_Servant();
 
-
-        //handles projectiles
-        new Projectiles();
-
-        //GUI
+        //misc
         //new InventoryShulkers();
-
-
+        new Projectiles();
+        new AbilityManager();
+        new SpawnGrave();
 
         //CommandStuff
         getCommand("customenchant").setTabCompleter(new TabCompletion());

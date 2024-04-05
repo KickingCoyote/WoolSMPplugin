@@ -27,7 +27,7 @@ public class TabCompletion implements TabCompleter {
         if(s.equalsIgnoreCase("edititemv2")){
             if(args.length == 1){
 
-                return List.of("setCustomTag", "setFlag", "Remove_Attribute", "Add_Attribute", "Edit_Lore");
+                return List.of("setCustomTag", "setFlag", "Remove_Attribute", "Add_Attribute", "Edit_Lore", "Edit_Tier");
 
             }
             if (args[0].equalsIgnoreCase("setCustomTag")){
@@ -97,6 +97,11 @@ public class TabCompletion implements TabCompleter {
             else if (args[0].equalsIgnoreCase("Edit_Lore")){
                 if (args.length == 2){
                     return List.of("0","1", "2");
+                }
+            }
+            else if (args[0].equalsIgnoreCase("edit_tier")){
+                if (args.length == 2){
+                    return ItemUtils.tiers;
                 }
             }
         }

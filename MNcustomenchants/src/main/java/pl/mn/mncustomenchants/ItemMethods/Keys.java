@@ -15,6 +15,12 @@ public class Keys {
 
     public static final NamespacedKey lore = new NamespacedKey(main.getInstance(), "Lore");
 
+    public static final NamespacedKey DEAD = new NamespacedKey(main.getInstance(), "DEAD");
+
+    public static final NamespacedKey GRAVE = new NamespacedKey(main.getInstance(), "GRAVE");
+
+    public static final NamespacedKey TIER = new NamespacedKey(main.getInstance(), "TIER");
+
     //Attributes
     //public static final NamespacedKey THORNS = new NamespacedKey(main.getInstance(), "Thorns");
 

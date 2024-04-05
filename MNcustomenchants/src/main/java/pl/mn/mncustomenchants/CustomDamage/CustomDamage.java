@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
@@ -21,6 +22,7 @@ import pl.mn.mncustomenchants.EnchantmentFuctionalities.*;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.ItemMethods.AttributeType;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
+import pl.mn.mncustomenchants.ItemMethods.Keys;
 
 public class CustomDamage implements Listener {
 
@@ -143,10 +145,10 @@ public class CustomDamage implements Listener {
             damage((LivingEntity) event.getEntity(), null, damage, EntityUtils.DamageType.TRUE);
         }
 
+
+
+
         event.setDamage(0);
-
-
-
         //event.setCancelled(true);
     }
 
@@ -165,7 +167,10 @@ public class CustomDamage implements Listener {
 
             //Direct Damage
             if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK){
-                damage *= ((Player) event.getDamager()).getAttackCooldown();
+
+
+                //Cubing it makes spam much less effective
+                damage *= Math.pow(((Player) event.getDamager()).getAttackCooldown(), 3);
 
 
                 //Air strike
@@ -236,9 +241,13 @@ public class CustomDamage implements Listener {
     }
 
 
-
-
-
+    /**
+     *
+     * @param target target
+     * @param damager damager
+     * @param damage damage
+     * @param damageType type of damage
+     */
     public static void damage(LivingEntity target, LivingEntity damager, double damage, EntityUtils.DamageType damageType){
 
         damage(target, damager, damage, damageType, false, null);
@@ -246,12 +255,23 @@ public class CustomDamage implements Listener {
     }
 
 
+    /**
+     *
+     * @param target target
+     * @param damager damager
+     * @param damage damage
+     * @param damageType type of damage
+     * @param applyEffects if effects such as fire aspect and decay should be applied
+     * @param directDamager the direct damage source, like arrows or other projectiles
+     */
     public static void damage(LivingEntity target, LivingEntity damager, double damage, EntityUtils.DamageType damageType, boolean applyEffects, Entity directDamager){
 
 
         if (target.isDead() || (target instanceof Player && ((Player)target).getGameMode() == GameMode.CREATIVE)){
             return;
         }
+
+
 
         damage = getDamage(target, damager, damage, damageType);
 
@@ -262,8 +282,6 @@ public class CustomDamage implements Listener {
         if (applyEffects && damager instanceof Player){
             AttackEffectEnchantments.CheckAttackEffects(target, (Player) damager, directDamager);
         }
-
-
 
         //Apply damage
 
@@ -291,9 +309,13 @@ public class CustomDamage implements Listener {
                 target.getEquipment().setItem(EquipmentSlot.OFF_HAND, new ItemStack(Material.AIR));
             }
 
+
             target.setHealth(0);
 
+
+
             if(target instanceof Player){
+                target.getPersistentDataContainer().set(Keys.DEAD, PersistentDataType.BOOLEAN, true);
                 deathMessage((Player) target, damager, damageType);
             }
 
@@ -334,7 +356,9 @@ public class CustomDamage implements Listener {
     //removes death messages
     @EventHandler
     public void onDeath(PlayerDeathEvent event){
+
         event.deathMessage(Component.text(""));
+
     }
 
 
@@ -417,7 +441,8 @@ public class CustomDamage implements Listener {
         //Armor
         if (damageType == EntityUtils.DamageType.PROJECTILE || damageType == EntityUtils.DamageType.MAGIC || damageType == EntityUtils.DamageType.MELEE || damageType == EntityUtils.DamageType.BLAST || damageType == EntityUtils.DamageType.FIRE){
 
-            damage *= Math.pow(0.96, ItemUtils.getEntityAttribute(target, AttributeType.ARMOR));
+            //1.5 is for balancing
+            damage *= Math.pow(0.96, 1.5 * ItemUtils.getEntityAttribute(target, AttributeType.ARMOR));
 
         }
 

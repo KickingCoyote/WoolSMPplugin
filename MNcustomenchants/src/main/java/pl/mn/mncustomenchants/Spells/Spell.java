@@ -11,7 +11,15 @@ public abstract class Spell {
     public LivingEntity caster;
     public Location castLocation;
 
-
+    /**
+     *
+     * @param caster the entity casting the spell
+     * @param castLocation where the spell is cast
+     */
+    public Spell(LivingEntity caster, Location castLocation){
+        this.caster = caster;
+        this.castLocation = castLocation;
+    }
 
     public abstract void onTick();
 
@@ -21,7 +29,9 @@ public abstract class Spell {
 
     public abstract void cancel();
 
-    public abstract void onEnd();
+    public void onEnd(){
+        SpellManager.removeSpell(this);
+    }
 
 
 

@@ -15,8 +15,8 @@ public class TeleportSpell extends Spell {
 
 
     public TeleportSpell(LivingEntity caster, Location targetLocation, int delay, float maxDistance){
-        this.caster = caster;
-        this.castLocation = caster.getEyeLocation();
+        super(caster, targetLocation);
+
         this.targetLocation = targetLocation;
         this.delay = delay;
         this.maxDistance = maxDistance;
@@ -55,8 +55,4 @@ public class TeleportSpell extends Spell {
 
     }
 
-    @Override
-    public void onEnd() {
-        SpellManager.removeSpell(this);
-    }
 }

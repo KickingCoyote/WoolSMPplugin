@@ -43,8 +43,14 @@ public class ItemUtils {
         ITEM_STAT,
         ADD,
         ADD_PROCENT,
-
     };
+
+    public static final List<String> tiers = List.of(
+            "Common",
+            "Rare",
+            "Artifact",
+            "Epic"
+    );
 
 
     public static AttributeOperator AttributeOperatorValueOf(String s){
@@ -60,6 +66,8 @@ public class ItemUtils {
 
         return attributeOperator;
     }
+
+
 
 
 
@@ -318,6 +326,38 @@ public class ItemUtils {
 
         }
 
+
+
+        //Tier
+        String tier = getItemTier(itemStack);
+        if (tier != null){
+
+            TextColor color1;
+            boolean bold = false;
+            switch (tier) {
+                case "Epic":
+                    color1 = TextColor.color(170, 0, 170);
+                    bold = true;
+                    break;
+                case "Rare":
+                    color1 = TextColor.color(85, 255, 255);
+                    break;
+                case "Artifact":
+                    color1 = TextColor.color(170, 0, 0);
+                    break;
+                default:
+                    color1 = TextColor.color(170, 170, 170);
+                    break;
+            }
+
+            Component component1 = Component.text(tier, color1).decoration(TextDecoration.BOLD, bold);
+            components.add(Component.text("Overworld : ", TextColor.color(85, 85, 85)).append(component1).decoration(TextDecoration.ITALIC, false));
+
+
+        }
+
+
+
         //The ACTUAL Lore
 
         if (itemStack.hasItemMeta() && itemStack.getItemMeta().getPersistentDataContainer().has(Keys.lore)){
@@ -330,8 +370,6 @@ public class ItemUtils {
                     components.add(Component.text(s.getText()[i].replace('_', ' '), TextColor.color(s.getR()[i],s.getG()[i],s.getB()[i])).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
                 }
             }
-
-
 
 
         }
@@ -437,6 +475,25 @@ public class ItemUtils {
 
         return sortedList;
 
+    }
+
+    public static void setItemTier(ItemStack itemStack, String tier){
+
+        if (!tiers.contains(tier)){
+            return;
+        }
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.getPersistentDataContainer().set(Keys.TIER, PersistentDataType.STRING, tier);
+        itemStack.setItemMeta(itemMeta);
+    }
+
+    public static String getItemTier(ItemStack itemStack){
+
+        if (!itemStack.hasItemMeta()){return null;}
+        if(!itemStack.getItemMeta().getPersistentDataContainer().has(Keys.TIER)) {return null;}
+
+        return itemStack.getItemMeta().getPersistentDataContainer().get(Keys.TIER, PersistentDataType.STRING);
     }
 
 

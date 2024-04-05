@@ -26,9 +26,7 @@ public class VolleySpell extends Spell {
      * @param count amount of arrows
      */
     public VolleySpell(LivingEntity caster, Location castLocation, Vector direction, double angle, float speed, int count){
-
-        this.caster = caster;
-        this.castLocation = castLocation;
+        super(caster, castLocation);
 
         this.direction = direction;
         this.angle = angle;
@@ -59,6 +57,8 @@ public class VolleySpell extends Spell {
 
         }
 
+        onEnd();
+
     }
 
     @Override
@@ -71,8 +71,4 @@ public class VolleySpell extends Spell {
 
     }
 
-    @Override
-    public void onEnd() {
-        SpellManager.removeSpell(this);
-    }
 }

@@ -1,6 +1,7 @@
 package pl.mn.mncustomenchants.ItemMethods;
 
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
@@ -27,7 +28,7 @@ public class VanillaModifications {
     public static void anvil (InventoryOpenEvent event){
 
 
-        if (event.getInventory().getType() == InventoryType.ANVIL){
+        if (event.getInventory().getType() == InventoryType.ANVIL && event.getPlayer().getGameMode() != GameMode.CREATIVE){
             if (!event.getPlayer().getInventory().getItemInMainHand().isEmpty()){
                 if (event.getPlayer().getInventory().getItemInMainHand().getItemMeta() instanceof Damageable){
                     if (((Damageable) event.getPlayer().getInventory().getItemInMainHand().getItemMeta()).getDamage() > 0){
@@ -62,7 +63,7 @@ public class VanillaModifications {
     }
 
     public static void grindstone (InventoryOpenEvent event){
-        if (event.getInventory().getType() == InventoryType.GRINDSTONE){
+        if (event.getInventory().getType() == InventoryType.GRINDSTONE && event.getPlayer().getGameMode() != GameMode.CREATIVE){
             event.setCancelled(true);
         }
     }

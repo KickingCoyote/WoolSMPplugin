@@ -61,6 +61,8 @@ public class CustomEnchantments {
                 return aerial_strike;
             case "weightless":
                 return  weightless;
+            case "material":
+                return material;
             default:
                 return error;
         }
@@ -75,7 +77,6 @@ public class CustomEnchantments {
             "melee_protection",
             "true_infinity",
             "regeneration",
-            "arcane_strike",
             "ice_aspect",
             "curse_of_corruption",
             "excavator",
@@ -90,12 +91,15 @@ public class CustomEnchantments {
             "advancing_shadows",
             "sweeping_edge",
             "aerial_strike",
-            "weightless"
+            "weightless",
+            "arcane_strike",
+            "material"
     );
 
     //All enchantments go here
     public static final Enchantment error = new EnchatmentWrapper("error", "Error", 1);
 
+    public static final Enchantment material = new EnchatmentWrapper("material", "Material", 1);
 
     public static final Enchantment radiant = new EnchatmentWrapper("radiant", "Radiant", 2);
 
@@ -147,7 +151,7 @@ public class CustomEnchantments {
     public static final Enchantment aerial_strike = new EnchatmentWrapper("aerial_strike", "Aerial Strike", 2);
 
     //SPELLS
-    public static final Enchantment arcane_strike = new EnchatmentWrapper("arcane_strike", "Arcane Strike", 2);
+    public static final Enchantment arcane_strike = new EnchatmentWrapper("arcane_strike", "Arcane Thrust", 2);
     public static final Enchantment dragon_blade = new EnchatmentWrapper("dragon_blade", "Dragonblade", 1);
     public static final Enchantment advancing_shadows = new EnchatmentWrapper("advancing_shadows", "Advancing Shadows", 1);
 

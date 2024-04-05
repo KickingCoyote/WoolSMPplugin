@@ -1,5 +1,8 @@
 package pl.mn.mncustomenchants;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
 public class MathUtils {
@@ -31,6 +34,32 @@ public class MathUtils {
 
 
         return l;
+    }
+
+
+    /**
+     *
+     * Checks if location A is inside semi cylinder based around location B
+     */
+    public static boolean CyclicCollisionDetection(Location A, Location B, double radius, double angle, double height, double depth) {
+
+        if(A.getY() - B.getY() > height || B.getY() - A.getY() > depth) {return false;}
+
+
+        Vector APos = A.toVector().setY(0);
+        Vector BDir = B.getDirection().setY(0).normalize();
+        Vector BPos = B.toVector().setY(0);
+        Vector ARelative = APos.clone().subtract(BPos).normalize();
+
+
+        if (APos.distance(BPos) > radius) {return false;}
+
+
+        if (Math.acos(ARelative.dot(BDir)) > angle / 2) {
+            return false;
+        }
+
+        return true;
     }
 
 }

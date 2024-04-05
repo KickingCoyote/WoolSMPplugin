@@ -1,8 +1,10 @@
 package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.Event;
@@ -11,10 +13,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.Vector;
 import pl.mn.mncustomenchants.CustomDamage.CustomDamage;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.CustomEffects;
+import pl.mn.mncustomenchants.Spells.Spell;
+import pl.mn.mncustomenchants.Spells.SpellManager;
+import pl.mn.mncustomenchants.Spells.Spells.ThrowSpell;
 import pl.mn.mncustomenchants.main;
 
 public class Quake implements Listener{

@@ -27,8 +27,7 @@ public class FireballSpell extends Spell {
     List<Entity> targets;
 
     public FireballSpell(LivingEntity caster, Location castLocation, int speed, double range, double damage){
-        this.caster = caster;
-        this.castLocation = castLocation;
+        super(caster, castLocation);
 
         this.speed = speed;
         this.range = range;
@@ -125,6 +124,7 @@ public class FireballSpell extends Spell {
             }
 
         }
+        fireball.remove();
         onEnd();
 
 
@@ -137,10 +137,4 @@ public class FireballSpell extends Spell {
     }
 
 
-    @Override
-    public void onEnd() {
-        SpellManager.removeSpell(this);
-
-        fireball.remove();
-    }
 }
