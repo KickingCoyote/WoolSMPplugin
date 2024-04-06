@@ -3,6 +3,7 @@ pl\mn\mncustomenchants\Particles\ParticleData.class
 pl\mn\mncustomenchants\CustomEnchantments\CustomEnchantments.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Quake.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Recoil.class
+pl\mn\mncustomenchants\Misc\C.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Radiant.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\EnchantmentSpells\Arcane_Strike.class
 pl\mn\mncustomenchants\Particles\Particles$2.class

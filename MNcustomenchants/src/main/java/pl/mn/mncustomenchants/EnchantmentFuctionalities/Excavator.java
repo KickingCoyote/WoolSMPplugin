@@ -10,6 +10,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.util.Vector;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
+import pl.mn.mncustomenchants.Misc.C;
 import pl.mn.mncustomenchants.main;
 
 import java.util.List;
@@ -33,16 +34,7 @@ public class Excavator implements Listener {
         Vector v = event.getPlayer().getTargetBlockFace(10).getDirection();
 
         //list of relative coordinates, based on that the direction is in the Z-axis
-       List<Vector> relatives = List.of(
-               new Vector(1, 1, 0),
-               new Vector(0, 1, 0),
-               new Vector(1, 0, 0),
-               new Vector(-1,-1,0),
-               new Vector(-1,0, 0),
-               new Vector(0, -1,0),
-               new Vector(-1,1, 0),
-               new Vector(1, -1,0)
-       );
+       List<Vector> relatives = C.xyRelativeAdjacent;
 
        for (Vector relative : relatives){
 

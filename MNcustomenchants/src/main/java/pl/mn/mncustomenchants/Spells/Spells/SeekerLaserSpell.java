@@ -22,6 +22,9 @@ public class SeekerLaserSpell extends LaserSpellBase {
     ParticleData laserBaseParticles;
 
 
+    //NOTE: wall-banging is possible if the target is pushed up against the corner
+    //FIXME: swap out current detection system towards bounding boxes to fix this ^^^
+
     /**
      * laser that tracks the target then becomes stationary for a bit before firing an instant laser
      * @param pierce             if the laser should pierce entities
@@ -41,6 +44,8 @@ public class SeekerLaserSpell extends LaserSpellBase {
         this.excEntities.addAll(excEntities);
         this.laserBaseParticles = laserBaseParticles;
     }
+
+
 
     @Override
     public void onHit() {

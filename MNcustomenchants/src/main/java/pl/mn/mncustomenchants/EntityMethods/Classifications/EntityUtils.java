@@ -18,17 +18,9 @@ import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 import java.util.*;
 
 public class EntityUtils {
-    public static final EnumSet<EntityType> FlyingEntities = EnumSet.of(
-            EntityType.BEE,
-            EntityType.VEX,
-            EntityType.ALLAY,
-            EntityType.BAT,
-            EntityType.WITHER,
-            EntityType.BLAZE,
-            EntityType.PARROT,
-            EntityType.PHANTOM,
-            EntityType.GHAST
-    );
+
+
+
     public enum DamageType{
         MELEE,
         PROJECTILE,

@@ -8,9 +8,11 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Marker;
 import org.bukkit.util.BlockIterator;
+import org.bukkit.util.BoundingBox;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 import pl.mn.mncustomenchants.MathUtils;
+import pl.mn.mncustomenchants.Misc.C;
 import pl.mn.mncustomenchants.Particles.ParticleData;
 import pl.mn.mncustomenchants.Particles.Particles;
 import pl.mn.mncustomenchants.Spells.Spell;
@@ -33,47 +35,13 @@ public abstract class LaserSpellBase extends Spell {
     //This is the point where the laser actually end everything else is just intermediate steps
     protected Location actualLaserEnd;
 
-    protected List<Material> passThroughBlocks = List.of(
-            Material.GLASS,
-            Material.GLASS_PANE,
-            Material.WHITE_STAINED_GLASS,
-            Material.ORANGE_STAINED_GLASS,
-            Material.MAGENTA_STAINED_GLASS,
-            Material.LIGHT_BLUE_STAINED_GLASS,
-            Material.YELLOW_STAINED_GLASS,
-            Material.LIME_STAINED_GLASS,
-            Material.PINK_STAINED_GLASS,
-            Material.GRAY_STAINED_GLASS,
-            Material.LIGHT_GRAY_STAINED_GLASS,
-            Material.CYAN_STAINED_GLASS,
-            Material.PURPLE_STAINED_GLASS,
-            Material.BLUE_STAINED_GLASS,
-            Material.BROWN_STAINED_GLASS,
-            Material.GREEN_STAINED_GLASS,
-            Material.RED_STAINED_GLASS,
-            Material.BLACK_STAINED_GLASS,
-            Material.WHITE_STAINED_GLASS_PANE,
-            Material.ORANGE_STAINED_GLASS_PANE,
-            Material.MAGENTA_STAINED_GLASS_PANE,
-            Material.LIGHT_BLUE_STAINED_GLASS_PANE,
-            Material.YELLOW_STAINED_GLASS_PANE,
-            Material.LIME_STAINED_GLASS_PANE,
-            Material.PINK_STAINED_GLASS_PANE,
-            Material.GRAY_STAINED_GLASS_PANE,
-            Material.LIGHT_GRAY_STAINED_GLASS_PANE,
-            Material.CYAN_STAINED_GLASS_PANE,
-            Material.PURPLE_STAINED_GLASS_PANE,
-            Material.BLUE_STAINED_GLASS_PANE,
-            Material.BROWN_STAINED_GLASS_PANE,
-            Material.GREEN_STAINED_GLASS_PANE,
-            Material.RED_STAINED_GLASS_PANE,
-            Material.BLACK_STAINED_GLASS_PANE,
-            Material.AIR
-    );
+
 
 
     //NOTE: this class is a hot mess, don't question it, don't try to fix it, just accept that the magic spaghetti works
     //Its insane, Literally everything works, no bugs, no edge cases, no nothing, just *PERFECTION*
+    //NOTE 2: the laser is fired from your eyes but the particles are fired from a little below to make the less annoying, this is intentional but can look a bit weird
+    //NOTE 3: particles don't render in colored glass / water, but that's a minecraft issue
 
     /**
      * laser that tracks the target then becomes stationary for a bit before instantly firing
@@ -104,89 +72,25 @@ public abstract class LaserSpellBase extends Spell {
 
 
 
-        //Calculate where the end point of the laser should be
+        //Calculate where the end point of the laser should be whilst still charging
         if(t <= chargeTime){
-
-
-            Location rayBlock = caster.rayTraceBlocks(range, FluidCollisionMode.NEVER) == null ? null : caster.rayTraceBlocks(range, FluidCollisionMode.NEVER).getHitPosition().toLocation(castLocation.getWorld());
-            Location rayEntity = pierce ? null : (caster.rayTraceEntities((int) range) == null ? null : caster.rayTraceEntities((int) range).getHitPosition().toLocation(castLocation.getWorld()));
-
-            if (rayBlock != null && passThroughBlocks.contains(rayBlock.getBlock().getType())){
-                rayBlock = null;
-
-            }
-
-            if(rayBlock != null && rayEntity != null){
-                if (rayBlock.distance(castLocation) < rayEntity.distance(castLocation)){
-                    endPoint = rayBlock;
-                } else {
-                    endPoint = rayEntity;
-                }
-            } else if (rayBlock != null){
-                endPoint = rayBlock;
-            } else if (rayEntity != null){
-                endPoint = rayEntity;
-            } else {
-                //endPoint = castLocation.getDirection().normalize().multiply(range).add(castLocation.toVector()).toLocation(castLocation.getWorld());
-                endPoint = castLocation.clone().add(castLocation.getDirection().normalize().multiply(range));
-            }
-
+            endPoint = castLocation.clone().add(castLocation.getDirection().normalize().multiply(range));
         }
+
 
         actualLaserEnd = endPoint.clone();
-
-
-        //Checks for any blocks in the way after chargeTime is over
-        if (t > chargeTime) {
-
-            castLocation.setDirection(endPoint.clone().subtract(castLocation).toVector());
-
-            BlockIterator blockIterator = new BlockIterator(castLocation, 0, (int) range);
-
-            double l = endPoint.distance(castLocation);
-
-            //Entity collisions if no pierce
-            if (!pierce){
-                for (Entity entity : castLocation.toVector().getMidpoint(endPoint.toVector()).toLocation(castLocation.getWorld()).getNearbyEntities(l, l, l)){
-
-                    if (entity == caster){
-                        continue;
-                    }
-
-                    RayTraceResult r = entity.getBoundingBox().rayTrace(castLocation.toVector(), castLocation.getDirection(), l);
-
-                    if (r != null && r.getHitPosition().toLocation(castLocation.getWorld()).distance(castLocation) < l){
-
-                        actualLaserEnd = castLocation.clone().add(castLocation.getDirection().clone().normalize().multiply(castLocation.distance(entity.getLocation().add(0.5, 0.5, 0.5))));
-
-                    }
-
-                }
-            }
-
-            //Block collisions
-            while (blockIterator.hasNext()){
-                Block b = blockIterator.next();
-                if(b.getBoundingBox().rayTrace(castLocation.toVector(), castLocation.getDirection(), l) != null && b.getLocation().distance(castLocation) < l && !passThroughBlocks.contains(b.getType())){
-
-                    actualLaserEnd = castLocation.clone().add(castLocation.getDirection().clone().normalize().multiply(castLocation.distance(b.getLocation().add(0.5, 0.5, 0.5))));
-
-                    break;
-                }
-            }
+        castLocation.setDirection(endPoint.clone().subtract(castLocation).toVector());
 
 
 
+        //Entity collisions if no pierce
+        if (!pierce){
+            EntityCollisions();
         }
 
 
-
-
-
-
-        length = actualLaserEnd.distance(castLocation);
-
-
+        //Check for block collisions
+        BlockCollisions();
 
 
         if (t > delay + chargeTime){
@@ -194,16 +98,67 @@ public abstract class LaserSpellBase extends Spell {
             return;
         }
 
+        length = actualLaserEnd.distance(castLocation);
         particles(length);
-
-
-
         t += SpellManager.tickFrequency;
     }
 
     protected abstract void particles(double length);
 
+
     @Override
     public void onCast() {}
+
+
+
+    protected void BlockCollisions(){
+        double l = endPoint.distance(castLocation);
+        BlockIterator blockIterator = new BlockIterator(castLocation, 0, (int) range);
+        boolean foundBlock = false;
+
+        //Block collisions
+        while (blockIterator.hasNext()){
+
+            if (foundBlock){break;}
+
+            Block b = blockIterator.next();
+
+            for (BoundingBox bb : b.getCollisionShape().getBoundingBoxes()){
+
+                bb.shift(b.getLocation());
+
+
+                if(b.getBoundingBox().copy(bb).rayTrace(castLocation.toVector(), castLocation.getDirection(), l) != null && b.getLocation().distance(castLocation) < l && !C.lightPassThroughBlocks.contains(b.getType())){
+
+                    actualLaserEnd = castLocation.clone().add(castLocation.getDirection().clone().normalize().multiply(castLocation.distance(b.getLocation().add(0.5, 0.5, 0.5))));
+
+                    foundBlock = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    protected void EntityCollisions(){
+
+        double l = endPoint.distance(castLocation);
+
+        for (Entity entity : castLocation.toVector().getMidpoint(endPoint.toVector()).toLocation(castLocation.getWorld()).getNearbyEntities(l, l, l)){
+
+            if (entity == caster){
+                continue;
+            }
+
+            RayTraceResult r = entity.getBoundingBox().rayTrace(castLocation.toVector(), castLocation.getDirection(), l);
+
+            if (r != null && r.getHitPosition().toLocation(castLocation.getWorld()).distance(castLocation) < l){
+
+                actualLaserEnd = castLocation.clone().add(castLocation.getDirection().clone().normalize().multiply(castLocation.distance(entity.getLocation().add(0.5, 0.5, 0.5))));
+
+            }
+
+        }
+    }
+
 
 }

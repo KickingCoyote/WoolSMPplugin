@@ -15,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import pl.mn.mncustomenchants.Abilities.Magic.ManaLance;
 import pl.mn.mncustomenchants.Particles.ParticleData;
 import pl.mn.mncustomenchants.Particles.Particles;
 import pl.mn.mncustomenchants.Spells.Spell;
@@ -41,20 +42,7 @@ public class AbilityManager implements Listener {
         }
 
 
-
-        ParticleData particleData = new ParticleData(
-                4,
-                Particle.REDSTONE,
-                Particles.sphere(event.getPlayer().getEyeLocation(), 100, 1),
-                2,
-                event.getPlayer().getLocation().toVector()
-        );
-        particleData.isDust = true;
-        particleData.color = Color.AQUA;
-        particleData.particleSize = 0.5f;
-
-        Spell s = new SeekerLaserSpell(event.getPlayer(), event.getPlayer().getEyeLocation(), 10, 0, 0, particleData, true, 12, List.of(event.getPlayer()));
-
+        ManaLance.temp(event.getPlayer());
 
         /*
         List<Entity> t = event.getPlayer().getNearbyEntities(10, 10, 10);
@@ -64,7 +52,7 @@ public class AbilityManager implements Listener {
             t.remove(e);
         }
         if(t.isEmpty()){return;}
-        Spell s2 = new HomingBoltSpell(
+        Spell s2 = new HomingBoltSpell(*8
                 (LivingEntity) t.get(0), ((LivingEntity)t.get(0)).getEyeLocation(),
                 event.getPlayer(), 0.2,
                 particleData, 30, 0.5,
@@ -73,7 +61,7 @@ public class AbilityManager implements Listener {
 
          */
 
-        SpellManager.castSpell(s);
+
 
 
 
