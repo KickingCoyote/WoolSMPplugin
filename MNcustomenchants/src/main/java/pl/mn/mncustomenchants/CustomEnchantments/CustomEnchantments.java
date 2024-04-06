@@ -63,6 +63,8 @@ public class CustomEnchantments {
                 return  weightless;
             case "material":
                 return material;
+            case "shattered":
+                return shattered;
             default:
                 return error;
         }
@@ -93,13 +95,16 @@ public class CustomEnchantments {
             "aerial_strike",
             "weightless",
             "arcane_strike",
-            "material"
+            "material",
+            "shattered"
     );
 
     //All enchantments go here
     public static final Enchantment error = new EnchatmentWrapper("error", "Error", 1);
 
     public static final Enchantment material = new EnchatmentWrapper("material", "Material", 1);
+
+    public static final Enchantment shattered = new EnchatmentWrapper("shattered", "SHATTERED", 2, true);
 
     public static final Enchantment radiant = new EnchatmentWrapper("radiant", "Radiant", 2);
 

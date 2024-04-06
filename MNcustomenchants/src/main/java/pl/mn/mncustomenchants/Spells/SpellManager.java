@@ -16,6 +16,8 @@ public class SpellManager {
 
     private static int spellCounter = 0;
 
+    public static int tickFrequency = 1;
+
 
     public static void tick(){
 
@@ -32,7 +34,7 @@ public class SpellManager {
 
             }
 
-        }, 0 , 2);
+        }, 0 , tickFrequency);
 
 
     }

@@ -62,4 +62,23 @@ public class MathUtils {
         return true;
     }
 
+
+    public static float[] VectorToAngle(Vector v){
+
+        //0, 0,  1 == 0, 0;
+        //0, -1, 0 == 0, 90
+        float[] angles = new float[2];
+
+        angles[0] = (float) -radToDegree(Math.atan2(v.getX(), v.getZ()));
+
+        angles[1] = (float) -radToDegree(Math.atan2(v.getY(), new Vector(v.getX(), 0, v.getZ()).length()));
+
+        return angles;
+    }
+
+    public static double radToDegree(double rad){
+
+        return rad * 180 / Math.PI;
+    }
+
 }

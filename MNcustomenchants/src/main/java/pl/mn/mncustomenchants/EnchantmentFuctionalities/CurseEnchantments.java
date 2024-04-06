@@ -17,9 +17,15 @@ public class CurseEnchantments {
 
 
         int cocLvl = EntityUtils.combinedEnchantLvl(player, CustomEnchantments.curse_of_corruption);
+        int shatteredLvl = EntityUtils.combinedEnchantLvl(player, CustomEnchantments.shattered);
 
         if (cocLvl > 1){
             PassiveEffects.Curse(player, true);
+            return;
+        }
+
+        if (shatteredLvl > 0){
+            PassiveEffects.Curse(player,true);
             return;
         }
 

@@ -267,7 +267,7 @@ public class CustomDamage implements Listener {
     public static void damage(LivingEntity target, LivingEntity damager, double damage, EntityUtils.DamageType damageType, boolean applyEffects, Entity directDamager){
 
 
-        if (target.isDead() || (target instanceof Player && ((Player)target).getGameMode() == GameMode.CREATIVE)){
+        if (target.isDead() || (target instanceof Player && ((Player)target).getGameMode() == GameMode.CREATIVE) || target.isInvulnerable()){
             return;
         }
 
