@@ -1,6 +1,11 @@
 package pl.mn.mncustomenchants.ItemMethods;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -135,5 +140,41 @@ public class ItemData {
 
     public void setUnbreakable(String unbreakable) {
         this.unbreakable = Boolean.valueOf(unbreakable);
+    }
+
+
+    //Name name=r=g=b=bold=underlined
+    public String getName() {
+        boolean bold = false;
+        boolean underlined = false;
+        boolean italic = false;
+        if (name.decoration(TextDecoration.BOLD) == TextDecoration.State.TRUE){
+            bold = true;
+        }if (name.decoration(TextDecoration.UNDERLINED) == TextDecoration.State.TRUE){
+            underlined = true;
+        }if (name.decoration(TextDecoration.ITALIC) == TextDecoration.State.TRUE){
+            italic = true;
+        }
+
+        TextColor color = TextColor.color(255, 255, 255);
+        if (name.color() != null){
+           color = name.color();
+        }
+
+        return PlainTextComponentSerializer.plainText().serialize(name).replace("[", "").replace("]", "") + "=" + color.asHexString() +"="+ bold +"="+ underlined + "=" + italic;
+    }
+
+    public void setName(String name) {
+
+        if(name == null){
+            return;
+        }
+
+        String[] s = name.split("=");
+
+        this.name = Component.text(s[0], TextColor.fromCSSHexString(s[1]))
+                .decoration(TextDecoration.BOLD, TextDecoration.State.byBoolean(Boolean.valueOf(s[2])))
+                .decoration(TextDecoration.UNDERLINED, TextDecoration.State.byBoolean(Boolean.valueOf(s[3])))
+                .decoration(TextDecoration.ITALIC, TextDecoration.State.byBoolean(Boolean.valueOf(s[4])));
     }
 }

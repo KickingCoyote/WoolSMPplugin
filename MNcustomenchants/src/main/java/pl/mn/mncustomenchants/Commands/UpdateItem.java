@@ -2,10 +2,13 @@ package pl.mn.mncustomenchants.Commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import net.minecraft.nbt.NBTTagCompound;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -41,6 +44,15 @@ public class UpdateItem implements CommandExecutor {
         if (!ItemUtils.hasDataContainer(item, Keys.SHATTERED)){
             ItemUtils.setShattered(item, 0);
         }
+
+        ItemUtils.fixBrokenName(item);
+
+
+        net.minecraft.world.item.ItemStack i = CraftItemStack.asNMSCopy(item);
+
+        //Bukkit.getPlayer("MN_128").sendMessage(i. + "");
+
+        //NBTTagCompound tagCompound = i.D()
 
         ItemUtils.UpdateLore(item);
     }

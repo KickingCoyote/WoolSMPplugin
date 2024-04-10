@@ -25,7 +25,6 @@ pl\mn\mncustomenchants\ItemMethods\ItemUtils.class
 pl\mn\mncustomenchants\Commands\TabCompletion.class
 pl\mn\mncustomenchants\EntityMethods\Classifications\PlayerUpdates.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\AttackEffectEnchantments.class
-pl\mn\mncustomenchants\ItemMethods\Keys.class
 pl\mn\mncustomenchants\CustomDamage\CustomDamage.class
 pl\mn\mncustomenchants\main.class
 pl\mn\mncustomenchants\Particles\Particles$1.class

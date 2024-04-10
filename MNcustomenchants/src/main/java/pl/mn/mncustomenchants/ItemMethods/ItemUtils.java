@@ -545,6 +545,26 @@ public class ItemUtils {
 
     }
 
+    /**
+     * fixes items name being stored in a child object of the display name instead of directly in the display name
+     */
+    public static void fixBrokenName(ItemStack item){
 
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta.displayName() == null){
+            return;
+        }
+
+        if(meta.displayName().children().isEmpty()){
+            return;
+        }
+
+        meta.displayName(meta.displayName().children().get(0));
+
+        item.setItemMeta(meta);
+    }
+
+    
 
 }

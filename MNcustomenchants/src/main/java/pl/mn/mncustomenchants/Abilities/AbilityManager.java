@@ -1,9 +1,16 @@
 package pl.mn.mncustomenchants.Abilities;
 
 import io.papermc.paper.event.player.PlayerArmSwingEvent;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.Item;
 import org.bukkit.*;
+import org.bukkit.craftbukkit.v1_20_R1.util.CraftMagicNumbers;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
@@ -16,6 +23,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import pl.mn.mncustomenchants.Abilities.Magic.ManaLance;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 import pl.mn.mncustomenchants.Particles.ParticleData;
 import pl.mn.mncustomenchants.Particles.Particles;
 import pl.mn.mncustomenchants.Spells.Spell;
@@ -43,10 +51,13 @@ public class AbilityManager implements Listener {
             return;
         }
 
+
+
         /*
         Iterator<Map.Entry<Enchantment, Integer>> iterator = event.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchants().entrySet().iterator();
         while (iterator.hasNext()){event.getPlayer().sendMessage(iterator.next().getKey().getKey().asString());}
          */
+
 
         ManaLance.temp(event.getPlayer());
 

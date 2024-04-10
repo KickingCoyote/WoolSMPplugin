@@ -1,5 +1,9 @@
 package pl.mn.mncustomenchants.Misc;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -54,6 +58,7 @@ public class ItemStorage {
             itemData.setPersistentD(cfg.getStringList(ItemUtils.getIdentifier(itemStack) +".persistentD"));
             itemData.setPersistentS(cfg.getStringList(ItemUtils.getIdentifier(itemStack) +".persistentS"));
             itemData.setUnbreakable(cfg.getString(ItemUtils.getIdentifier(itemStack) +".unbreakable"));
+            itemData.setName(cfg.getString(ItemUtils.getIdentifier(itemStack) +".name"));
         } else {
             return;
         }
@@ -81,6 +86,7 @@ public class ItemStorage {
         cfg.set(ItemUtils.getIdentifier(itemStack) +".persistentD", itemData.getPersistentD());
         cfg.set(ItemUtils.getIdentifier(itemStack) +".persistentS", itemData.getPersistentS());
         cfg.set(ItemUtils.getIdentifier(itemStack) +".unbreakable", itemData.getUnbreakable());
+        cfg.set(ItemUtils.getIdentifier(itemStack) +".name", itemData.getName());
 
         try {
             cfg.save(file);
@@ -110,6 +116,10 @@ public class ItemStorage {
 
         //Unbreakable
         itemMeta.setUnbreakable(itemData.unbreakable);
+
+        //Name
+        itemMeta.displayName(itemData.name);
+
 
         //Enchantments
         for (Map.Entry<Enchantment, Integer> entry : itemMeta.getEnchants().entrySet()){
@@ -159,6 +169,8 @@ public class ItemStorage {
         itemData.enchantments = itemStack.getItemMeta().getEnchants();
 
         itemData.unbreakable = itemStack.getItemMeta().isUnbreakable();
+
+        itemData.name = itemStack.getItemMeta().displayName();
 
         //PersistentData
         PersistentDataContainer pdc = itemStack.getItemMeta().getPersistentDataContainer();
