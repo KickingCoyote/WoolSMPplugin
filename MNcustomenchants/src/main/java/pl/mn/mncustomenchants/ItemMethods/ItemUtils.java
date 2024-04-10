@@ -1,43 +1,36 @@
 package pl.mn.mncustomenchants.ItemMethods;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.md_5.bungee.api.chat.hover.content.Item;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.Debug;
-import org.w3c.dom.Attr;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
-import pl.mn.mncustomenchants.CustomEnchantments.EnchatmentWrapper;
+import pl.mn.mncustomenchants.Misc.Keys;
 
-import java.lang.invoke.SwitchPoint;
-import java.sql.Array;
 import java.text.DecimalFormat;
 import java.text.Format;
-import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.*;
 
 import static java.lang.String.join;
+import static java.lang.String.valueOf;
 import static java.util.Collections.nCopies;
 
 
 public class ItemUtils {
+
+
+
 
     public enum AttributeOperator {
         ITEM_STAT,
@@ -66,6 +59,24 @@ public class ItemUtils {
 
         return attributeOperator;
     }
+
+
+
+
+    public static void setIdentifier(ItemStack itemStack, String identifier){
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.getPersistentDataContainer().set(Keys.IDENTIFIER, PersistentDataType.STRING, identifier);
+        itemStack.setItemMeta(itemMeta);
+    }
+
+    public static String getIdentifier(ItemStack itemStack){
+        if(itemStack.getItemMeta().getPersistentDataContainer().has(Keys.IDENTIFIER)){
+            return itemStack.getItemMeta().getPersistentDataContainer().get(Keys.IDENTIFIER, PersistentDataType.STRING);
+        }
+        return null;
+    }
+
+
 
 
 
@@ -104,6 +115,18 @@ public class ItemUtils {
 
         return -2000000;
     }
+
+    public static boolean hasDataContainer(ItemStack itemStack, NamespacedKey key){
+        if (!itemStack.hasItemMeta()){return false;}
+
+        return itemStack.getItemMeta().getPersistentDataContainer().has(key);
+    }
+    public static boolean hasDataContainer(ItemStack itemStack, NamespacedKey key, PersistentDataType dataType){
+        if (!itemStack.hasItemMeta()){return false;}
+
+        return itemStack.getItemMeta().getPersistentDataContainer().has(key, dataType);
+    }
+
 
 
     public static double getEntityAttribute(LivingEntity target, AttributeType type){
@@ -375,6 +398,14 @@ public class ItemUtils {
         }
 
 
+        //Shattered
+        if(hasDataContainer(itemStack, Keys.SHATTERED) && getShattered(itemStack) > 0){
+
+            components.add(Component.text("* SHATTERED " + getRomanNumber(getShattered(itemStack))+ " *", TextColor.color(170, 0, 0)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true));
+        }
+
+
+
 
         //Attributes
         for (EquipmentSlot eq : EquipmentSlot.values()){
@@ -494,6 +525,24 @@ public class ItemUtils {
         if(!itemStack.getItemMeta().getPersistentDataContainer().has(Keys.TIER)) {return null;}
 
         return itemStack.getItemMeta().getPersistentDataContainer().get(Keys.TIER, PersistentDataType.STRING);
+    }
+
+    public static int getShattered(ItemStack item){
+        if (!hasDataContainer(item, Keys.SHATTERED)){
+            return 0;
+        }
+
+        return item.getItemMeta().getPersistentDataContainer().get(Keys.SHATTERED, PersistentDataType.INTEGER);
+    }
+
+    public static void setShattered(ItemStack item, int lvl){
+
+        ItemMeta itemMeta = item.getItemMeta();
+
+        itemMeta.getPersistentDataContainer().set(Keys.SHATTERED, PersistentDataType.INTEGER, lvl);
+
+        item.setItemMeta(itemMeta);
+
     }
 
 

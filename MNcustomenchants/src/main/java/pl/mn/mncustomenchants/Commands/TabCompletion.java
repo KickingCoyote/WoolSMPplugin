@@ -1,6 +1,5 @@
 package pl.mn.mncustomenchants.Commands;
 
-import com.google.common.collect.Lists;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -11,10 +10,9 @@ import org.jetbrains.annotations.Nullable;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.ItemMethods.AttributeType;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
-import pl.mn.mncustomenchants.ItemMethods.Keys;
+import pl.mn.mncustomenchants.Misc.Keys;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,15 +25,15 @@ public class TabCompletion implements TabCompleter {
         if(s.equalsIgnoreCase("edititemv2")){
             if(args.length == 1){
 
-                return List.of("setCustomTag", "setFlag", "Remove_Attribute", "Add_Attribute", "Edit_Lore", "Edit_Tier");
+                return List.of("setCustomTag", "setFlag", "Remove_Attribute", "Add_Attribute", "Edit_Lore", "Edit_Tier", "createNewItem", "loadItem");
 
             }
             if (args[0].equalsIgnoreCase("setCustomTag")){
                 if (args.length == 2){
-                    return List.of(Keys.custom_item.asString(), Keys.material.asString());
+                    return List.of(Keys.custom_item.asString(), Keys.material.asString(), Keys.IDENTIFIER.asString(), Keys.SHATTERED.asString());
                 }
                 else if (args.length == 3){
-                    return List.of("true", "false");
+                    return List.of("true", "false", "[int]", "[String]");
                 }
             } else if (args[0].equalsIgnoreCase("setFlag")){
                 if (args.length == 2){
@@ -103,6 +101,9 @@ public class TabCompletion implements TabCompleter {
                 if (args.length == 2){
                     return ItemUtils.tiers;
                 }
+            }
+            else if (args[0].equalsIgnoreCase("createNewItem") || args[0].equalsIgnoreCase("loadItem")){
+                return List.of("Identifier");
             }
         }
 

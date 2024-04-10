@@ -3,7 +3,10 @@ package pl.mn.mncustomenchants.Misc;
 
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
+import org.checkerframework.framework.qual.DefaultQualifier;
+import pl.mn.mncustomenchants.ItemMethods.LoreComponentDataType;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -51,7 +54,7 @@ public class C {
             Material.WATER
     );
 
-    public  static  List<Vector> xyRelativeAdjacent = List.of(
+    public static final List<Vector> xyRelativeAdjacent = List.of(
             new Vector(1, 1, 0),
             new Vector(0, 1, 0),
             new Vector(1, 0, 0),
@@ -73,6 +76,14 @@ public class C {
             EntityType.PARROT,
             EntityType.PHANTOM,
             EntityType.GHAST
+    );
+
+
+    public static final List<PersistentDataType> persistentDataTypes = List.of(
+            PersistentDataType.BOOLEAN,
+            PersistentDataType.STRING,
+            PersistentDataType.DOUBLE,
+            PersistentDataType.INTEGER
     );
 
 

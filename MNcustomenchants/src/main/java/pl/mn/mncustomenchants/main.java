@@ -69,6 +69,8 @@ public final class main extends JavaPlugin implements CommandExecutor {
         new AbilityManager();
         new SpawnGrave();
 
+
+
         //CommandStuff
         getCommand("customenchant").setTabCompleter(new TabCompletion());
         getCommand("EditItemV2").setTabCompleter(new TabCompletion());

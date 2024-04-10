@@ -11,15 +11,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.loot.LootTable;
-import org.bukkit.loot.Lootable;
 import org.bukkit.persistence.PersistentDataType;
-import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
-import pl.mn.mncustomenchants.ItemMethods.Keys;
+import pl.mn.mncustomenchants.Misc.Keys;
 import pl.mn.mncustomenchants.main;
 
 import java.util.ArrayList;

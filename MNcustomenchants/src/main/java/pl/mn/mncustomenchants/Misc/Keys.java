@@ -1,4 +1,4 @@
-package pl.mn.mncustomenchants.ItemMethods;
+package pl.mn.mncustomenchants.Misc;
 
 import org.bukkit.NamespacedKey;
 
@@ -20,6 +20,10 @@ public class Keys {
     public static final NamespacedKey GRAVE = new NamespacedKey(main.getInstance(), "GRAVE");
 
     public static final NamespacedKey TIER = new NamespacedKey(main.getInstance(), "TIER");
+
+    public static final NamespacedKey IDENTIFIER = new NamespacedKey(main.getInstance(), "IDENTIFIER");
+
+    public static final NamespacedKey SHATTERED = new NamespacedKey(main.getInstance(), "SHATTERED");
 
     //Attributes
     //public static final NamespacedKey THORNS = new NamespacedKey(main.getInstance(), "Thorns");

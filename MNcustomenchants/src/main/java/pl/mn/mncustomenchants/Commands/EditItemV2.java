@@ -1,24 +1,17 @@
 package pl.mn.mncustomenchants.Commands;
 
-import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import pl.mn.mncustomenchants.ItemMethods.Attribute;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
-import pl.mn.mncustomenchants.ItemMethods.Keys;
-import pl.mn.mncustomenchants.ItemMethods.LoreComponent;
-
-import java.security.Key;
+import pl.mn.mncustomenchants.Misc.ItemStorage;
 
 
 public class EditItemV2 implements CommandExecutor {
@@ -32,7 +25,13 @@ public class EditItemV2 implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
+        if (player.getInventory().getItemInMainHand().isEmpty()){
+            return true;
+        }
+
         if(s.equalsIgnoreCase("edititemv2")){
+
+            UpdateItem.updateItem(player.getInventory().getItemInMainHand());
 
             if(args[0].equalsIgnoreCase("SetCustomTag")){
                 setCustomTag(player, args);
@@ -63,6 +62,18 @@ public class EditItemV2 implements CommandExecutor {
 
             else if (args[0].equalsIgnoreCase("edit_tier")){
                 ItemUtils.setItemTier(player.getInventory().getItemInMainHand(), args[1]);
+            }
+
+            else if (args[0].equalsIgnoreCase("createNewItem")){
+
+                ItemStorage.createNewItem(((Player) commandSender).getInventory().getItemInMainHand(), args[1]);
+
+            }
+
+            else if (args[0].equalsIgnoreCase("loadItem")){
+
+                ItemStorage.loadItem(((Player) commandSender).getInventory().getItemInMainHand(), args[1]);
+
             }
 
 
@@ -105,7 +116,7 @@ public class EditItemV2 implements CommandExecutor {
 
         if (!player.getInventory().getItemInMainHand().isEmpty()){
 
-            boolean bool;
+
             NamespacedKey key = NamespacedKey.fromString(args[1]);
             if (key != null){
 
@@ -113,13 +124,17 @@ public class EditItemV2 implements CommandExecutor {
                 ItemStack itemStack = player.getInventory().getItemInMainHand();
                 ItemMeta meta = itemStack.getItemMeta();
 
-                bool = args[2].equalsIgnoreCase("true");
-
-
-                meta.getPersistentDataContainer().set(key, PersistentDataType.BOOLEAN, bool);
+                if (meta.getPersistentDataContainer().has(key, PersistentDataType.BOOLEAN)){
+                    boolean bool;
+                    bool = args[2].equalsIgnoreCase("true");
+                    meta.getPersistentDataContainer().set(key, PersistentDataType.BOOLEAN, bool);
+                } else if (meta.getPersistentDataContainer().has(key, PersistentDataType.INTEGER)) {
+                    meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, Integer.parseInt(args[2]));
+                } else if (meta.getPersistentDataContainer().has(key, PersistentDataType.STRING)){
+                    meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, args[2]);
+                }
 
                 itemStack.setItemMeta(meta);
-
 
             }
         }

@@ -5,6 +5,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.PassiveEffects.PassiveEffects;
+import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 
 public class CurseEnchantments {
 
@@ -17,15 +18,10 @@ public class CurseEnchantments {
 
 
         int cocLvl = EntityUtils.combinedEnchantLvl(player, CustomEnchantments.curse_of_corruption);
-        int shatteredLvl = EntityUtils.combinedEnchantLvl(player, CustomEnchantments.shattered);
+
 
         if (cocLvl > 1){
             PassiveEffects.Curse(player, true);
-            return;
-        }
-
-        if (shatteredLvl > 0){
-            PassiveEffects.Curse(player,true);
             return;
         }
 

@@ -1,11 +1,10 @@
 package pl.mn.mncustomenchants.Abilities;
 
 import io.papermc.paper.event.player.PlayerArmSwingEvent;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.LivingEntity;
@@ -16,6 +15,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import pl.mn.mncustomenchants.Abilities.Magic.ManaLance;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
 import pl.mn.mncustomenchants.Particles.ParticleData;
 import pl.mn.mncustomenchants.Particles.Particles;
 import pl.mn.mncustomenchants.Spells.Spell;
@@ -25,7 +25,9 @@ import pl.mn.mncustomenchants.Spells.Spells.*;
 import pl.mn.mncustomenchants.main;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class AbilityManager implements Listener {
 
@@ -41,6 +43,10 @@ public class AbilityManager implements Listener {
             return;
         }
 
+        /*
+        Iterator<Map.Entry<Enchantment, Integer>> iterator = event.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchants().entrySet().iterator();
+        while (iterator.hasNext()){event.getPlayer().sendMessage(iterator.next().getKey().getKey().asString());}
+         */
 
         ManaLance.temp(event.getPlayer());
 

@@ -4,11 +4,8 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.SoundCategory;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
@@ -22,7 +19,7 @@ import pl.mn.mncustomenchants.EnchantmentFuctionalities.*;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.ItemMethods.AttributeType;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
-import pl.mn.mncustomenchants.ItemMethods.Keys;
+import pl.mn.mncustomenchants.Misc.Keys;
 
 public class CustomDamage implements Listener {
 
