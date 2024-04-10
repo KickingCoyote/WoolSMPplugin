@@ -2,7 +2,8 @@ package pl.mn.mncustomenchants.Commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.commands.arguments.NbtTagArgument;
+import net.minecraft.nbt.CompoundTag;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
@@ -49,6 +50,7 @@ public class UpdateItem implements CommandExecutor {
 
 
         net.minecraft.world.item.ItemStack i = CraftItemStack.asNMSCopy(item);
+        CompoundTag compoundTag = i.hasTag() ? i.getTag() : new CompoundTag();
 
         //Bukkit.getPlayer("MN_128").sendMessage(i. + "");
 

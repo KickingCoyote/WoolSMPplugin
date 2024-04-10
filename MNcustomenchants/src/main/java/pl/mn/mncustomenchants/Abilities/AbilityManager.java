@@ -6,8 +6,6 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.item.Item;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_20_R1.util.CraftMagicNumbers;
