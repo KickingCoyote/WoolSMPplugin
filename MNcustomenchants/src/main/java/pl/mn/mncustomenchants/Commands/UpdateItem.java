@@ -3,16 +3,23 @@ package pl.mn.mncustomenchants.Commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.minecraft.commands.arguments.NbtTagArgument;
+import net.minecraft.nbt.ByteArrayTag;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.pathfinder.Path;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import pl.mn.mncustomenchants.ItemMethods.ItemStorage;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 import pl.mn.mncustomenchants.Misc.Keys;
 
@@ -42,19 +49,21 @@ public class UpdateItem implements CommandExecutor {
 
 
     public static void updateItem(ItemStack item){
-        if (!ItemUtils.hasDataContainer(item, Keys.SHATTERED)){
-            ItemUtils.setShattered(item, 0);
+
+        if (item.hasItemMeta()){
+            if (!ItemUtils.hasDataContainer(item, Keys.SHATTERED)){
+                ItemUtils.setShattered(item, 0);
+            }
+
+            ItemUtils.fixBrokenName(item);
         }
 
-        ItemUtils.fixBrokenName(item);
+        /*
+        if (ItemUtils.hasDataContainer(item, Keys.IDENTIFIER)){
+            ItemStorage.loadItem(item, item.getItemMeta().getPersistentDataContainer().get(Keys.IDENTIFIER, PersistentDataType.STRING));
+        }
 
-
-        net.minecraft.world.item.ItemStack i = CraftItemStack.asNMSCopy(item);
-        CompoundTag compoundTag = i.hasTag() ? i.getTag() : new CompoundTag();
-
-        //Bukkit.getPlayer("MN_128").sendMessage(i. + "");
-
-        //NBTTagCompound tagCompound = i.D()
+         */
 
         ItemUtils.UpdateLore(item);
     }

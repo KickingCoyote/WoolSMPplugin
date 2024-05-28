@@ -21,6 +21,7 @@ D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncu
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EnchantmentFuctionalities\Regeneration.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EnchantmentFuctionalities\Excavator.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\CustomEnchantments\EnchantmentRegister.java
+D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\ItemMethods\ItemStorage.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Abilities\Magic\ManaLance.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Particles\ParticleData.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Bosses\Hellborn_Servant.java
@@ -41,7 +42,6 @@ D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncu
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Spells\Spells\MagicBoltSpell.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Spells\SpellBases\HomingBoltSpellBase.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EntityMethods\Classifications\EntityUtils.java
-D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Misc\ItemStorage.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Spells\Spells\HomingBoltSpell.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Commands\EditItemV2.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\MathUtils.java

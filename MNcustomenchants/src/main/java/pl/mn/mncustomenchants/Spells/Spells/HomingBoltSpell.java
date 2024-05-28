@@ -40,6 +40,7 @@ public class HomingBoltSpell extends HomingBoltSpellBase {
             if(e.getHurtSound() != null){
                 bolt.getWorld().playSound(bolt, e.getHurtSound(), 1f, 1f);
             }
+
         }
         onEnd();
     }

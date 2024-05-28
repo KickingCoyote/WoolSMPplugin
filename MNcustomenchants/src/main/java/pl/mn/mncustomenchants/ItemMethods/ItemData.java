@@ -5,6 +5,8 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.minecraft.nbt.CompoundTag;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -28,7 +30,7 @@ public class ItemData {
 
     public Component name;
 
-    public String texture;
+    public CompoundTag texture;
 
     public String getMaterial() {
         return material.toString();
@@ -145,6 +147,11 @@ public class ItemData {
 
     //Name name=r=g=b=bold=underlined
     public String getName() {
+
+        if (name == null){
+            return material.name().toLowerCase().replace("_", " ") + "=#FFFFFF=false=false=false";
+        }
+
         boolean bold = false;
         boolean underlined = false;
         boolean italic = false;
@@ -176,5 +183,20 @@ public class ItemData {
                 .decoration(TextDecoration.BOLD, TextDecoration.State.byBoolean(Boolean.valueOf(s[2])))
                 .decoration(TextDecoration.UNDERLINED, TextDecoration.State.byBoolean(Boolean.valueOf(s[3])))
                 .decoration(TextDecoration.ITALIC, TextDecoration.State.byBoolean(Boolean.valueOf(s[4])));
+    }
+
+    public String getTexture() {
+
+        return texture.getCompound("display").getString("Name");
+
+    }
+
+    public void setTexture(String texture) {
+        this.texture = new CompoundTag();
+        CompoundTag Name = new CompoundTag();
+        CompoundTag display = new CompoundTag();
+        Name.putString("Name", texture);
+        display.put("display", Name);
+        this.texture.put("plain", display);
     }
 }

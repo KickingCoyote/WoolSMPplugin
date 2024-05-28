@@ -52,6 +52,7 @@ pl\mn\mncustomenchants\EntityMethods\Classifications\PlayerUpdates$1.class
 pl\mn\mncustomenchants\Misc\Keys.class
 pl\mn\mncustomenchants\Spells\Spells\HomingBoltSpell.class
 pl\mn\mncustomenchants\Commands\EditItemV2.class
+pl\mn\mncustomenchants\ItemMethods\ItemStorage.class
 pl\mn\mncustomenchants\Bosses\Hellborn_Servant.class
 pl\mn\mncustomenchants\ItemMethods\ItemUtils.class
 pl\mn\mncustomenchants\Commands\TabCompletion.class
@@ -63,7 +64,6 @@ pl\mn\mncustomenchants\CustomDamage\CustomDamage.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Sustenance.class
 pl\mn\mncustomenchants\Spells\SpellBases\LaserSpellBase.class
 pl\mn\mncustomenchants\main.class
-pl\mn\mncustomenchants\Misc\ItemStorage.class
 pl\mn\mncustomenchants\Particles\Particles$1.class
 pl\mn\mncustomenchants\Spells\Spells\MagicBoltSpell.class
 pl\mn\mncustomenchants\ItemMethods\AttributeType.class

@@ -13,6 +13,7 @@ import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.Misc.C;
 import pl.mn.mncustomenchants.main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Excavator implements Listener {
@@ -34,9 +35,9 @@ public class Excavator implements Listener {
         Vector v = event.getPlayer().getTargetBlockFace(10).getDirection();
 
         //list of relative coordinates, based on that the direction is in the Z-axis
-       List<Vector> relatives = C.xyRelativeAdjacent;
+       List<Vector> relatives = new ArrayList<>(C.xyRelativeAdjacent);
 
-       for (Vector relative : relatives){
+       for (Vector relative : new ArrayList<>(relatives)){
 
             //if the direction is x/y flip the relatives
            if (v.getX() != 0){

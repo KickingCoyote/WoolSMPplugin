@@ -1,21 +1,25 @@
-package pl.mn.mncustomenchants.Misc;
+package pl.mn.mncustomenchants.ItemMethods;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.minecraft.nbt.CompoundTag;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.FileConfigurationOptions;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import pl.mn.mncustomenchants.Commands.UpdateItem;
 import pl.mn.mncustomenchants.ItemMethods.ItemData;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
+import pl.mn.mncustomenchants.Misc.Keys;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,6 +63,7 @@ public class ItemStorage {
             itemData.setPersistentS(cfg.getStringList(ItemUtils.getIdentifier(itemStack) +".persistentS"));
             itemData.setUnbreakable(cfg.getString(ItemUtils.getIdentifier(itemStack) +".unbreakable"));
             itemData.setName(cfg.getString(ItemUtils.getIdentifier(itemStack) +".name"));
+            itemData.setTexture(cfg.getString(ItemUtils.getIdentifier(itemStack) +".texture"));
         } else {
             return;
         }
@@ -87,6 +92,7 @@ public class ItemStorage {
         cfg.set(ItemUtils.getIdentifier(itemStack) +".persistentS", itemData.getPersistentS());
         cfg.set(ItemUtils.getIdentifier(itemStack) +".unbreakable", itemData.getUnbreakable());
         cfg.set(ItemUtils.getIdentifier(itemStack) +".name", itemData.getName());
+        cfg.set(ItemUtils.getIdentifier(itemStack) +".texture", itemData.getTexture());
 
         try {
             cfg.save(file);
@@ -106,10 +112,12 @@ public class ItemStorage {
         }
 
         ItemData itemData = itemDataMap.get(ItemUtils.getIdentifier(itemStack));
-
         ItemMeta itemMeta = itemStack.getItemMeta();
 
-
+        //Texture NEED to be done first otherwise all other changes gets wiped
+        net.minecraft.world.item.ItemStack i = CraftItemStack.asNMSCopy(itemStack);
+        i.setTag(itemData.texture);
+        itemMeta = CraftItemStack.asBukkitCopy(i).getItemMeta();
 
         //Material
         itemStack.setType(itemData.material);
@@ -135,7 +143,6 @@ public class ItemStorage {
             //Ignore shattered when updating item
             if (key.equals(Keys.SHATTERED)){
 
-                Bukkit.getPlayer("MN_128").sendMessage("sda");
                 continue;
             }
 
@@ -171,6 +178,10 @@ public class ItemStorage {
         itemData.unbreakable = itemStack.getItemMeta().isUnbreakable();
 
         itemData.name = itemStack.getItemMeta().displayName();
+
+        //Texture
+        net.minecraft.world.item.ItemStack i = CraftItemStack.asNMSCopy(itemStack);
+        itemData.texture = i.getTag().getCompound("plain");
 
         //PersistentData
         PersistentDataContainer pdc = itemStack.getItemMeta().getPersistentDataContainer();
@@ -226,7 +237,7 @@ public class ItemStorage {
         ItemUtils.setIdentifier(item, identifier);
         updateItemData(item);
         updateItemFromData(item);
-
+        UpdateItem.updateItem(item);
         //Waste Clearing
         removeItemData(item);
 

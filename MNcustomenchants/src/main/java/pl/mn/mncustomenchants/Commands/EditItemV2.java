@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
-import pl.mn.mncustomenchants.Misc.ItemStorage;
+import pl.mn.mncustomenchants.ItemMethods.ItemStorage;
 
 
 public class EditItemV2 implements CommandExecutor {

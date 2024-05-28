@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -14,10 +15,14 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.persistence.PersistentDataType;
+import pl.mn.mncustomenchants.Commands.UpdateItem;
+import pl.mn.mncustomenchants.ItemMethods.ItemStorage;
+import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 import pl.mn.mncustomenchants.Misc.Keys;
 import pl.mn.mncustomenchants.main;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class SpawnGrave implements Listener {
@@ -57,8 +62,34 @@ public class SpawnGrave implements Listener {
 
 
         List<ItemStack> items = new ArrayList<>();
-        items.add(player.getEquipment().getItem(EquipmentSlot.HAND));
+        for (EquipmentSlot slot : EquipmentSlot.values()){
+            ItemStack item = player.getEquipment().getItem(slot);
 
+            if(!item.hasItemMeta()){
+                continue;
+            }
+
+            if(ItemUtils.hasDataContainer(item, Keys.TIER)){
+                 ItemStack shard = new ItemStack(Material.STICK);
+                 String s = item.getItemMeta().getPersistentDataContainer().get(Keys.TIER, PersistentDataType.STRING).toLowerCase();
+                 ItemStorage.loadItem(shard, s + "_shard");
+                 items.add(shard);
+            } else {
+                items.add(item);
+                player.getEquipment().setItem(slot, new ItemStack(Material.AIR));
+                continue;
+            }
+
+            shatter(item, 1);
+            UpdateItem.updateItem(item);
+
+        }
+
+
+        //No items, no grave
+        if (items.isEmpty()){
+            return;
+        }
 
         ItemStack itemStack = new ItemStack(Material.CHEST);
         BlockStateMeta bsm = (BlockStateMeta) itemStack.getItemMeta();
@@ -84,6 +115,19 @@ public class SpawnGrave implements Listener {
         armorStand.setCanMove(false);
         armorStand.getPersistentDataContainer().set(Keys.GRAVE, PersistentDataType.BOOLEAN, true);
 
+    }
+
+    /**
+     *
+     * @param item the item that gets shattered
+     * @param lvl  the amount of new shatter levels that are applied
+     */
+    public static void shatter(ItemStack item, int lvl){
+        if (!item.hasItemMeta()) {
+            return;
+        }
+
+        ItemUtils.setShattered(item, ItemUtils.getShattered(item) + lvl);
     }
 
 }
