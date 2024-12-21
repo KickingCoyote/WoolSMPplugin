@@ -10,7 +10,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.FileConfigurationOptions;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

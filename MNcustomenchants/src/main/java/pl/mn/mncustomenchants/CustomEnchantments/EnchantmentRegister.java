@@ -28,7 +28,7 @@ public class EnchantmentRegister {
             Field f = Enchantment.class.getDeclaredField("acceptingNew");
             f.setAccessible(true);
             f.set(null, true);
-            Enchantment.registerEnchantment(enchantment);
+            //Enchantment.registerEnchantment(enchantment);
 
         }   catch (Exception e){
             registered = false;

@@ -1,10 +1,12 @@
 package pl.mn.mncustomenchants;
 
 //import jdk.jpackage.internal.Log;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -69,7 +71,7 @@ public final class main extends JavaPlugin implements CommandExecutor {
         new AbilityManager();
         new SpawnGrave();
 
-
+        LivingEntity e;
 
         //CommandStuff
         getCommand("customenchant").setTabCompleter(new TabCompletion());

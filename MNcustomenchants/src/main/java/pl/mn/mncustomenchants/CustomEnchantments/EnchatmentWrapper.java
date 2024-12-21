@@ -25,13 +25,13 @@ public class EnchatmentWrapper extends Enchantment {
     private final boolean cursed;
 
     public EnchatmentWrapper (String namespace, String name, int lvl){
-        super(NamespacedKey.minecraft(namespace));
+        super();
         this.maxLvl = lvl;
         this.name = name;
         cursed = false;
     }
     public EnchatmentWrapper (String namespace, String name, int lvl, boolean isCurse){
-        super(NamespacedKey.minecraft(namespace));
+        super();
         this.maxLvl = lvl;
         this.name = name;
         this.cursed = isCurse;
@@ -112,6 +112,16 @@ public class EnchatmentWrapper extends Enchantment {
     }
 
     @Override
+    public int getMinModifiedCost(int i) {
+        return 0;
+    }
+
+    @Override
+    public int getMaxModifiedCost(int i) {
+        return 0;
+    }
+
+    @Override
     public @NotNull EnchantmentRarity getRarity() {
         return null;
     }
@@ -128,6 +138,16 @@ public class EnchatmentWrapper extends Enchantment {
 
     @Override
     public @NotNull String translationKey() {
+        return null;
+    }
+
+    @Override
+    public @NotNull NamespacedKey getKey() {
+        return null;
+    }
+
+    @Override
+    public @NotNull String getTranslationKey() {
         return null;
     }
 }
