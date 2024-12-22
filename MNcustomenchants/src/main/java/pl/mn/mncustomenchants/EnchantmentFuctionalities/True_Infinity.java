@@ -9,16 +9,12 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
-import org.checkerframework.checker.units.qual.A;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
-import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 
 public class True_Infinity implements Listener {
 
@@ -36,7 +32,7 @@ public class True_Infinity implements Listener {
     @EventHandler
     public void LoadCrossbow(EntityLoadCrossbowEvent event){
 
-        if (EntityUtils.itemEnchLvl(CustomEnchantments.true_infinity, event.getCrossbow()) == 0) { return; }
+        if (EntityUtils.itemEnchantmentLvl(CustomEnchantment.true_infinity, event.getCrossbow()) == 0) { return; }
 
         event.setConsumeItem(false);
 
@@ -54,7 +50,7 @@ public class True_Infinity implements Listener {
 
         Player player = event.getPlayer();
 
-        if(EntityUtils.itemEnchLvl(CustomEnchantments.true_infinity, event.getItemStack()) == 0){ return; }
+        if(EntityUtils.itemEnchantmentLvl(CustomEnchantment.true_infinity, event.getItemStack()) == 0){ return; }
 
 
         //Infinity for crossbows part 2
@@ -104,7 +100,7 @@ public class True_Infinity implements Listener {
     //Infinite Consumables
     @EventHandler
     public void OnConsumable (PlayerItemConsumeEvent event){
-        if (EntityUtils.itemEnchLvl(CustomEnchantments.true_infinity, event.getItem()) == 0){ return; }
+        if (EntityUtils.itemEnchantmentLvl(CustomEnchantment.true_infinity, event.getItem()) == 0){ return; }
 
         event.setReplacement(event.getItem());
 
@@ -115,7 +111,7 @@ public class True_Infinity implements Listener {
     @EventHandler
     public void OnBlock(BlockPlaceEvent event){
 
-        if (EntityUtils.itemEnchLvl(CustomEnchantments.true_infinity, event.getItemInHand()) == 0){
+        if (EntityUtils.itemEnchantmentLvl(CustomEnchantment.true_infinity, event.getItemInHand()) == 0){
             return;
         }
 

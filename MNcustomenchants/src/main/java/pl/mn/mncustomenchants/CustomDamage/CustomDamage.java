@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.*;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.ItemMethods.AttributeType;
@@ -171,8 +171,8 @@ public class CustomDamage implements Listener {
 
 
                 //Air strike
-                if (sender.getFallDistance() > 1 && sender.getAttackCooldown() == 1 && EntityUtils.isPlayerWithEnch(CustomEnchantments.aerial_strike, sender, EquipmentSlot.HAND)){
-                    damage *= 1 + Math.sqrt(sender.getFallDistance()) * EntityUtils.itemEnchLvl(CustomEnchantments.aerial_strike, sender.getInventory().getItemInMainHand()) / 10;
+                if (sender.getFallDistance() > 1 && sender.getAttackCooldown() == 1 && EntityUtils.isPlayerWithEnchantment(CustomEnchantment.aerial_strike, sender, EquipmentSlot.HAND)){
+                    damage *= 1 + Math.sqrt(sender.getFallDistance()) * EntityUtils.itemEnchantmentLvl(CustomEnchantment.aerial_strike, sender.getInventory().getItemInMainHand()) / 10;
                 }
 
                 //If critical hit
@@ -186,7 +186,7 @@ public class CustomDamage implements Listener {
             //Sweep damage
             else if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK){
 
-                int sweepLvl = EntityUtils.itemEnchLvl(CustomEnchantments.sweeping_edge, sender.getInventory().getItemInMainHand());
+                int sweepLvl = EntityUtils.itemEnchantmentLvl(CustomEnchantment.sweeping_edge, sender.getInventory().getItemInMainHand());
 
                 damage = 1 + (damage * sweepLvl / (sweepLvl + 1));
             }
@@ -213,8 +213,8 @@ public class CustomDamage implements Listener {
             }
 
             //Air strike for projectile weapons
-            if (sender.getFallDistance() > 1 && EntityUtils.isPlayerWithEnch(CustomEnchantments.aerial_strike, sender, EquipmentSlot.HAND)){
-                damage *= 1 + Math.sqrt(sender.getFallDistance()) * EntityUtils.itemEnchLvl(CustomEnchantments.aerial_strike, sender.getInventory().getItemInMainHand()) / 10;
+            if (sender.getFallDistance() > 1 && EntityUtils.isPlayerWithEnchantment(CustomEnchantment.aerial_strike, sender, EquipmentSlot.HAND)){
+                damage *= 1 + Math.sqrt(sender.getFallDistance()) * EntityUtils.itemEnchantmentLvl(CustomEnchantment.aerial_strike, sender.getInventory().getItemInMainHand()) / 10;
             }
 
 
@@ -405,30 +405,30 @@ public class CustomDamage implements Listener {
         if (target instanceof Player){
 
             if (damageType == EntityUtils.DamageType.MAGIC){
-                secProtLvl = EntityUtils.combinedEnchantLvl((Player) target, CustomEnchantments.magic_protection);
+                secProtLvl = EntityUtils.combinedEnchantLvl((Player) target, CustomEnchantment.magic_protection);
 
 
             } else if (damageType == EntityUtils.DamageType.PROJECTILE) {
-                secProtLvl = EntityUtils.combinedEnchantLvl((Player) target, Enchantment.PROTECTION_PROJECTILE);
+                secProtLvl = EntityUtils.combinedEnchantLvl((Player) target, CustomEnchantment.projectile_protection);
 
 
             } else if (damageType == EntityUtils.DamageType.FIRE){
-                secProtLvl = EntityUtils.combinedEnchantLvl((Player) target, Enchantment.PROTECTION_FIRE);
+                secProtLvl = EntityUtils.combinedEnchantLvl((Player) target, CustomEnchantment.fire_protection);
 
 
             } else if (damageType == EntityUtils.DamageType.MELEE){
-                secProtLvl = EntityUtils.combinedEnchantLvl((Player) target, CustomEnchantments.melee_protection);
+                secProtLvl = EntityUtils.combinedEnchantLvl((Player) target, CustomEnchantment.melee_protection);
 
             } else if (damageType == EntityUtils.DamageType.FALLING){
                 //multiplied with 2 for balancing
-                secProtLvl = 2 * EntityUtils.combinedEnchantLvl((Player) target, Enchantment.PROTECTION_FALL);
+                secProtLvl = 2 * EntityUtils.combinedEnchantLvl((Player) target, CustomEnchantment.fall_protection);
 
             } else if (damageType == EntityUtils.DamageType.BLAST){
-                secProtLvl = EntityUtils.combinedEnchantLvl((Player) target, Enchantment.PROTECTION_EXPLOSIONS);
+                secProtLvl = EntityUtils.combinedEnchantLvl((Player) target, CustomEnchantment.blast_protection);
 
             }
 
-            protLvl = EntityUtils.combinedEnchantLvl((Player) target, Enchantment.PROTECTION_ENVIRONMENTAL);
+            protLvl = EntityUtils.combinedEnchantLvl((Player) target, CustomEnchantment.protection);
 
             damage *= Math.pow(0.96, (2 * secProtLvl) + protLvl);
         }

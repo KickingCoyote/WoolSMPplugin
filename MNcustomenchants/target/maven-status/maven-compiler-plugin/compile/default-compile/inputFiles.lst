@@ -4,7 +4,6 @@ D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncu
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EnchantmentFuctionalities\CurseEnchantments.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EnchantmentFuctionalities\EnchantmentSpells\Arcane_Strike.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Spells\Spells\ThrowSpell.java
-D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\CustomEnchantments\CustomEnchantments.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Spells\SpellBases\RadialAoeSpellBase.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Abilities\AbilityManager.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EnchantmentFuctionalities\AttackEffectEnchantments.java
@@ -20,7 +19,6 @@ D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncu
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\ItemMethods\ItemData.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EnchantmentFuctionalities\Regeneration.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EnchantmentFuctionalities\Excavator.java
-D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\CustomEnchantments\EnchantmentRegister.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\ItemMethods\ItemStorage.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Abilities\Magic\ManaLance.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Particles\ParticleData.java
@@ -34,6 +32,7 @@ D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncu
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Commands\UpdateItem.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Spells\Spells\FireballSpell.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EnchantmentFuctionalities\Rocket_Crossbow.java
+D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\CustomEnchantments\CustomEnchantment.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\ItemMethods\ItemUtils.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EnchantmentFuctionalities\Quake.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Misc\C.java
@@ -49,7 +48,6 @@ D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncu
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EnchantmentFuctionalities\Recoil.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Spells\Spells\SeekerLaserSpell.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EnchantmentFuctionalities\True_Infinity.java
-D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\CustomEnchantments\EnchatmentWrapper.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\Particles\Particles.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\EntityMethods\EntityEffects\PassiveEffects\PassiveEffects.java
 D:\Programmering\Plugins\WoolSMPplugin\MNcustomenchants\src\main\java\pl\mn\mncustomenchants\ItemMethods\LoreComponent.java

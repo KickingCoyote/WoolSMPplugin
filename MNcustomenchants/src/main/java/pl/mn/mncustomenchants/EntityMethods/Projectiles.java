@@ -1,29 +1,14 @@
 package pl.mn.mncustomenchants.EntityMethods;
 
 import com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent;
-import io.papermc.paper.event.entity.EntityLoadCrossbowEvent;
 import org.bukkit.*;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.CrossbowMeta;
-import org.bukkit.inventory.meta.FireworkEffectMeta;
-import org.bukkit.inventory.meta.FireworkMeta;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.util.Vector;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
-import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.ItemMethods.AttributeType;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 import pl.mn.mncustomenchants.main;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class Projectiles implements Listener {
 

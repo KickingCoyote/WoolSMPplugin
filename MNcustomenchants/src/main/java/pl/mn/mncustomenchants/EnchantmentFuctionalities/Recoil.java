@@ -8,7 +8,7 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 
 public class Recoil implements Listener {
@@ -32,11 +32,11 @@ public class Recoil implements Listener {
         if (!player.isSneaking()){
 
 
-            if (EntityUtils.isPlayerWithEnch(CustomEnchantments.recoil, player, EquipmentSlot.HAND)){
+            if (EntityUtils.isPlayerWithEnchantment(CustomEnchantment.recoil, player, EquipmentSlot.HAND)){
 
 
 
-                double enchLvl = player.getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(CustomEnchantments.recoil);
+                double enchLvl = EntityUtils.itemEnchantmentLvl(CustomEnchantment.recoil, player.getInventory().getItemInMainHand());
 
                 Vector vector = event.getEntity().getVelocity().normalize().multiply(-0.5 * Math.sqrt(enchLvl));
 

@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.util.Vector;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.Misc.C;
 import pl.mn.mncustomenchants.main;
@@ -26,9 +26,8 @@ public class Excavator implements Listener {
     @EventHandler
     public void OnBlockMine (BlockBreakEvent event){
 
-        Enchantment ench = CustomEnchantments.excavator;
 
-        if (!EntityUtils.isPlayerWithEnch(ench, event.getPlayer(), EquipmentSlot.HAND)){ return; }
+        if (!EntityUtils.isPlayerWithEnchantment(CustomEnchantment.excavator, event.getPlayer(), EquipmentSlot.HAND)){ return; }
 
         if (event.getPlayer().isSneaking()) { return; }
         //gets the direction of the block face

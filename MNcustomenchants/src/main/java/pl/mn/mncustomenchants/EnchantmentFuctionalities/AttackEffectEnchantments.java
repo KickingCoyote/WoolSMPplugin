@@ -1,12 +1,10 @@
 package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 
 import org.bukkit.*;
-import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.CustomEffects;
 import pl.mn.mncustomenchants.Particles.ParticleData;
@@ -30,7 +28,7 @@ public class AttackEffectEnchantments {
 
     private static void CheckThunderAspect(LivingEntity target, Player sender, Entity directDamager) {
 
-        Enchantment ench = CustomEnchantments.thunder_aspect;
+        CustomEnchantment ench = CustomEnchantment.thunder_aspect;
 
         Random random = new Random();
         int nrn = random.nextInt(20);
@@ -40,9 +38,9 @@ public class AttackEffectEnchantments {
         boolean fullyChargedWeapon = directDamager instanceof Projectile ? EntityUtils.bowCharge(sender, (Projectile) directDamager) == 1 : sender.getAttackCooldown() == 1;
 
 
-        if (EntityUtils.isPlayerWithEnch(ench, sender, EquipmentSlot.HAND) && fullyChargedWeapon) {
+        if (EntityUtils.isPlayerWithEnchantment(ench, sender, EquipmentSlot.HAND) && fullyChargedWeapon) {
 
-            enchLvl = sender.getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(ench);
+            enchLvl = EntityUtils.itemEnchantmentLvl(ench, sender.getInventory().getItemInMainHand());
 
 
 
@@ -68,10 +66,10 @@ public class AttackEffectEnchantments {
     private static void CheckFireAspect (LivingEntity target, Player sender){
 
 
-        if (!EntityUtils.isPlayerWithEnch(CustomEnchantments.true_fire_aspect, sender, EquipmentSlot.HAND)){ return; }
+        if (!EntityUtils.isPlayerWithEnchantment(CustomEnchantment.true_fire_aspect, sender, EquipmentSlot.HAND)){ return; }
 
-        int enchLvl = sender.getInventory().getItemInMainHand().getEnchantmentLevel(CustomEnchantments.true_fire_aspect);
-        int infernoLvl = EntityUtils.combinedEnchantLvl(sender, CustomEnchantments.inferno);
+        int enchLvl = EntityUtils.itemEnchantmentLvl(CustomEnchantment.true_fire_aspect, sender.getInventory().getItemInMainHand());
+        int infernoLvl = EntityUtils.combinedEnchantLvl(sender, CustomEnchantment.inferno);
 
         CustomEffects.burn(target, 80 * enchLvl, infernoLvl);
 
@@ -82,14 +80,14 @@ public class AttackEffectEnchantments {
     private static void CheckIceAspect(LivingEntity target, Player sender, Entity directDamager){
 
 
-        Enchantment ench = CustomEnchantments.ice_aspect;
+        CustomEnchantment ench = CustomEnchantment.ice_aspect;
 
 
         boolean fullyChargedWeapon = directDamager instanceof Projectile ? EntityUtils.bowCharge(sender, (Projectile) directDamager) == 1 : sender.getAttackCooldown() == 1;
 
-        if (EntityUtils.isPlayerWithEnch(ench, sender, EquipmentSlot.HAND) && fullyChargedWeapon){
+        if (EntityUtils.isPlayerWithEnchantment(ench, sender, EquipmentSlot.HAND) && fullyChargedWeapon){
 
-            int enchLvl = sender.getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(ench);
+            int enchLvl = EntityUtils.itemEnchantmentLvl(ench, sender.getInventory().getItemInMainHand());
 
 
             //if pvp
@@ -124,10 +122,7 @@ public class AttackEffectEnchantments {
             sender.getWorld().playSound(target, Sound.BLOCK_GLASS_BREAK, SoundCategory.HOSTILE, 0.5f, 2);
 
 
-
-
         }
-
 
 
     }
@@ -136,14 +131,13 @@ public class AttackEffectEnchantments {
 
     private static void CheckDecay(LivingEntity target, Player sender){
 
-        Enchantment ench = CustomEnchantments.decay;
+        CustomEnchantment ench = CustomEnchantment.decay;
 
 
-        if(!EntityUtils.isPlayerWithEnch(ench, sender, EquipmentSlot.HAND)) { return; }
+        if(!EntityUtils.isPlayerWithEnchantment(ench, sender, EquipmentSlot.HAND)) { return; }
 
 
-        int enchLvl = sender.getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(ench);
-
+        int enchLvl = EntityUtils.itemEnchantmentLvl(ench, sender.getInventory().getItemInMainHand());
 
 
         if(target instanceof Player){
@@ -156,8 +150,6 @@ public class AttackEffectEnchantments {
             CustomEffects.decay(target, 80, enchLvl);
 
         }
-
-
 
 
     }

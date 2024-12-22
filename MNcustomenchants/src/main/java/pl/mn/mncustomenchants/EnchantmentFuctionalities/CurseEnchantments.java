@@ -3,7 +3,7 @@ package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.PassiveEffects.PassiveEffects;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
@@ -14,11 +14,11 @@ public class CurseEnchantments {
     //All enchantments that applies the Curse effect
     public static void CheckCurse (Player player){
 
-        boolean isTwoHanded = EntityUtils.isPlayerWithEnch(CustomEnchantments.two_handed, player, EquipmentSlot.HAND);
-        boolean hasOffHand = !(player.getInventory().getItemInOffHand().isEmpty() || EntityUtils.itemEnchLvl(CustomEnchantments.weightless, player.getInventory().getItemInOffHand()) > 0);
+        boolean isTwoHanded = EntityUtils.isPlayerWithEnchantment(CustomEnchantment.two_handed, player, EquipmentSlot.HAND);
+        boolean hasOffHand = !(player.getInventory().getItemInOffHand().isEmpty() || EntityUtils.itemEnchantmentLvl(CustomEnchantment.weightless, player.getInventory().getItemInOffHand()) > 0);
 
 
-        int cocLvl = EntityUtils.combinedEnchantLvl(player, CustomEnchantments.curse_of_corruption);
+        int cocLvl = EntityUtils.combinedEnchantLvl(player, CustomEnchantment.curse_of_corruption);
 
         int shatterLvl = 0;
         for (EquipmentSlot equipmentSlot : EquipmentSlot.values()){
@@ -39,7 +39,7 @@ public class CurseEnchantments {
         }
 
 
-        if (isTwoHanded && hasOffHand && !(player.getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(CustomEnchantments.two_handed) == 0)){
+        if (isTwoHanded && hasOffHand && EntityUtils.itemEnchantmentLvl(CustomEnchantment.two_handed, player.getInventory().getItemInMainHand()) != 0){
 
             PassiveEffects.Curse(player, true);
             return;

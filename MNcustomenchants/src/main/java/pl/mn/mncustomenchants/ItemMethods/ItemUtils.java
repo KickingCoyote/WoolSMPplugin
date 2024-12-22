@@ -3,7 +3,6 @@ package pl.mn.mncustomenchants.ItemMethods;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
@@ -12,12 +11,12 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
+import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.Misc.Keys;
 
 import java.text.DecimalFormat;
 import java.text.Format;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.*;
@@ -325,23 +324,27 @@ public class ItemUtils {
         //temporary Component
         Component component;
 
-        Map<Enchantment, Integer> enchantments = itemStack.getItemMeta().getEnchants();
-        Iterator<Map.Entry<Enchantment, Integer>> EnchIter = enchantments.entrySet().iterator();
+        //Custom Enchantments
+        for (CustomEnchantment enchantment : CustomEnchantment.getAllItemEnchantments(itemStack)){
+            int level = EntityUtils.itemEnchantmentLvl(enchantment, itemStack);
 
+            if(level == 0) { continue; }
 
-        while (EnchIter.hasNext()){
+            component = enchantment.getName(level);
 
-            Map.Entry<Enchantment, Integer> current = EnchIter.next();
+            component = component.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
 
-            if ( current.getValue() == 0) { continue; }
+            components.add(component);
+        }
 
-            String enchNamespace = current.getKey().getKey().asString().split(":")[1];
+        //Vanilla Enchantments
+        for (Map.Entry<Enchantment, Integer> current : itemStack.getItemMeta().getEnchants().entrySet()) {
 
-            if (CustomEnchantments.enchantmentArgs.contains(enchNamespace)){
-                component = CustomEnchantments.valueOf(enchNamespace).displayName(current.getValue());
-            } else {
-                component = current.getKey().displayName(current.getValue());
+            if (current.getValue() == 0) {
+                continue;
             }
+
+            component = current.getKey().displayName(current.getValue());
 
             component = component.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
 
@@ -458,17 +461,17 @@ public class ItemUtils {
 
                 if(a.getOperator() == AttributeOperator.ADD)
                 {
-                    componentText = operator + format.format(a.value) + " " + a.getType().getShowName();
+                    componentText = operator + format.format(a.value) + " " + a.getType().showName();
                 }
 
                 else if (a.getOperator() == AttributeOperator.ADD_PROCENT)
                 {
-                    componentText = operator + Math.round(a.value * 100) + "% " + a.getType().getShowName();
+                    componentText = operator + Math.round(a.value * 100) + "% " + a.getType().showName();
                 }
 
                 else if (a.getOperator() == AttributeOperator.ITEM_STAT)
                 {
-                    componentText = " " + format.format(a.value) + " " + a.getType().getShowName();
+                    componentText = " " + format.format(a.value) + " " + a.getType().showName();
                     color = TextColor.color(0,169,0);
                 }
 

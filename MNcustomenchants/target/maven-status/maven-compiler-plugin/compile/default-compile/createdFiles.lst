@@ -1,11 +1,10 @@
-pl\mn\mncustomenchants\CustomEnchantments\EnchantmentRegister.class
 pl\mn\mncustomenchants\Particles\ParticleData.class
-pl\mn\mncustomenchants\CustomEnchantments\CustomEnchantments.class
 pl\mn\mncustomenchants\Spells\Spells\SeekerLaserSpell.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Quake.class
 pl\mn\mncustomenchants\Spells\Spells\FireballSpell.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Recoil.class
 pl\mn\mncustomenchants\Misc\C.class
+pl\mn\mncustomenchants\CustomEnchantments\CustomEnchantment.class
 pl\mn\mncustomenchants\ItemMethods\LoreComponentDataType.class
 pl\mn\mncustomenchants\EnchantmentFuctionalities\Radiant.class
 pl\mn\mncustomenchants\Commands\UpdateItem.class
@@ -19,7 +18,6 @@ pl\mn\mncustomenchants\EnchantmentFuctionalities\Rocket_Crossbow.class
 pl\mn\mncustomenchants\Spells\SpellBases\MagicBoltSpellBase.class
 pl\mn\mncustomenchants\Graves\SpawnGrave.class
 pl\mn\mncustomenchants\MathUtils.class
-pl\mn\mncustomenchants\CustomEnchantments\EnchatmentWrapper.class
 pl\mn\mncustomenchants\GUI\InventoryShulkers.class
 pl\mn\mncustomenchants\ItemMethods\Attributes\JumpHeight.class
 pl\mn\mncustomenchants\EntityMethods\Classifications\EntityUtils.class

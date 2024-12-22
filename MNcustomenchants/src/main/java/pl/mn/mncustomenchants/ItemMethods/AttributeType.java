@@ -1,41 +1,19 @@
 package pl.mn.mncustomenchants.ItemMethods;
 
-import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
-import org.checkerframework.checker.units.qual.A;
-import org.jetbrains.annotations.NotNull;
-import pl.mn.mncustomenchants.main;
-
 import java.util.List;
 
-public class AttributeType implements Comparable<AttributeType>{
+public record AttributeType(String name, String showName) implements Comparable<AttributeType> {
 
-    private String name;
-    private String showName;
-
-    public AttributeType(String name, String showName){
-        this.name = name;
-        this.showName = showName;
-    }
-
-    public String getName(){
-        return name;
-    }
-
-    public String getShowName() {
-        return showName;
-    }
-
-    public String ToString(){
+    public String ToString() {
         return name;
     }
 
 
-    public static AttributeType valueOf(String s){
+    public static AttributeType valueOf(String s) {
 
-        for (AttributeType at : values){
+        for (AttributeType at : values) {
 
-            if (at.name.equalsIgnoreCase(s)){
+            if (at.name.equalsIgnoreCase(s)) {
                 return at;
             }
 
@@ -45,8 +23,8 @@ public class AttributeType implements Comparable<AttributeType>{
     }
 
 
-    public static final AttributeType THORNS = new AttributeType("THORNS",  "Thorns");
-    public static final AttributeType ARMOR = new AttributeType("ARMOR",  "Armor");
+    public static final AttributeType THORNS = new AttributeType("THORNS", "Thorns");
+    public static final AttributeType ARMOR = new AttributeType("ARMOR", "Armor");
     public static final AttributeType SPEED = new AttributeType("SPEED", "Speed");
     public static final AttributeType ATTACK_SPEED = new AttributeType("ATTACK_SPEED", "Attack Speed");
     public static final AttributeType ATTACK_DAMAGE = new AttributeType("ATTACK_DAMAGE", "Attack Damage");

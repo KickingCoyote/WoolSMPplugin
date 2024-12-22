@@ -60,6 +60,7 @@ public class ItemStorage {
             itemData.setEnchantments(cfg.getStringList(ItemUtils.getIdentifier(itemStack) + ".enchantments"));
             itemData.setPersistentB(cfg.getStringList(ItemUtils.getIdentifier(itemStack) + ".persistentB"));
             itemData.setPersistentD(cfg.getStringList(ItemUtils.getIdentifier(itemStack) +".persistentD"));
+            itemData.setPersistentI(cfg.getStringList(ItemUtils.getIdentifier(itemStack) +".persistentI"));
             itemData.setPersistentS(cfg.getStringList(ItemUtils.getIdentifier(itemStack) +".persistentS"));
             itemData.setUnbreakable(cfg.getString(ItemUtils.getIdentifier(itemStack) +".unbreakable"));
             itemData.setName(cfg.getString(ItemUtils.getIdentifier(itemStack) +".name"));
@@ -89,6 +90,7 @@ public class ItemStorage {
         cfg.set(ItemUtils.getIdentifier(itemStack) + ".enchantments", itemData.getEnchantments());
         cfg.set(ItemUtils.getIdentifier(itemStack) +".persistentB", itemData.getPersistentB());
         cfg.set(ItemUtils.getIdentifier(itemStack) +".persistentD", itemData.getPersistentD());
+        cfg.set(ItemUtils.getIdentifier(itemStack) +".persistentI", itemData.getPersistentI());
         cfg.set(ItemUtils.getIdentifier(itemStack) +".persistentS", itemData.getPersistentS());
         cfg.set(ItemUtils.getIdentifier(itemStack) +".unbreakable", itemData.getUnbreakable());
         cfg.set(ItemUtils.getIdentifier(itemStack) +".name", itemData.getName());
@@ -114,7 +116,7 @@ public class ItemStorage {
         ItemData itemData = itemDataMap.get(ItemUtils.getIdentifier(itemStack));
         ItemMeta itemMeta = itemStack.getItemMeta();
 
-        //Texture NEED to be done first otherwise all other changes gets wiped
+        //Texture needs to be done first otherwise all other changes gets wiped
         net.minecraft.world.item.ItemStack i = CraftItemStack.asNMSCopy(itemStack);
         i.setTag(itemData.texture);
         itemMeta = CraftItemStack.asBukkitCopy(i).getItemMeta();
@@ -154,6 +156,9 @@ public class ItemStorage {
         for (Map.Entry<NamespacedKey, Double> entry : itemData.persistentD.entrySet()){
             itemMeta.getPersistentDataContainer().set(entry.getKey(), PersistentDataType.DOUBLE, entry.getValue());
         }
+        for (Map.Entry<NamespacedKey, Integer> entry : itemData.persistentI.entrySet()){
+            itemMeta.getPersistentDataContainer().set(entry.getKey(), PersistentDataType.INTEGER, entry.getValue());
+        }
         for (Map.Entry<NamespacedKey, String > entry : itemData.persistentS.entrySet()){
             itemMeta.getPersistentDataContainer().set(entry.getKey(), PersistentDataType.STRING, entry.getValue());
         }
@@ -189,6 +194,7 @@ public class ItemStorage {
 
         itemData.persistentB = new HashMap<>();
         itemData.persistentD = new HashMap<>();
+        itemData.persistentI = new HashMap<>();
         itemData.persistentS = new HashMap<>();
         for (NamespacedKey key : pdc.getKeys()){
 
@@ -197,6 +203,9 @@ public class ItemStorage {
             }
             if(pdc.has(key, PersistentDataType.DOUBLE)){
                 itemData.persistentD.put(key, pdc.get(key, PersistentDataType.DOUBLE));
+            }
+            if(pdc.has(key, PersistentDataType.INTEGER)){
+                itemData.persistentI.put(key, pdc.get(key, PersistentDataType.INTEGER));
             }
             if(pdc.has(key, PersistentDataType.STRING)){
                 itemData.persistentS.put(key, pdc.get(key, PersistentDataType.STRING));

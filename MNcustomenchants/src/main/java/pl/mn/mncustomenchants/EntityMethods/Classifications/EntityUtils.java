@@ -10,8 +10,9 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.projectiles.ProjectileSource;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
 import pl.mn.mncustomenchants.ItemMethods.AttributeType;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 
@@ -74,17 +75,14 @@ public class EntityUtils {
 
 
 
-    public static int combinedEnchantLvl(Player player, Enchantment enchantment){
+    public static int combinedEnchantLvl(Player player, CustomEnchantment enchantment){
 
         int s = 0;
-
         for (EquipmentSlot e : EquipmentSlot.values()){
-            if(isPlayerWithEnch(enchantment, player, e)){
-                s += player.getInventory().getItem(e).getEnchantmentLevel(enchantment);
+            if(isPlayerWithEnchantment(enchantment, player, e)){
+                s += itemEnchantmentLvl(enchantment, player.getInventory().getItem(e));
             }
         }
-
-
         return s;
     }
     public static int combinedAttributeLvl(LivingEntity entity, Attribute attribute){
@@ -142,27 +140,28 @@ public class EntityUtils {
         }
 
     }
-    public static boolean isPlayerWithEnch(Enchantment ench, Entity entity, EquipmentSlot equipmentSlot){
+    public static boolean isPlayerWithEnchantment(CustomEnchantment enchantment, Entity entity, EquipmentSlot equipmentSlot){
         if(!(entity instanceof Player))
             return false;
         if (((Player) entity).getInventory().getItem(equipmentSlot).equals(ItemStack.empty()))
             return false;
-        return  itemEnchLvl(ench, ((Player) entity).getInventory().getItem(equipmentSlot)) != 0;
+        return  itemEnchantmentLvl(enchantment, ((Player) entity).getInventory().getItem(equipmentSlot)) != 0;
     }
 
-    //Returns enchantment lvl on itemstack
-    //returns 0 if the item lacks the enchantment
-    public static int itemEnchLvl(Enchantment ench, ItemStack itemStack){
+    //Returns enchantment lvl on itemStack
+    public static int itemEnchantmentLvl(CustomEnchantment enchantment, ItemStack itemStack){
 
-        if (!itemStack.hasItemMeta()) {
+        if (itemStack == null || !itemStack.hasItemMeta()) {
             return 0;
         }
 
-        if (!itemStack.getItemMeta().hasEnchant(ench)) {
-            return  0;
+        if(itemStack.getItemMeta().getPersistentDataContainer().has(enchantment.getKey())){
+            return Optional.ofNullable(
+                    itemStack.getItemMeta().getPersistentDataContainer().get(enchantment.getKey(), PersistentDataType.INTEGER))
+                    .orElse(0);
         }
 
-        return itemStack.getItemMeta().getEnchantLevel(ench);
+        return 0;
 
     }
 

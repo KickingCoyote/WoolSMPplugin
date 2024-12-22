@@ -2,8 +2,7 @@ package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.plugin.Plugin;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.CustomEffects;
 
@@ -14,10 +13,10 @@ public class Regeneration {
     public static void CheckRegeneration (Player player){
 
         boolean hasRegen = false;
-        int enchLvl = EntityUtils.combinedEnchantLvl(player, CustomEnchantments.regeneration);
+        int enchLvl = EntityUtils.combinedEnchantLvl(player, CustomEnchantment.regeneration);
 
         for (EquipmentSlot e : EquipmentSlot.values()){
-            if (EntityUtils.isPlayerWithEnch(CustomEnchantments.regeneration, player, e)){
+            if (EntityUtils.isPlayerWithEnchantment(CustomEnchantment.regeneration, player, e)){
                 hasRegen = true;
             }
         }

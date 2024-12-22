@@ -27,6 +27,7 @@ public class ItemData {
     public Map<NamespacedKey, Boolean> persistentB;
     public Map<NamespacedKey, Double> persistentD;
     public Map<NamespacedKey, String> persistentS;
+    public Map<NamespacedKey, Integer> persistentI;
 
     public Component name;
 
@@ -110,6 +111,28 @@ public class ItemData {
 
             String[] args = s.split("=");
             this.persistentD.put(NamespacedKey.fromString(args[0]), Double.valueOf(args[1]));
+
+        }
+    }
+
+    public List<String> getPersistentI() {
+        List<String> containersStr = new ArrayList<>();
+
+        for (Map.Entry<NamespacedKey, Integer> entry : persistentI.entrySet()){
+            containersStr.add(entry.getKey().asString() + "=" + entry.getValue().toString());
+        }
+
+        return containersStr;
+    }
+
+    public void setPersistentI(List<String> persistent) {
+
+        this.persistentI = new HashMap<>();
+
+        for (String s : persistent){
+
+            String[] args = s.split("=");
+            this.persistentI.put(NamespacedKey.fromString(args[0]), Integer.valueOf(args[1]));
 
         }
     }

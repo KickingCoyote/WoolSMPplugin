@@ -4,11 +4,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.util.RayTraceResult;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.Spells.SpellManager;
 import pl.mn.mncustomenchants.Spells.Spells.TeleportSpell;
@@ -27,7 +25,7 @@ public class Advancing_Shadows implements Listener {
 
 
         if (!event.getAction().isRightClick()) { return; }
-        if (!EntityUtils.isPlayerWithEnch(CustomEnchantments.advancing_shadows, event.getPlayer(), EquipmentSlot.HAND)) { return; }
+        if (!EntityUtils.isPlayerWithEnchantment(CustomEnchantment.advancing_shadows, event.getPlayer(), EquipmentSlot.HAND)) { return; }
 
 
        // Bukkit.getPlayer("MN_128").sendMessage(event.getPlayer().rayTraceEntities(10).toString() + "");

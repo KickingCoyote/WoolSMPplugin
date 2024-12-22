@@ -2,7 +2,6 @@ package pl.mn.mncustomenchants.ItemMethods;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.EquipmentSlot;
-import org.jetbrains.annotations.NotNull;
 import pl.mn.mncustomenchants.main;
 
 import java.io.Serializable;
@@ -65,7 +64,7 @@ public class Attribute implements Serializable, Comparable<Attribute> {
     }
 
     public static NamespacedKey getKey(AttributeType type, ItemUtils.AttributeOperator operator, EquipmentSlot slot){
-        return new NamespacedKey(main.getInstance(), operator + "/" + slot + "/" + type.getName());
+        return new NamespacedKey(main.getInstance(), operator + "/" + slot + "/" + type.name());
     }
 
 

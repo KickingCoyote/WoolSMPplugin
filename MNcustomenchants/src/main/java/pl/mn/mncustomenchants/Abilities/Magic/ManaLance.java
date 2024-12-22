@@ -23,7 +23,7 @@ public class ManaLance {
                 player.getLocation().toVector()
         );
         particleData.isDust = true;
-        particleData.color = Color.AQUA;
+        particleData.color = Color.YELLOW;
         particleData.particleSize = 0.5f;
 
         Spell manaLance = new SeekerLaserSpell(player, player.getEyeLocation(), 10, 0, 0, particleData, true, 12, List.of(player));

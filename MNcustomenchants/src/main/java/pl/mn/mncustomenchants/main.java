@@ -1,11 +1,9 @@
 package pl.mn.mncustomenchants;
 
 //import jdk.jpackage.internal.Log;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,15 +14,13 @@ import pl.mn.mncustomenchants.Commands.EditItemV2;
 import pl.mn.mncustomenchants.Commands.TabCompletion;
 import pl.mn.mncustomenchants.Commands.UpdateItem;
 import pl.mn.mncustomenchants.CustomDamage.CustomDamage;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
-import pl.mn.mncustomenchants.CustomEnchantments.EnchantmentRegister;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.*;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.EnchantmentSpells.Advancing_Shadows;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.EnchantmentSpells.Arcane_Strike;
 import pl.mn.mncustomenchants.EnchantmentFuctionalities.EnchantmentSpells.Dragonblade;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.PlayerUpdates;
 import pl.mn.mncustomenchants.EntityMethods.Projectiles;
-import pl.mn.mncustomenchants.GUI.InventoryShulkers;
 import pl.mn.mncustomenchants.Graves.SpawnGrave;
 import pl.mn.mncustomenchants.ItemMethods.Attributes.JumpHeight;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
@@ -81,15 +77,6 @@ public final class main extends JavaPlugin implements CommandExecutor {
         getCommand("EditItemV2").setExecutor(new EditItemV2());
         getCommand("UpdateItem").setExecutor(new UpdateItem());
 
-        //Register all enchantments
-        for (String s : CustomEnchantments.enchantmentArgs){
-            RegEnch(CustomEnchantments.valueOf(s));
-        }
-
-    }
-
-    public void RegEnch (Enchantment enchantment){
-        EnchantmentRegister.register(enchantment);
     }
 
 
@@ -103,25 +90,19 @@ public final class main extends JavaPlugin implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
     {
         if(label.equalsIgnoreCase("customenchant")){
-            if(!(sender instanceof Player))
+            if(!(sender instanceof Player player))
                 return true;
 
-            Player player = (Player) sender;
             int lvl = Integer.parseInt(args[1]);
 
-            Enchantment ench = CustomEnchantments.valueOf(args[0]);
-
-
-
-            if (player.getInventory().getItemInMainHand().getItemMeta().hasEnchant(ench)){
-                player.getInventory().getItemInMainHand().getItemMeta().removeEnchant(ench);
-            }
+            CustomEnchantment enchantment = CustomEnchantment.valueOf(args[0]);
 
             ItemStack item = player.getInventory().getItemInMainHand();
 
-            item.addUnsafeEnchantment(ench, lvl);
-
-
+            CustomEnchantment.removeEnchantment(item, enchantment);
+            if (lvl != 0){
+                CustomEnchantment.addEnchantment(item, enchantment, lvl);
+            }
 
             ItemUtils.UpdateLore(item);
 

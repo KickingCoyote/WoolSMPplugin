@@ -7,7 +7,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
 import pl.mn.mncustomenchants.ItemMethods.AttributeType;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 import pl.mn.mncustomenchants.Misc.Keys;
@@ -110,14 +110,14 @@ public class TabCompletion implements TabCompleter {
 
         if (s.equalsIgnoreCase("customenchant")){
             if(args.length == 1){
-                List<String> e = new ArrayList<>(CustomEnchantments.enchantmentArgs);
+                List<String> e = new ArrayList<>(CustomEnchantment.enchantmentArgs);
                 Collections.sort(e);
                 return e;
             }
 
             if(args.length == 2){
                 List<String> lvls = new ArrayList<>();
-                int maxLvl = CustomEnchantments.valueOf(args[1]).getMaxLevel();
+                int maxLvl = CustomEnchantment.valueOf(args[1]).getMaxLevel();
                 for (int i = 0; i <= maxLvl; i++){
 
                     lvls.add(String.valueOf(i));

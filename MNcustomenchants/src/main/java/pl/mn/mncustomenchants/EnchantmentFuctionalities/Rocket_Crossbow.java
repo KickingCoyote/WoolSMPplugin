@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -15,9 +14,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CrossbowMeta;
 import org.bukkit.inventory.meta.FireworkMeta;
-import org.bukkit.util.Consumer;
-import org.bukkit.util.Vector;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.main;
 
@@ -40,7 +37,7 @@ public class Rocket_Crossbow implements Listener {
         List<ItemStack> loadItems = new ArrayList<>();
 
 
-        int enchLvl = EntityUtils.itemEnchLvl(CustomEnchantments.rocket_crossbow, event.getCrossbow());
+        int enchLvl = EntityUtils.itemEnchantmentLvl(CustomEnchantment.rocket_crossbow, event.getCrossbow());
 
         if (enchLvl != 0)
         {
@@ -108,7 +105,7 @@ public class Rocket_Crossbow implements Listener {
 
     private void launchFirework (LivingEntity entity, Projectile projectile, ItemStack itemStack){
 
-        int enchLvl = EntityUtils.itemEnchLvl(CustomEnchantments.rocket_crossbow, itemStack);
+        int enchLvl = EntityUtils.itemEnchantmentLvl(CustomEnchantment.rocket_crossbow, itemStack);
 
         if (enchLvl == 0){ return; }
 

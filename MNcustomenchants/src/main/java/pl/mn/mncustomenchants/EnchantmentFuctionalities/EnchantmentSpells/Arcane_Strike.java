@@ -10,9 +10,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.Plugin;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.ItemMethods.AttributeType;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
@@ -22,7 +21,6 @@ import pl.mn.mncustomenchants.Spells.Spell;
 import pl.mn.mncustomenchants.Spells.SpellManager;
 import pl.mn.mncustomenchants.Spells.Spells.ArcaneBlastSpell;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Arcane_Strike implements Listener {
@@ -40,7 +38,7 @@ public class Arcane_Strike implements Listener {
 
         if (!(event.getDamager() instanceof Player)) {return;}
 
-        int lvl = EntityUtils.itemEnchLvl(CustomEnchantments.arcane_strike, ((Player) event.getDamager()).getInventory().getItemInMainHand());
+        int lvl = EntityUtils.itemEnchantmentLvl(CustomEnchantment.arcane_strike, ((Player) event.getDamager()).getInventory().getItemInMainHand());
 
 
         if (lvl > 0){

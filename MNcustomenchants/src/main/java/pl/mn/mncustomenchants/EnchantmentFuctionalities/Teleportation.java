@@ -1,26 +1,18 @@
 package pl.mn.mncustomenchants.EnchantmentFuctionalities;
 
-import com.destroystokyo.paper.event.player.PlayerAttackEntityCooldownResetEvent;
 import com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent;
-import io.papermc.paper.entity.TeleportFlag;
-import io.papermc.paper.event.player.PlayerArmSwingEvent;
-import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.util.Vector;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
-import pl.mn.mncustomenchants.EntityMethods.Projectiles;
 import pl.mn.mncustomenchants.ItemMethods.AttributeType;
 import pl.mn.mncustomenchants.ItemMethods.ItemUtils;
 import pl.mn.mncustomenchants.main;
@@ -35,9 +27,9 @@ public class Teleportation implements Listener {
     public void playerLaunchProjectile(PlayerLaunchProjectileEvent event) {
 
 
-        if(EntityUtils.itemEnchLvl(CustomEnchantments.teleportation, event.getItemStack()) == 0){ return; }
+        if(EntityUtils.itemEnchantmentLvl(CustomEnchantment.teleportation, event.getItemStack()) == 0){ return; }
 
-        double distance = 5 * EntityUtils.itemEnchLvl(CustomEnchantments.teleportation, event.getItemStack());
+        double distance = 5 * EntityUtils.itemEnchantmentLvl(CustomEnchantment.teleportation, event.getItemStack());
 
 
 
@@ -72,7 +64,7 @@ public class Teleportation implements Listener {
 
 
 
-        if (EntityUtils.itemEnchLvl(CustomEnchantments.true_infinity, event.getItemStack()) != 0){
+        if (EntityUtils.itemEnchantmentLvl(CustomEnchantment.true_infinity, event.getItemStack()) != 0){
             event.getItemStack().subtract();
         }
 

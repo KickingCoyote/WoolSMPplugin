@@ -9,14 +9,11 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.util.Vector;
-import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantments;
+import pl.mn.mncustomenchants.CustomEnchantments.CustomEnchantment;
 import pl.mn.mncustomenchants.EntityMethods.Classifications.EntityUtils;
 import pl.mn.mncustomenchants.EntityMethods.EntityEffects.CustomEffects;
 import pl.mn.mncustomenchants.Particles.ParticleData;
 import pl.mn.mncustomenchants.Particles.Particles;
-import pl.mn.mncustomenchants.Spells.SpellManager;
-import pl.mn.mncustomenchants.Spells.Spells.TeleportSpell;
-import pl.mn.mncustomenchants.Spells.Spells.VolleySpell;
 import pl.mn.mncustomenchants.main;
 
 import java.util.Random;
@@ -34,7 +31,7 @@ public class Dragonblade implements Listener {
         if(!(event.getDamager() instanceof Player)) { return; }
         if (!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) { return; }
 
-        if (!EntityUtils.isPlayerWithEnch(CustomEnchantments.dragon_blade, event.getDamager(), EquipmentSlot.HAND)) { return; }
+        if (!EntityUtils.isPlayerWithEnchantment(CustomEnchantment.dragon_blade, event.getDamager(), EquipmentSlot.HAND)) { return; }
 
 
         event.getDamager().setVelocity(event.getDamager().getLocation().toVector().subtract(event.getEntity().getLocation().toVector()).multiply(-1));
