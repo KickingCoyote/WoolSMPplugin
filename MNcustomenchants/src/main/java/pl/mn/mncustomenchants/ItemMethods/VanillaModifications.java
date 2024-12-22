@@ -210,14 +210,8 @@ public class VanillaModifications {
         }
 
 
-
-
         ItemUtils.UpdateLore(itemStack);
 
-
-
     }
-
-
 
 }

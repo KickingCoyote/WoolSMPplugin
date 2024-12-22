@@ -60,7 +60,6 @@ public class SpawnGrave implements Listener {
 
     public void spawnGrave(Player player){
 
-
         List<ItemStack> items = new ArrayList<>();
         for (EquipmentSlot slot : EquipmentSlot.values()){
             ItemStack item = player.getEquipment().getItem(slot);

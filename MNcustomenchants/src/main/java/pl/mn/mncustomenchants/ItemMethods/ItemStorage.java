@@ -114,6 +114,10 @@ public class ItemStorage {
         }
 
         ItemData itemData = itemDataMap.get(ItemUtils.getIdentifier(itemStack));
+
+        //Material
+        itemStack.setType(itemData.material);
+
         ItemMeta itemMeta = itemStack.getItemMeta();
 
         //Texture needs to be done first otherwise all other changes gets wiped
@@ -121,8 +125,6 @@ public class ItemStorage {
         i.setTag(itemData.texture);
         itemMeta = CraftItemStack.asBukkitCopy(i).getItemMeta();
 
-        //Material
-        itemStack.setType(itemData.material);
 
         //Unbreakable
         itemMeta.setUnbreakable(itemData.unbreakable);
@@ -197,6 +199,8 @@ public class ItemStorage {
         itemData.persistentI = new HashMap<>();
         itemData.persistentS = new HashMap<>();
         for (NamespacedKey key : pdc.getKeys()){
+
+            if (key.equals(Keys.SHATTERED)) { continue; } //Do not store shatter
 
             if(pdc.has(key, PersistentDataType.BOOLEAN)){
                 itemData.persistentB.put(key, pdc.get(key, PersistentDataType.BOOLEAN));
